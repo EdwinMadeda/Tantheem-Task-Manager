@@ -1,38 +1,234 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+*{
+	box-sizing: border-box;
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+  font-family: Arial, Helvetica, sans-serif;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/*End of CSS reset code*/
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+:root{
+  --primary__Color: #ceb4db;
+  --primary__Color2: #fef8f8;
+  --secondary__Color: #a3d2ff;
+  --secondary__Color2: #deefff;
+  --accent__Color4: #fffdfe;
+
+  --border__Radius: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.icon{
+  font-size: 18px;
+}
+
+.btn:active{
+	transform: scale(.98);
+}
+
+.addBtn{
+	background: var(--secondary__Color2);
+	border: none;
+	outline: none;
+	padding: 8px 3px;
+	border-radius: var(--border__Radius);
+	
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.addBtn:hover{
+	background: var(--secondary__Color);
+	cursor: pointer;
+}
+
+.addBtn .icon{
+	color: #333;
+	font-weight: bolder;
+	width: 15px;
+	height: 15px;
+	background: #fff;
+	border-radius: 50%;
+}
+
+.addBtn .label{
+	padding: 0 10px;
+}
+
+.orderByBtn,
+.toActionBtn{
+	padding: 8px 10px;
+	border-radius: 2px;
+	border: 1px solid #333;
+	outline: none;
+	box-shadow: 2px 1px  1px #c4c4c4;
+}
+
+.toActionBtn{
+	text-decoration: none;
+	color: #333;
+}
+
+.orderByBtn:hover,
+.toActionBtn:hover{
+	cursor: pointer;
+}
+
+.checkBox__label{
+	display: block;
+	position: relative;
+	cursor: pointer;
+	font-size: 22px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+
+	height: 15px;
+	width: 15px;
+
+	border: 2px solid #333;
+	border-radius: 2px;
+	align-self: center;
+}
+
+.checkBox__label input{
+	position: absolute;
+	opacity: 0;
+	cursor: pointer;
+	height: 0;
+	width: 0;
+}
+
+.checkBox__label .checkmark{
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: #eee;
+}
+
+.checkBox__label:hover input ~ .checkmark {
+	background-color: #ccc;
+}
+
+.checkBox__label input:checked ~ .checkmark::after {
+	display: block;
+}
+
+.checkBox__label .checkmark::after {
+	content: '';
+	width: 4px;
+	height: 10px;
+	border: solid crimson;
+	border-width: 0 3px 3px 0;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg) translate(-1px, -2px);
+	display: none;
   }
+
+.bellIcon{
+	height: 25px;
+	width: 25px;
+	border-radius: 50%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.bellIcon:active{
+	transform: scale(.88);
 }
 
-.App-link {
-  color: #61dafb;
+.bellIcon .fill{
+	/* color: crimson; */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+ .bellIcon:hover{
+	cursor: pointer;
+	animation-name: shake;
+	animation-timing-function: ease-in-out;
+	animation-duration: .5s;
+	animation-iteration-count: 2;
+	animation-delay: .5s;
   }
-  to {
-    transform: rotate(360deg);
+  
+  @keyframes shake {
+	0%,
+	100% {
+	  transform: rotate(0deg);
+	}
+	20%,
+	60% {
+	  transform: rotate(6deg);
+	}
+	40%,
+	80% {
+	  transform: rotate(-6deg);
+	}
   }
+
+main{
+	background: var(--primary__Color2);
+	min-height: calc(100vh - 40px);
+}
+
+section.main{
+	padding: 0 30px;
+}
+
+@media only screen and (max-width: 800px){
+	section.main{
+		padding: 0 20px;
+	}
 }

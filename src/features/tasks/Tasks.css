@@ -1,0 +1,166 @@
+.Task__Container{
+    /* padding: 0 30px; */
+}
+
+.Task__Container.top{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    max-height: calc(50vh - 60px);
+}
+
+.Task__Container.top .Task__innerContainer{
+  display: grid;
+  grid-template-rows: 1fr 2fr;
+}
+
+.Task__welcomeMsg{
+    padding: 30px 0 20px;
+    display: block;
+    text-align: left;
+}
+
+.Task__AddBtn-Container{
+    margin-bottom: 20px;
+}
+
+.Task__img{
+    text-align: left;
+    max-height: 250px;
+    width: 100%;
+    padding: 20px 0;
+}
+
+.Task__img img{
+    height: 100%;
+    object-fit: contain;
+    max-height: 250px;
+}
+
+.Task__Container.bottom{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 30px;
+}
+
+.Tasks__Snippet{
+   max-height: 50vh;
+   overflow: hidden;
+   margin-bottom: 20px;
+   position: relative;
+}
+
+.Tasks__Snippet.viewMore{
+    overflow: unset;
+    max-height: unset;
+}
+
+.Tasks__ViewmoreBtn-Wrapper{
+    position: absolute;
+    bottom: 0;
+    background-image: linear-gradient(to bottom, #ffffff1f, #fff);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 40px;
+}
+
+.Tasks__ViewmoreBtn-Wrapper.viewMore{
+    position: relative;
+    padding-top: unset;
+    background: transparent;
+}
+
+.Tasks__ViewmoreBtn{
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.Tasks__Snippet-title{
+   padding: 10px;
+   text-align: initial;
+}
+
+.Tasks__Snippet-items{
+    margin-top: 20px;
+}
+
+.PreviousWork .Tasks__Snippet-items{
+    border-radius: 10px;
+    background: #fff;
+    padding: 10px;
+}
+
+.PreviousWork .Tasks__Snippet-item{
+    display: flex;
+    align-items: center;
+    border-bottom: 1.5px solid #5c5c5c;
+    line-height: 50px;
+}
+
+.PreviousWork .Task__Item-name{
+    margin-left: 10px;
+}
+
+.ToDo.Tasks__Snippet{
+    padding: 0 5px;
+}
+
+.ToDo .Tasks__Snippet-item{
+    background: var(--secondary__Color2);
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    line-height: 30px;
+    padding: 10px;
+    box-shadow: 2px 2px  2px #858585;
+    margin-bottom: 20px;
+}
+
+.ToDo .Task__Data{
+    flex: 1;
+    text-align: initial;
+    padding: 0 10px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+.ToDo .checkbox{
+    align-self: center;
+}
+
+@media only screen and (max-width: 800px) {
+    .Task__Container.top{
+        display: block;
+        max-height: unset;
+    }
+
+    .Task__Container.top .Task__innerContainer{
+        display: block;
+        position: absolute;
+    }
+
+    .Task__img{
+        text-align: left;
+        max-height: 250px;
+        margin: 30px 0;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+
+    .Task__Container.bottom{
+        display: block;
+        max-height: unset;
+    }   
+}
