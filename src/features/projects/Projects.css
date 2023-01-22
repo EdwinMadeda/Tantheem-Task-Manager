@@ -1,0 +1,78 @@
+.Project__Container.top{
+    min-height: 30vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.Project__Container.bottom{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-gap: 30px;
+}
+
+.Projects__Snippet-title{
+    font-weight: bold;
+    padding: 20px 0;
+    text-align: initial;
+}
+
+.PreviousProjects .Projects__Snippet-item{
+    margin-bottom: 10px;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 1px 1px  1px #858585;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    line-height: 25px;
+}
+
+.PreviousProjects .Projects__Item-name{
+    font-weight: bold;
+    flex: 1;
+    text-align: initial;
+}
+
+.ToDoProjects .Projects__Snippet-items{
+    background: red;
+    padding: 15px 20px;
+    margin-top: 20px;
+    background: #fff;
+    box-shadow: 2px 2px  2px #858585;
+}
+
+.ToDoProjects .Projects__Snippet-item{
+    margin-bottom: 10px;
+    border-radius: 20px;
+    background: var(--secondary__Color2);
+    box-shadow: 1px 1px  1px #858585;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 10px;
+    line-height: 25px;
+    position: relative;
+}
+
+.ToDoProjects .Projects__Data{
+    flex: 1;
+    text-align: initial;
+    position: relative;
+}
+
+.ToDoProjects .Projects__Priority{
+    font-weight: bold;
+    font-size: 12px;
+}
+
+@media only screen and (max-width: 900px){
+    .Project__Container.top{
+        min-height: 20vh;
+        padding-top: 20px;
+    }
+    .Project__Container.bottom{
+        display: block;
+    }
+}

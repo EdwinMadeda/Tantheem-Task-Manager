@@ -27,6 +27,7 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
   font-family: Arial, Helvetica, sans-serif;
+  color: #333;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -76,6 +77,38 @@ table {
 	transform: scale(.98);
 }
 
+.dotsMenu{
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.dotsMenu__Content{
+	position: absolute;
+	top: 100%;
+	left: 100%;
+	background: #fff;
+	z-index: 5;
+	padding: 5px;
+	border-radius: 10px;
+	min-width: 150px;
+	transform: translate(-10px, -10px);
+	box-shadow: 1px 1px  2px #c4c4c4;
+	line-height: 28px;
+}
+
+.dotsMenuBtn:hover{
+	cursor: pointer;
+}
+
+.dotsMenu__Option:hover{
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+
+
 .addBtn{
 	background: var(--secondary__Color2);
 	border: none;
@@ -86,6 +119,7 @@ table {
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
+	font-weight: bold;
 }
 
 .addBtn:hover{
@@ -104,6 +138,20 @@ table {
 
 .addBtn .label{
 	padding: 0 10px;
+}
+
+.OrderByBtns__Wrapper{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.OrderByBtns__Wrapper .btn{
+   margin-right: 20px;
+}
+
+.OrderByTitle{
+    margin-right: 20px;
 }
 
 .orderByBtn,
@@ -192,6 +240,7 @@ table {
 
 .bellIcon .fill{
 	/* color: crimson; */
+	color: #333;
 }
 
  .bellIcon:hover{
@@ -218,6 +267,34 @@ table {
 	}
   }
 
+.Progress-bar__Wrapper{
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	flex: 1;
+}
+
+.Progress-bar__Bar{
+	width: 100%;
+	max-width: 150px;
+	height: 4px;
+	background: #ccc;
+	border-radius: 10px;
+	margin: 0 10px;
+	position: relative;
+}
+.Progress-bar__Indicator{
+	position: absolute;
+	left: 0;
+	content: '';
+	width: 0;
+	height: 4px;
+	background: var(--primary__Color);
+	border-radius: 10px;
+}
+
+
+
 main{
 	background: var(--primary__Color2);
 	min-height: calc(100vh - 40px);
@@ -231,4 +308,16 @@ section.main{
 	section.main{
 		padding: 0 20px;
 	}
+
+	.OrderByBtns__Wrapper{
+        padding: 20px 0;
+    }
+
+    .OrderByBtns__Wrapper .btn{
+        margin-right: 10px;
+     }
+    
+     .OrderByTitle{
+        margin-right: 10px;
+    }
 }

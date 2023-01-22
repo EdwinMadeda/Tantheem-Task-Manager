@@ -29,19 +29,7 @@
     max-height: 200px;
 }
 
-.Home__OrderByBtns{
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
 
-.Home__OrderByBtns .btn{
-   margin-right: 20px;
-}
-
-.Home__OrderByTitle{
-    margin-right: 20px;
-}
 
 .Home__Container.bottom{
    margin-top: 20px;
@@ -123,18 +111,6 @@
         padding: 20px;
     }
     
-    .Home__OrderByBtns{
-        padding: 20px 0;
-    }
-
-    .Home__OrderByBtns .btn{
-        margin-right: 10px;
-     }
-    
-     .Home__OrderByTitle{
-        margin-right: 10px;
-    }
-
     .Latest p{
         flex-direction: column;
         padding: 10px 8px;

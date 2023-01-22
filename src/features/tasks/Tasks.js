@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState} from "react";
 import { useSelector } from "react-redux";
 import { selectAllTasks } from "./taskSlice";
 import AddBtn from "../../ReusableComponents/AddBtn";
@@ -23,7 +23,7 @@ const Tasks = () => {
         </div>
 
         <div className="Task__img">
-          <img src={girlPhoto} alt="girl photo" />
+          <img src={girlPhoto} alt="girl" />
         </div>
        
       </div>

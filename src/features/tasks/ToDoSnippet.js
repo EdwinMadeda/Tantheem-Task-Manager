@@ -1,4 +1,3 @@
-import { BsBell } from "react-icons/bs";
 import Bell from "../../ReusableComponents/Bell";
 import CheckBox from "../../ReusableComponents/CheckBox";
 import ViewMoreBtn from "./ViewMoreBtn";

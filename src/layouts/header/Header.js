@@ -54,7 +54,8 @@ const init = () => {
 const reducer = (state,action) =>{
      switch(action.type){
         case 'setActive' : return {...state, Links : activeLinks(action.payload)};
-        case 'init' : init();
+        case 'init' : return init();
+        default : return state;
      }
 }
 

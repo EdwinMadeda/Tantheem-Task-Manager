@@ -80,6 +80,9 @@
     border: none;
     outline: none;
     cursor: pointer;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 20%;
 }
 
 .Tasks__Snippet-title{
@@ -102,6 +105,10 @@
     align-items: center;
     border-bottom: 1.5px solid #5c5c5c;
     line-height: 50px;
+}
+
+.PreviousWork .Tasks__Snippet-item:last-child{
+    border-bottom: unset;
 }
 
 .PreviousWork .Task__Item-name{
