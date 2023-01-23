@@ -94,50 +94,29 @@
     margin-top: 20px;
 }
 
-.PreviousWork .Tasks__Snippet-items{
-    border-radius: 10px;
-    background: #fff;
-    padding: 10px;
-}
-
-.PreviousWork .Tasks__Snippet-item{
-    display: flex;
-    align-items: center;
-    border-bottom: 1.5px solid #5c5c5c;
-    line-height: 50px;
-}
-
-.PreviousWork .Tasks__Snippet-item:last-child{
-    border-bottom: unset;
-}
-
-.PreviousWork .Task__Item-name{
-    margin-left: 10px;
-}
-
 .ToDo.Tasks__Snippet{
     padding: 0 5px;
-}
-
-.ToDo .Tasks__Snippet-item{
-    background: var(--secondary__Color2);
-    border-radius: 15px;
-    display: flex;
-    justify-content: space-between;
-    line-height: 30px;
-    padding: 10px;
-    box-shadow: 2px 2px  2px #858585;
-    margin-bottom: 20px;
 }
 
 .ToDo .Task__Data{
     flex: 1;
     text-align: initial;
-    padding: 0 10px;
+    padding: 0 10px 0 25px;
 
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
+}
+
+.ToDo .Task__Data span{
+    color: #474747;
+    font-size: 13px;
+}
+
+.ToDo .Task__Name{
+    font-size: 15px!important;
+    font-weight: bold;
+    color: #333;
 }
 
 .ToDo .checkbox{

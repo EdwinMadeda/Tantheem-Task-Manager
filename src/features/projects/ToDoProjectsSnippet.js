@@ -14,14 +14,15 @@ const ToDoProjectsSnippet = ({projects}) => {
           </div>
           <ul className="Projects__Snippet-items">
             {projects.map(project => (
-              <li className="Projects__Snippet-item"
+              <li className="Projects__Snippet-item Snippet__Type2-Item"
                   key={project.id}>
                   <div className="Projects__Data">
-                    <span>{`${project.name.substring(0, 10)}...`}</span>
+                    <span className='Projects__Name'>{`${project.name.substring(0, 10)}...`}</span>
                     <span>{'Due Today'}</span>
+                    <span className="Projects__Priority">{`${project.priority} Priority`}</span>
                   </div>
 
-                  <p className="Projects__Priority">{`${project.priority} Priority`}</p>
+                 
               </li>))
             }
           </ul>

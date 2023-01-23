@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const STATUS = Object.freeze({
+const STATUS = Object.freeze({
     IN_PROGRESS : 'In Progress',
     COMPLETE : 'Complete',
     TO_DO : 'To Do',
 });
 
-export const PRIORITY = Object.freeze({
+const PRIORITY = Object.freeze({
     HIGH : 'High',
     MEDIUM : 'Medium',
     LOW : 'Low',

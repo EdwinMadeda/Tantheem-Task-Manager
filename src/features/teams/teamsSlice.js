@@ -5,16 +5,19 @@ const initialState = [
         id : 0,
         name : 'UX Team',
         memberIDs : [],
+        taskIDs : [],
     },
     {
         id : 1,
         name : 'CSS 3144',
         memberIDs : [],
+        taskIDs : [],
     },
     {
         id : 2,
         name : 'Calc III',
         memberIDs : [],
+        taskIDs : [],
     }
 ];
 

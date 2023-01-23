@@ -9,13 +9,13 @@ const ToDoSnippet = ({tasks, viewMore, setViewMore}) => {
         <p className="Tasks__Snippet-title">TO DO</p>
         <ul className="Tasks__Snippet-items">
           {tasks.map(task => (
-            <li className="Tasks__Snippet-item"
+            <li className="Tasks__Snippet-item Snippet__Type2-Item"
                 key={task.id}>
                 <CheckBox checked={task.isComplete}/>
                 <div className="Task__Data">
-                  <span>{task.name}</span>
+                  <span className="Task__Name">{task.name}</span>
                   <span>{'Due Today'}</span>
-                  {task?.team &&  <p>By {task.team}</p>}
+                  {task?.team &&  <span>By {task.team}</span>}
                 </div>
                 <Bell className="reminder" onClick={()=>{}}/>
             </li>))

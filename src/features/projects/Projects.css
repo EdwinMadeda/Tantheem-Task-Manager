@@ -17,49 +17,31 @@
     text-align: initial;
 }
 
-.PreviousProjects .Projects__Snippet-item{
-    margin-bottom: 10px;
-    border-radius: 20px;
-    background: #fff;
-    box-shadow: 1px 1px  1px #858585;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    line-height: 25px;
-}
-
-.PreviousProjects .Projects__Item-name{
-    font-weight: bold;
-    flex: 1;
-    text-align: initial;
-}
 
 .ToDoProjects .Projects__Snippet-items{
-    background: red;
     padding: 15px 20px;
     margin-top: 20px;
     background: #fff;
     box-shadow: 2px 2px  2px #858585;
 }
 
-.ToDoProjects .Projects__Snippet-item{
-    margin-bottom: 10px;
-    border-radius: 20px;
-    background: var(--secondary__Color2);
-    box-shadow: 1px 1px  1px #858585;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 10px;
-    line-height: 25px;
-    position: relative;
-}
-
 .ToDoProjects .Projects__Data{
     flex: 1;
     text-align: initial;
     position: relative;
+    display: grid;
+    grid-template-columns: 3fr minmax(100px, 10%) minmax(100px, 10%);
+}
+
+.ToDoProjects .Projects__Data span{
+    color: #474747;
+    font-size: 13px;
+}
+
+.ToDoProjects .Projects__Name{
+    font-size: 15px!important;
+    font-weight: bold;
+    color: #333;
 }
 
 .ToDoProjects .Projects__Priority{

@@ -6,12 +6,12 @@ const PreviousWorkSnippet = ({tasks, viewMore, setViewMore}) => {
   return (
     <div className={`PreviousWork Tasks__Snippet ${viewMore? 'viewMore':''}`}>
         <p className="Tasks__Snippet-title">previous Work</p>
-        <ul className="Tasks__Snippet-items">
+        <ul className="Tasks__Snippet-items Snippet__Type1-Items">
           {tasks.map(task => (
-            <li className="Tasks__Snippet-item"
+            <li className="Tasks__Snippet-item Snippet__Type1-Item"
                 key={task.id}>
                 <CheckBox checked={task.isComplete}/>
-                <p className="Task__Item-name">{task.name}</p>
+                <p className="Task__Item-name Snippet__Type1-ItemName">{task.name}</p>
             </li>))
           }
         </ul>

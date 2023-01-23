@@ -11,9 +11,9 @@ const PreviousProjectsSnippet = ({projects}) => {
         <p className="Projects__Snippet-title">previous Projects</p>
         <ul className="Projects__Snippet-items">
           {projects.map(project => (
-              <li className="Projects__Snippet-item" 
+              <li className="Projects__Snippet-item Snippet__Type3-Item" 
                   key={project.id}>
-                       <p className="Projects__Item-name">{`${project.name.substring(0,15)}...`}</p>
+                       <p className="Projects__Item-name Snippet__Type3-ItemName">{`${project.name.substring(0,15)}...`}</p>
                        <ProgressBar
                           completeItems = {10}
                           totalItems = {12}

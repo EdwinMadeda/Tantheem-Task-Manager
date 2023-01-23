@@ -1,5 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const PRIORITY = Object.freeze({
+    HIGH : 'High',
+    MEDIUM : 'Medium',
+    LOW : 'Low',
+});
+
 const initialState = [
     {
         id : 0,
@@ -9,6 +15,7 @@ const initialState = [
         dueDate : new Date(),
         reminder : false,
         isComplete : false,
+        priority : PRIORITY.HIGH,
     },
     {
         id : 1,
@@ -18,6 +25,7 @@ const initialState = [
         dueDate : new Date(),
         reminder : false,
         isComplete : false,
+        priority : PRIORITY.MEDIUM,
     },
     {
         id : 2,
@@ -26,6 +34,7 @@ const initialState = [
         dueDate : new Date(),
         reminder : false,
         isComplete : false,
+        priority : PRIORITY.LOW,
     },
     {
         id : 3,
@@ -35,6 +44,7 @@ const initialState = [
         dueDate : new Date(),
         reminder : false,
         isComplete : false,
+        priority : PRIORITY.MEDIUM,
     },
     {
         id : 4,
@@ -44,14 +54,16 @@ const initialState = [
         dueDate : new Date(),
         reminder : false,
         isComplete : false,
+        priority : PRIORITY.HIGH,
     },
     {
         id : 5,
-        name : 'Homework - 11th week',
+        name : 'Homework - 12th week',
         description : '',
         dueDate : new Date(),
         reminder : false,
         isComplete : false,
+        priority : PRIORITY.LOW,
     }
 ];
 
