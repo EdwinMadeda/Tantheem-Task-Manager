@@ -77,6 +77,27 @@ table {
 	transform: scale(.98);
 }
 
+
+.editBtn:hover{
+	cursor: pointer;
+}
+
+.editBtn:active{
+	transform: scale(.88);
+}
+
+.Page__BackBtn{
+	font-size: 30px;
+}
+
+.Page__BackBtn:hover{
+	cursor: pointer;
+}
+
+.Page__BackBtn:active{
+	transform: scale(.88);
+}
+
 .dotsMenu{
   position: relative;
   width: 20px;
@@ -113,7 +134,7 @@ table {
 	background: var(--secondary__Color2);
 	border: none;
 	outline: none;
-	padding: 8px 3px;
+	padding: 8px;
 	border-radius: var(--border__Radius);
 	
 	display: flex;
@@ -283,6 +304,7 @@ table {
 	margin: 0 10px;
 	position: relative;
 }
+
 .Progress-bar__Indicator{
 	position: absolute;
 	left: 0;

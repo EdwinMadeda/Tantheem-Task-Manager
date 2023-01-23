@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const STATUS = Object.freeze({
+export const STATUS = Object.freeze({
     IN_PROGRESS : 'In Progress',
     COMPLETE : 'Complete',
     TO_DO : 'To Do',
@@ -119,7 +119,38 @@ const projectsSlice = createSlice({
 });
 
 export const selectAllProjects = state => state.projects;
+
 export const selectLatestProject = state => state.projects[state.projects.length-1];
+
+export const selectOneProject = (state, projectId) => {
+    const selectProject = state.projects.find(project => project.id === projectId);
+    let toDo = [], 
+        inProgress = [], 
+        complete = [],
+        completeDeliverables = 0,
+        totalDeliverables = 0;
+
+    if(selectProject?.deliverables){
+        const filterProject = status => (
+            selectProject.deliverables.filter(deliverable => deliverable.status === status)
+        );
+
+        toDo = filterProject(STATUS.TO_DO);
+        inProgress = filterProject(STATUS.IN_PROGRESS);
+        complete= filterProject(STATUS.COMPLETE);
+
+        completeDeliverables = complete.length;
+        totalDeliverables = selectProject.deliverables.length;
+    }
+
+    return {    
+                selectProject, 
+                deliverables : {toDo, inProgress, complete}, 
+                completeDeliverables, 
+                totalDeliverables
+          };
+};
+
 
 export const totalDeliverablesCount = (state, id) => {
     const targetProject = state.projects.find(project => project.id === id);

@@ -47,7 +47,9 @@ const DotsMenu = ({options}) => {
     <div className="dotsMenu" ref={ref}>
        <BsThreeDotsVertical className="dotsMenuBtn" onClick={()=> setMenuVisible(!menuVisible)}/>
        {menuVisible && 
-          <ul className="dotsMenu__Content">
+          <ul 
+              className="dotsMenu__Content" 
+              style={{display : `${options.length === 0? 'none':'block'}`}}>
               <Options />
           </ul>
        }
