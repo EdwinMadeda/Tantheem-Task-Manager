@@ -86,6 +86,7 @@
 }
 
 .Tasks__Snippet-title{
+   font-weight: bold;
    padding: 10px;
    text-align: initial;
 }
@@ -93,6 +94,7 @@
 .Tasks__Snippet-items{
     margin-top: 20px;
 }
+
 
 .ToDo.Tasks__Snippet{
     padding: 0 5px;
@@ -104,8 +106,8 @@
     padding: 0 10px 0 25px;
 
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
 }
 
 .ToDo .Task__Data span{

@@ -132,6 +132,7 @@ nav{
     background-color: #fff;
     margin: 0 20px;
     flex: 1;
+    min-width: 300px;
 }
 
 .App-search__input{
@@ -239,6 +240,7 @@ nav{
 
   .App-search__innerContainer{
     background: transparent;
+    min-width: unset;
   }
 
   .App-search__input{

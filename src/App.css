@@ -110,7 +110,7 @@ table {
 	top: 100%;
 	left: 100%;
 	background: #fff;
-	z-index: 5;
+	z-index: 4;
 	padding: 5px;
 	border-radius: 10px;
 	min-width: 150px;
@@ -315,6 +315,35 @@ table {
 	border-radius: 10px;
 }
 
+main{
+	background: var(--primary__Color2);
+	min-height: calc(100vh - 40px);
+}
+
+section.main{
+	padding: 0 30px;
+}
+
+@media only screen and (max-width: 800px){
+	section.main{
+		padding: 0 20px;
+	}
+
+	.OrderByBtns__Wrapper{
+        padding: 20px 0;
+    }
+
+    .OrderByBtns__Wrapper .btn{
+        margin-right: 10px;
+     }
+    
+     .OrderByTitle{
+        margin-right: 10px;
+    }
+}
+
+/*******************************REUSABLE APP FEATURE'S STYLES**********************************/
+
 .Snippet__Type1-Items{
     border-radius: 10px;
     background: #fff;
@@ -355,8 +384,7 @@ table {
     padding: 15px 10px;
     box-shadow: 1px 1px  1px #858585;
     margin-bottom: 10px;
-    position: relative;
-  
+    position: relative;  
 }
 
 
@@ -378,31 +406,70 @@ table {
     text-align: initial;
 }
 
+/***************************************SINGLE PAGE STYLES*****************************************/
 
+.SinglePage__Container.top .Progress-bar__Wrapper{
+	flex: unset;
+}
 
-main{
+.SinglePage__Container.top .Progress-bar__Bar{
+    width: 150px;
+}
+
+.SinglePage__Container.top{
+    min-height: 30vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.SinglePage__Container.top .Page__BackBtn{
 	background: var(--primary__Color2);
-	min-height: calc(100vh - 40px);
+	border-radius: 0 5px 5px 0;
+	z-index: 4;
 }
 
-section.main{
-	padding: 0 30px;
+.top .SinglePage__InnerContainer{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 30px;
 }
 
-@media only screen and (max-width: 800px){
-	section.main{
-		padding: 0 20px;
-	}
+.SinglePage__Title{
+    font-weight: bold;
+    font-size: 18px;
+    text-align: initial;
+	margin: 0 10px 0 20px;
+	z-index: 4;
+}
 
-	.OrderByBtns__Wrapper{
-        padding: 20px 0;
-    }
+.SingleTeam__Btns{
+    display: flex;
+    padding: 20px 0;
+}
 
-    .OrderByBtns__Wrapper .btn{
-        margin-right: 10px;
-     }
-    
-     .OrderByTitle{
-        margin-right: 10px;
-    }
+.SingleTeam__Btn{
+  display: flex;
+  padding: 8px 10px;
+  border-radius: 15px;
+  margin-right: 25px;
+  border: none;
+  outline: none;
+  background: #fff;
+  box-shadow: 1px 1px  1px #909090;
+  font-weight: bold;
+}
+
+.SingleTeam__Btn .icon{
+    margin-right: 5px;
+}
+
+.SingleTeam__Btn:hover{
+    cursor: pointer;
+}
+
+.SingleTeam__Btn:active{
+    transform: scale(.98);
 }

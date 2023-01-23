@@ -26,6 +26,10 @@
     text-align: initial;
 }
 
+.Teams__Snippet-title{
+    font-weight: bold;
+}
+
 .Teams__Snippet-items{
     padding: 20px 0;
 }

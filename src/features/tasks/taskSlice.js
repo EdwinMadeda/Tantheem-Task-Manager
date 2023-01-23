@@ -11,7 +11,8 @@ const initialState = [
         id : 0,
         name : 'Interview Questions',
         description : '',
-        team : 'UX Team',
+        // team : 'UX Team',
+        teamId: 0,
         dueDate : new Date(),
         reminder : false,
         isComplete : false,
@@ -21,7 +22,8 @@ const initialState = [
         id : 1,
         name : 'Business Research',
         description : '',
-        team : 'UX Team',
+        // team : 'UX Team',
+        teamId: 0,
         dueDate : new Date(),
         reminder : false,
         isComplete : false,
@@ -40,7 +42,8 @@ const initialState = [
         id : 3,
         name : 'Designing the system',
         description : '',
-        team : 'UI Team',
+        // team : 'UI Team',
+        teamId: 1,
         dueDate : new Date(),
         reminder : false,
         isComplete : false,
@@ -50,7 +53,8 @@ const initialState = [
         id : 4,
         name : 'Testing',
         description : '',
-        team : 'Testing Team',
+        // team : 'Testing Team',
+        teamId: 2,
         dueDate : new Date(),
         reminder : false,
         isComplete : false,
@@ -76,4 +80,7 @@ const tasksSlice = createSlice({
 
 export const selectAllTasks = state => state.tasks;
 export const selectLatestTask = state => state.tasks[state.tasks.length-1];
+
+export const selectTasksByTeam = (state, teamId) => state.tasks.filter(task => task.teamId === teamId);
+
 export default tasksSlice.reducer;

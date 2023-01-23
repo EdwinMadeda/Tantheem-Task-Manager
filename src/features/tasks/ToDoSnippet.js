@@ -2,7 +2,7 @@ import Bell from "../../ReusableComponents/Bell";
 import CheckBox from "../../ReusableComponents/CheckBox";
 import ViewMoreBtn from "./ViewMoreBtn";
 
-const ToDoSnippet = ({tasks, viewMore, setViewMore}) => { 
+const ToDoSnippet = ({tasks, viewMore=false, setViewMore=false}) => { 
 
   return (
     <div className={`ToDo Tasks__Snippet ${viewMore? 'viewMore':''}`}>
@@ -22,7 +22,9 @@ const ToDoSnippet = ({tasks, viewMore, setViewMore}) => {
           }
         </ul>
 
-        <ViewMoreBtn viewMore={viewMore} setViewMore={setViewMore} />
+        { Boolean(setViewMore) && 
+         <ViewMoreBtn viewMore={viewMore} setViewMore={setViewMore} />}
+       
     </div>
   )
   

@@ -1,34 +1,6 @@
-.Progress-bar__Wrapper{
-    flex: unset;
-}
-
-.Progress-bar__Bar{
-    width: 150px;
-}
-
 .SingleProject__Container.top{
-    min-height: 30vh;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
+    min-height: 40vh;
 }
-
-.top .SingleProject__InnerContainer{
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-top: 30px;
-}
-
-.SingleProject__Title,
-.ProjectDeliverables__Title{
-    font-weight: bold;
-    font-size: 18px;
-    text-align: initial;
-    margin-right: 10px;
-}
-
 
 .SingleProject__Container.bottom{
     display: flex;

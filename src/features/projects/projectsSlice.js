@@ -18,7 +18,7 @@ const initialState = [
         name : 'UX case study',
         status : STATUS.COMPLETE,
         priority : PRIORITY.HIGH,
-        teamID : 0, 
+        teamId : 0, 
         deliverables : [
             {
                 id: 0,
@@ -57,7 +57,7 @@ const initialState = [
         name : 'Data base',
         status : STATUS.IN_PROGRESS,
         priority : PRIORITY.MEDIUM,
-        teamID : 1, 
+        teamId : 1, 
         deliverables : [
             {   
                 id: 0,
@@ -121,6 +121,10 @@ const projectsSlice = createSlice({
 export const selectAllProjects = state => state.projects;
 
 export const selectLatestProject = state => state.projects[state.projects.length-1];
+
+export const selectProjectsByTeam = (state, teamId) => {
+    return state.projects.filter(project => project.teamId === teamId);
+}
 
 export const selectOneProject = (state, projectId) => {
     const selectProject = state.projects.find(project => project.id === projectId);
