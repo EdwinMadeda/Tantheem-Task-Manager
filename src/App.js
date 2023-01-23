@@ -4,7 +4,7 @@ import Layout from './layouts/Layout';
 import Home from './features/home/Home';
 import Tasks from './features/tasks/Tasks';
 import Projects from './features/projects/Projects';
-import Calender from './features/calender/Calender';
+import Calender from './features/calendar/MyCalendar';
 import Teams from './features/teams/Teams';
 
 function App() {

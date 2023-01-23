@@ -1,0 +1,72 @@
+.Calendar{
+    display: flex;
+    justify-content: center;
+    max-height: 100vh;
+    padding: 50px;
+}
+
+.Calendar__Item{
+    flex: 1;
+    border-radius: 10px 10px 5px 5px;
+    max-width: 700px;
+    width: 100%;
+
+    -webkit-box-shadow: 0 0 1px 1px #606060;
+    -moz-box-shadow: 0 0 1px 1px #606060;
+    box-shadow: 0 0 1px 1px #606060;
+}
+
+.Calendar__Tags{
+    padding: 10% 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.Calendar__Tag{
+    line-height: 25px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 8px 0;
+    font-weight: bold;
+}
+
+.Calendar__Indicator{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 2px solid #fff;
+}
+
+.Calendar__Indicator.Individual{
+    background: cornflowerblue;
+}
+
+.Calendar__Indicator.Teams{
+    background: var(--primary__Color);
+}
+
+.Calendar__Indicator.Overdue{
+    background: crimson;
+}
+
+.Calendar__Indicator.Done{
+    background: olivedrab;
+}
+
+@media only screen and (max-width: 800px){
+    .Calendar{
+        padding: 50px 20px;
+        flex-direction: column;
+        max-height: unset;
+    }
+    .Calendar__Tags{
+        padding: 20px;
+    }
+    .Calendar__Tag{
+        line-height: 20px;
+    }
+}
