@@ -15,8 +15,8 @@ const Home = () => {
       <div className="Home__Container top">
         <div className="Home__AddBtns">
                 <AddBtn label="New Task" path="/mytasks/add"/>
-                <AddBtn label="New Project" onClick={()=> {}}/>
-                <AddBtn label="New Team" onClick={()=> {}}/>
+                <AddBtn label="New Project" path="/myprojects/add"/>
+                <AddBtn label="New Team" path="/teams/add"/>
           </div>
           <div className="Home__Img">
                 <img src={studentImg} alt="student"/>

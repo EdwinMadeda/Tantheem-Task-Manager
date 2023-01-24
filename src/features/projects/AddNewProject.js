@@ -15,6 +15,8 @@ const initialState = {
         status : STATUS.TO_DO,
         priority : undefined, 
         teamId : undefined, 
+        startDate: '',
+        endDate: '',
         deliverables : [],
     },
     deliverable : {
@@ -22,6 +24,8 @@ const initialState = {
         status: STATUS.TO_DO,
         description: '',
         priority : undefined,
+        startDate: '',
+        endDate: '',
     }
 };
 
@@ -31,7 +35,7 @@ const reducer = (state, action) => {
 
    switch(action.type){
       case 'init' : init();
-      case 'setValue': return {...state, ...action.payload};
+      case 'setProjectValue': return {...state, project : {...state.project, ...action.payload}};
       default: return state;
    }
 }
@@ -39,8 +43,8 @@ const reducer = (state, action) => {
 const AddNewProject = () => {
   const [state, dispatch] = useReducer(reducer, initialState, init);
 
-  const setValue = (payload) => {
-      dispatch({ type: 'setValue', payload });
+  const setProjectValue = (payload) => {
+      dispatch({ type: 'setProjectValue', payload });
   }
 
   const submit = () =>{
@@ -48,41 +52,41 @@ const AddNewProject = () => {
   }
 
   return (
-    <section className='AddNewTask AddNewItem main'>
-        <Form className='AddNewTask__Form'
-              title='Add New Task'
-              backPath="/mytasks">
+    <section className='AddNewProject AddNewItem main'>
+        <Form className='AddNewProject__Form'
+              title='Add New Project'>
+                
            <InputText
               label='Name'
               id='name'
               value={state.name}
-              onChange={inputVal => setValue({name : inputVal})}
+              onChange={inputVal => setProjectValue({name : inputVal})}
             />
            <InputTextArea 
                label='Description'
                id='description'
                value={state.description}
-               onChange={inputVal => setValue({description : inputVal})}
+               onChange={inputVal => setProjectValue({description : inputVal})}
            />
 
           <InputDate
                label='Start date'
                id='due-date'
                value={state.startDate}
-               onChange={inputVal => setValue({dueDate : inputVal})}
+               onChange={inputVal => setProjectValue({dueDate : inputVal})}
            />
 
            <InputDate
                label='End date'
                id='due-date'
                value={state.endDate}
-               onChange={inputVal => setValue({dueDate : inputVal})}
+               onChange={inputVal => setProjectValue({dueDate : inputVal})}
            />
 
            <InputBell 
                label='Set Reminder'
                value={state.reminder}
-               onChange={inputVal => setValue({reminder : inputVal})}
+               onChange={inputVal => setProjectValue({reminder : inputVal})}
            />
            
            <InputRadio
@@ -96,7 +100,7 @@ const AddNewProject = () => {
            />
 
            <InputSubmit 
-              label='Add Task'
+              label='Add Project'
               onClick={submit}
             />
         </Form>

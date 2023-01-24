@@ -10,6 +10,9 @@ import SingleProject from './features/projects/SingleProject';
 import SingleTeam from './features/teams/SingleTeam';
 
 import AddNewTask from './features/tasks/AddNewTask';
+import AddNewProject from './features/projects/AddNewProject';
+import AddNewTeam from './features/teams/AddNewTeam';
+import AddNewDeliverable from './features/projects/AddNewDeliverable';
 
 function App() {
   return (
@@ -25,6 +28,8 @@ function App() {
           <Route path='/myprojects'>
               <Route index element={<Projects />}/>
               <Route path=":projectId" element={<SingleProject/>}/>
+              <Route path="/myprojects/add" element={<AddNewProject />}/>
+              <Route path=":projectId/add" element={<AddNewDeliverable />}/>
           </Route>
 
           <Route path='/calender' element={<Calender />}/>
@@ -32,6 +37,7 @@ function App() {
           <Route path='/teams'>
               <Route index element={<Teams />}/>
               <Route path=":teamId" element={<SingleTeam/>}/>
+              <Route path="/teams/add" element={<AddNewTeam />}/>
           </Route>
 
 

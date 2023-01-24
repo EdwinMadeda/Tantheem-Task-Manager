@@ -1,22 +1,25 @@
-import { PRIORITY } from "./taskSlice";
 import { useReducer } from "react";
+import { useParams } from "react-router";
+import { useSelector } from "react-redux";
+import { selectOneProject } from "./projectsSlice";
+import { STATUS, PRIORITY } from "./projectsSlice";
+
 import Form, { InputText,
                InputTextArea,
-               InputBell,
                InputRadio,
                InputDate,
                InputSubmit} from "../../reusableComponents/Form";
 
 const initialState = {
-  name : '',
-  description : '',
-  teamId: undefined,
-  startDate : '',
-  endDate : '',
-  reminder : false,
-  isComplete : false,
-  priority : PRIORITY.HIGH,
-
+    projectId : undefined,
+    deliverable : {
+        name: '',
+        description: '',
+        status: STATUS.TO_DO,
+        priority : undefined,
+        startDate: '',
+        endDate: '',
+    }
 };
 
 const init = () => initialState;
@@ -25,16 +28,20 @@ const reducer = (state, action) => {
 
    switch(action.type){
       case 'init' : init();
-      case 'setValue': return {...state, ...action.payload};
+      case 'setDeliverableValue': return {...state, project : {...state.deliverable, ...action.payload}};
       default: return state;
    }
 }
 
-const AddNewTask = () => {
+const AddNewDeliverable = () => {
   const [state, dispatch] = useReducer(reducer, initialState, init);
+  const { projectId } = useParams();
+  const { selectProject } = useSelector(state => selectOneProject(state, Number(projectId)));
+  
+  console.log(selectProject);
 
-  const setValue = (payload) => {
-      dispatch({ type: 'setValue', payload });
+  const setDeliverableValue = (payload) => {
+      dispatch({ type: 'setDeliverableValue', payload });
   }
 
   const submit = () =>{
@@ -42,42 +49,38 @@ const AddNewTask = () => {
   }
 
   return (
-    <section className='AddNewTask AddNewItem main'>
-        <Form className='AddNewTask__Form'
-              title='Add New Task'>
+    <section className='AddNewDeliverable AddNewItem main'>
+        <Form className='AddNewDeliverable__Form'
+              parentName={selectProject.name}
+              title={`Add New Deliverable`}>
+                
            <InputText
               label='Name'
               id='name'
               value={state.name}
-              onChange={inputVal => setValue({name : inputVal})}
+              onChange={inputVal => setDeliverableValue({name : inputVal})}
             />
            <InputTextArea 
                label='Description'
                id='description'
                value={state.description}
-               onChange={inputVal => setValue({description : inputVal})}
+               onChange={inputVal => setDeliverableValue({description : inputVal})}
            />
 
           <InputDate
                label='Start date'
                id='due-date'
                value={state.startDate}
-               onChange={inputVal => setValue({dueDate : inputVal})}
+               onChange={inputVal => setDeliverableValue({dueDate : inputVal})}
            />
 
            <InputDate
                label='End date'
                id='due-date'
                value={state.endDate}
-               onChange={inputVal => setValue({dueDate : inputVal})}
+               onChange={inputVal => setDeliverableValue({dueDate : inputVal})}
            />
-
-           <InputBell 
-               label='Set Reminder'
-               value={state.reminder}
-               onChange={inputVal => setValue({reminder : inputVal})}
-           />
-           
+  
            <InputRadio
               label='Priority'
               id='priority'
@@ -89,7 +92,7 @@ const AddNewTask = () => {
            />
 
            <InputSubmit 
-              label='Add Task'
+              label='Add Deliverable'
               onClick={submit}
             />
         </Form>
@@ -97,4 +100,4 @@ const AddNewTask = () => {
   )
 }
 
-export default AddNewTask
+export default AddNewDeliverable

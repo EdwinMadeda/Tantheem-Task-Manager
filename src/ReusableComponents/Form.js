@@ -1,13 +1,21 @@
 import CheckBox from "./CheckBox";
 import Bell from "./Bell";
 import BackBtn from "./BackBtn";
+import { useLocation } from "react-router";
 
 const Form = (props) => {
+   
+    const location = useLocation();
+    const prevLocation = location.state.prevLocation;
+
     return (
         <form className={`form ${props.className}`} onSubmit={e => e.preventDefault()}>
             <div className="Form__TopContainer">
-                 <BackBtn path={props.backPath}/>
-                 <h2 className="form-title">{props.title}</h2>
+                 <BackBtn path={prevLocation}/>
+                 <h2 className="form-title">
+                    <p className="form-title__ParentName">{props.parentName}</p>
+                    <p className="form-title__Text">{props.title}</p>
+                </h2>
             </div>
             {props.children}
         </form>

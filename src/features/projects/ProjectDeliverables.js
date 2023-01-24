@@ -3,7 +3,7 @@ import DotsMenu from '../../reusableComponents/DotsMenu'
 import EditBtn from '../../reusableComponents/EditBtn';
 import { STATUS } from './projectsSlice';
 
-const ProjectDeliverables = ({deliverables, type}) => {
+const ProjectDeliverables = ({deliverables, type, projectId}) => {
 
   const optionEntries = Object.entries(STATUS)
                               .map(entry => entry[1])
@@ -19,7 +19,7 @@ const ProjectDeliverables = ({deliverables, type}) => {
 
   return (
     <div className='ProjectDeliverables__Snippet'>
-        <AddBtn label={'Add Deliverable'} path={''}/>
+        <AddBtn label={'Add Deliverable'} path={`/myprojects/${projectId}/add`}/>
         <ul className='ProjectDeliverable__Items'>
 
             {deliverables.map(deliverable => (

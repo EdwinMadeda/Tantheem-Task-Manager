@@ -4,18 +4,21 @@ const initialState = [
     {
         id : 0,
         name : 'UX Team',
+        description: '',
         memberIDs : [],
         taskIDs : [],
     },
     {
         id : 1,
         name : 'CSS 3144',
+        description: '',
         memberIDs : [],
         taskIDs : [],
     },
     {
         id : 2,
         name : 'Calc III',
+        description: '',
         memberIDs : [],
         taskIDs : [],
     }

@@ -37,6 +37,7 @@ const SingleProject = () => {
                 <ProjectDeliverables 
                     deliverables={deliverables.toDo}
                     type={STATUS.TO_DO}
+                    projectId={projectId}
                 /> 
             </div>
             <div className="SingleProject__InnerContainer">
@@ -44,6 +45,7 @@ const SingleProject = () => {
                 <ProjectDeliverables 
                     deliverables={deliverables.inProgress}
                     type={STATUS.IN_PROGRESS}
+                    projectId={projectId}
                 /> 
             </div>
             <div className="SingleProject__InnerContainer">
@@ -51,6 +53,7 @@ const SingleProject = () => {
                 <ProjectDeliverables 
                     deliverables={deliverables.complete}
                     type={STATUS.COMPLETE}
+                    projectId={projectId}
                 /> 
             </div>
         </div>

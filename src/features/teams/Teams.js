@@ -20,7 +20,7 @@ const Teams = () => {
        <div className="Teams__Container">
             <div className="Teams__InnerContainer top">
               <div className="Teams__AddBtn-Container AddBtn-Container">
-                <AddBtn label="New Team" path={''}/>
+                <AddBtn label="New Team" path="/teams/add"/>
               </div>
             </div>
             

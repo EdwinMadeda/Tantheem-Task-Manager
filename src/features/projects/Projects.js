@@ -13,7 +13,7 @@ const Projects = () => {
     <div className="Project__Container top">
 
         <div className="Project__AddBtn-Container AddBtn-Container">
-          <AddBtn label="New Project" path={''}/>
+          <AddBtn label="New Project" path="/myprojects/add"/>
         </div>
      
     </div>

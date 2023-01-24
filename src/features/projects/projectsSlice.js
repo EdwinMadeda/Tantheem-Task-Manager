@@ -19,6 +19,8 @@ const initialState = [
         description : 'ABCD...',
         status : STATUS.COMPLETE,
         priority : PRIORITY.HIGH,
+        startDate: '',
+        endDate: '',
         teamId : 0, 
         deliverables : [
             {
@@ -27,6 +29,8 @@ const initialState = [
                 status: STATUS.COMPLETE,
                 description: 'ABCD..',
                 priority : PRIORITY.HIGH,
+                startDate: '',
+                endDate: '',
             },
             {
                 id: 1,
@@ -34,6 +38,8 @@ const initialState = [
                 status: STATUS.COMPLETE,
                 description: 'ABCD..',
                 priority : PRIORITY.HIGH,
+                startDate: '',
+                endDate: '',
             },
             {
                 id: 2,
@@ -41,6 +47,8 @@ const initialState = [
                 status: STATUS.IN_PROGRESS,
                 description: 'ABCD..',
                 priority : PRIORITY.HIGH,
+                startDate: '',
+                endDate: '',
             },
             {
                 id: 3,
@@ -48,6 +56,8 @@ const initialState = [
                 status: STATUS.TO_DO,
                 description: 'ABCD..',
                 priority : PRIORITY.HIGH,
+                startDate: '',
+                endDate: '',
             },
             {
                 id: 4,
@@ -55,6 +65,8 @@ const initialState = [
                 status: STATUS.TO_DO,
                 description: 'ABCD..',
                 priority : PRIORITY.HIGH,
+                startDate: '',
+                endDate: '',
             },
             ],
     },
@@ -65,6 +77,8 @@ const initialState = [
         status : STATUS.IN_PROGRESS,
         priority : PRIORITY.MEDIUM,
         teamId : 1, 
+        startDate: '',
+        endDate: '',
         deliverables : [
             {   
                 id: 0,
@@ -72,6 +86,8 @@ const initialState = [
                 status: STATUS.COMPLETE,
                 description: 'ABCD..',
                 priority : PRIORITY.HIGH,
+                startDate: '',
+                endDate: '',
             },
             {
                 id: 1,
@@ -79,6 +95,8 @@ const initialState = [
                 status: STATUS.TO_DO,
                 description: 'ABCD..',
                 priority : PRIORITY.HIGH,
+                startDate: '',
+                endDate: '',
             },
                 
             {
@@ -87,6 +105,8 @@ const initialState = [
                 status: STATUS.TO_DO,
                 description: 'ABCD..',
                 priority : PRIORITY.HIGH,
+                startDate: '',
+                endDate: '',
             },
             {
                 id: 3,
@@ -94,6 +114,8 @@ const initialState = [
                 status: STATUS.TO_DO,
                 description: 'ABCD..',
                 priority : PRIORITY.HIGH,
+                startDate: '',
+                endDate: '',
             },
             {
                 id: 4,
@@ -101,6 +123,8 @@ const initialState = [
                 status: STATUS.TO_DO,
                 description: 'ABCD..',
                 priority : PRIORITY.HIGH,
+                startDate: '',
+                endDate: '',
             },
             {
                 id: 5,
@@ -108,6 +132,8 @@ const initialState = [
                 status: STATUS.TO_DO,
                 description: 'ABCD..',
                 priority : PRIORITY.HIGH,
+                startDate: '',
+                endDate: '',
             },
             {
                 id: 6,
@@ -115,6 +141,8 @@ const initialState = [
                 status: STATUS.TO_DO,
                 description: 'ABCD..',
                 priority : PRIORITY.HIGH,
+                startDate: '',
+                endDate: '',
             },
             {
                 id: 7,
@@ -122,6 +150,8 @@ const initialState = [
                 status: STATUS.TO_DO,
                 description: 'ABCD..',
                 priority : PRIORITY.HIGH,
+                startDate: '',
+                endDate: '',
             }
         ]
     }
