@@ -1,19 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import useTargetAction from "./customHooks/useTargetAction";
 
 const DotsMenu = ({options}) => {
 
   const [menuVisible, setMenuVisible] = useState(false);
   const ref = useRef(null);
 
-  useEffect(()=>{
-    if(ref?.current){
-      window.addEventListener('click', e =>{
-          setMenuVisible(ref?.current?.contains(e.target));
-      });
-    }
-  }, [ref]);
-
+  useTargetAction(setMenuVisible, ref, 'click');
 
   // const options = [
   //   {

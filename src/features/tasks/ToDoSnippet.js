@@ -13,7 +13,7 @@ const ToDoSnippet = ({tasks, viewMore=false, setViewMore=false}) => {
                 key={task.id}>
                 <CheckBox checked={task.isComplete}/>
                 <div className="Task__Data">
-                  <span className="Task__Name">{task.name}</span>
+                  <span className="Task__Name">{task.name.substring(0, 20)}...</span>
                   <span>{'Due Today'}</span>
                   {task?.team &&  <span>By {task.team}</span>}
                 </div>

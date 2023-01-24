@@ -1,4 +1,5 @@
-import { useState, useReducer } from "react";
+import { useState, useReducer, useRef } from "react";
+import useTargetAction from "../../ReusableComponents/customHooks/useTargetAction";
 import { Link } from "react-router-dom";
 import { BsSearch} from 'react-icons/bs';
 import Bell from "../../ReusableComponents/Bell";
@@ -64,6 +65,7 @@ const Header = () => {
 
   const [isMobile, setIsMobile] = useState(false);
   const [state, dispatch] = useReducer(reducer, initialState, init);
+  const ref = useRef(null);
 
   const AppLinks = () =>{
     return state.Links.map(link => {
@@ -75,8 +77,10 @@ const Header = () => {
     })
   };
 
+  useTargetAction(setIsMobile, ref, 'click');
+
   return (
-    <header className="App-header">
+    <header className="App-header" ref={ref}>
         <div className="App-header__Container">
             <div className={`App-humbergerMenu ${isMobile? 'active':''}`}
                 onClick={()=> setIsMobile(!isMobile)}>

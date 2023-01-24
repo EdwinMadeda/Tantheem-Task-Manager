@@ -1,7 +1,6 @@
 import studentImg from "../../assets/images/student_photo.png";
 
 import AddBtn from "../../ReusableComponents/AddBtn";
-import OrderByBtn from "../../ReusableComponents/OrderByBtn";
 import OrderByBtnsWrapper from "../../ReusableComponents/OrderByBtnsWrapper";
 import LatestProject from "../projects/LatestProject";
 

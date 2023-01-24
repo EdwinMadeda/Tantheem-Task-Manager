@@ -1,7 +1,22 @@
+import { useSelector } from "react-redux";
+import { selectOneTeam } from "./teamsSlice";
 import OrderByBtnsWrapper from "../../ReusableComponents/OrderByBtnsWrapper";
 import CheckBox from "../../ReusableComponents/CheckBox";
 
+
 const TodoTeamTasks = ({tasks}) => {
+
+
+  const TeamsTask__Team = ({teamId})=>{
+  
+      const selectTeam = useSelector(state => selectOneTeam(state, teamId));
+
+      return (
+      <span className="TeamsTask__Team">
+        {selectTeam?.name && `By ${selectTeam?.name}`}
+      </span>);
+  }
+
   return (
     <div className='ToDoTeamTasks TeamTasks__Snippet'>
     <p className='TeamTasks__Snippet-title'>TO DO Tasks</p>
@@ -18,10 +33,10 @@ const TodoTeamTasks = ({tasks}) => {
               key={task.id}>
               <CheckBox checked={task.isComplete}/>
               <div className="TeamTasks__Data">
-                <span className="TeamsTasks__Name">{`${task.name.substring(0, 10)}...`}</span>
+                <span className="TeamsTasks__Name">{`${task.name.substring(0, 20)}...`}</span>
                 <span className="TeamsTasks__DueDate">{'Due Today'}</span>
                 <span className="TeamTasks__Priority">{`${task.priority} Priority`}</span>
-                {task?.team &&  <span className="TeamsTask__Team">By {task.team}</span>}
+                {task?.teamId !== undefined && <TeamsTask__Team teamId={task.teamId}/>}
               </div>
 
           </li>))

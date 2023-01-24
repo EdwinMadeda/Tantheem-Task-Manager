@@ -1,5 +1,6 @@
 import { BsBell, BsBellFill, BsBellSlash } from "react-icons/bs";
 import { useState, useEffect, useRef } from "react";
+import useTargetAction from "./customHooks/useTargetAction";
 
 const Bell = ({className, onClick}) => {
   const [isHover, setIsHover] = useState(false);
@@ -11,13 +12,7 @@ const Bell = ({className, onClick}) => {
     ref.current.classList.remove('animate');
   }
 
-  useEffect(()=>{
-    if(ref?.current){
-        window.addEventListener('mouseover', e =>{
-                setIsHover(ref?.current?.contains(e.target))
-        });
-    }
-  },[ref]);
+  useTargetAction(setIsHover, ref, 'mouseover');
 
   return (
     <div className={`${className} icon bellIcon animate`}

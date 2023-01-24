@@ -98,7 +98,7 @@ nav{
 }
 
 .App-link{
-    padding: 5px 10px;
+    padding: 5px 20px 10px;
     position: relative;
 }
 
@@ -108,14 +108,15 @@ nav{
   width: 0%;
   content: '';
   background: #333;
-  bottom: -5px;
-  left : 0;
+  bottom: 0;
+  left : 50%;
+  transform: translateX(-50%);
   transition: all .5s ease;
   border-radius: 10px;
 }
 
 .App-link.active::after{
-  width: 95%;
+  width: 85%;
 }
 
 .App-link a{

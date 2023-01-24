@@ -11,7 +11,7 @@ const PreviousWorkSnippet = ({tasks, viewMore, setViewMore}) => {
             <li className="Tasks__Snippet-item Snippet__Type1-Item"
                 key={task.id}>
                 <CheckBox checked={task.isComplete}/>
-                <p className="Task__Item-name Snippet__Type1-ItemName">{task.name}</p>
+                <p className="Task__Item-name Snippet__Type1-ItemName">{task.name.substring(0, 20)}...</p>
             </li>))
           }
         </ul>
