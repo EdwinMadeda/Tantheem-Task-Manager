@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import ProgressBar from '../../ReusableComponents/ProgressBar';
+import ProgressBar from '../../reusableComponents/ProgressBar';
 import { useSelector } from 'react-redux';
 import { selectOneProject } from './projectsSlice';
 

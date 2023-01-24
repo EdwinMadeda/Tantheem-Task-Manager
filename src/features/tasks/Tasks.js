@@ -1,7 +1,7 @@
 import { useState} from "react";
 import { useSelector } from "react-redux";
 import { selectAllTasks } from "./taskSlice";
-import AddBtn from "../../ReusableComponents/AddBtn";
+import AddBtn from "../../reusableComponents/AddBtn";
 import girlPhoto from "../../assets/images/girl_photo.png";
 import PreviousWorkSnippet from "./PreviousWorkSnippet";
 import ToDoSnippet from "./ToDoSnippet";
@@ -17,8 +17,8 @@ const Tasks = () => {
 
         <div className="Task__innerContainer">
           <p className="Task__welcomeMsg">Hello,</p>
-          <div className="Task__AddBtn-Container">
-            <AddBtn label="New Task" onClick={()=>{}}/>
+          <div className="Task__AddBtn-Container AddBtn-Container">
+            <AddBtn label="New Task" path={'/mytasks/add'}/>
           </div>
         </div>
 

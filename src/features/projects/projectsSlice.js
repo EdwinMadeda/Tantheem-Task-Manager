@@ -6,7 +6,7 @@ export const STATUS = Object.freeze({
     TO_DO : 'To Do',
 });
 
-const PRIORITY = Object.freeze({
+export const PRIORITY = Object.freeze({
     HIGH : 'High',
     MEDIUM : 'Medium',
     LOW : 'Low',
@@ -16,6 +16,7 @@ const initialState = [
     {
         id: 0,
         name : 'UX case study',
+        description : 'ABCD...',
         status : STATUS.COMPLETE,
         priority : PRIORITY.HIGH,
         teamId : 0, 
@@ -25,36 +26,42 @@ const initialState = [
                 name: 'Plot',
                 status: STATUS.COMPLETE,
                 description: 'ABCD..',
+                priority : PRIORITY.HIGH,
             },
             {
                 id: 1,
                 name: 'Character',
                 status: STATUS.COMPLETE,
                 description: 'ABCD..',
+                priority : PRIORITY.HIGH,
             },
             {
                 id: 2,
                 name: 'Theme',
                 status: STATUS.IN_PROGRESS,
                 description: 'ABCD..',
+                priority : PRIORITY.HIGH,
             },
             {
                 id: 3,
                 name: 'Diction',
                 status: STATUS.TO_DO,
                 description: 'ABCD..',
+                priority : PRIORITY.HIGH,
             },
             {
                 id: 4,
                 name: 'Melody',
                 status: STATUS.TO_DO,
                 description: 'ABCD..',
+                priority : PRIORITY.HIGH,
             },
             ],
     },
     {
         id: 1,
         name : 'Data base',
+        description : 'ABCD...',
         status : STATUS.IN_PROGRESS,
         priority : PRIORITY.MEDIUM,
         teamId : 1, 
@@ -64,12 +71,14 @@ const initialState = [
                 name: 'Determine the purpose of your database',
                 status: STATUS.COMPLETE,
                 description: 'ABCD..',
+                priority : PRIORITY.HIGH,
             },
             {
                 id: 1,
                 name: 'Find and organize the information required',
                 status: STATUS.TO_DO,
                 description: 'ABCD..',
+                priority : PRIORITY.HIGH,
             },
                 
             {
@@ -77,36 +86,42 @@ const initialState = [
                 name: 'Divide the information into tables',
                 status: STATUS.TO_DO,
                 description: 'ABCD..',
+                priority : PRIORITY.HIGH,
             },
             {
                 id: 3,
                 name: 'Turn information items into columns',
                 status: STATUS.TO_DO,
                 description: 'ABCD..',
+                priority : PRIORITY.HIGH,
             },
             {
                 id: 4,
                 name: 'Specify primary keys',
                 status: STATUS.TO_DO,
                 description: 'ABCD..',
+                priority : PRIORITY.HIGH,
             },
             {
                 id: 5,
                 name: 'Set up the table relationships',
                 status: STATUS.TO_DO,
                 description: 'ABCD..',
+                priority : PRIORITY.HIGH,
             },
             {
                 id: 6,
                 name: 'Refine your design',
                 status: STATUS.TO_DO,
                 description: 'ABCD..',
+                priority : PRIORITY.HIGH,
             },
             {
                 id: 7,
                 name: 'Apply the normalization rules',
                 status: STATUS.TO_DO,
                 description: 'ABCD..',
+                priority : PRIORITY.HIGH,
             }
         ]
     }

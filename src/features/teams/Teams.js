@@ -1,6 +1,6 @@
 import TeamsSnippet from "./TeamsSnippet";
 import ToDoTeamTasks from "./ToDoTeamTasks";
-import AddBtn from "../../ReusableComponents/AddBtn";
+import AddBtn from "../../reusableComponents/AddBtn";
 import { useSelector } from "react-redux";
 import { selectAllTeams } from "./teamsSlice";
 import { selectAllTasks} from "../tasks/taskSlice";
@@ -19,8 +19,8 @@ const Teams = () => {
 
        <div className="Teams__Container">
             <div className="Teams__InnerContainer top">
-              <div className="Teams__AddBtn-Container">
-                <AddBtn label="New Team" onClick={()=>{}}/>
+              <div className="Teams__AddBtn-Container AddBtn-Container">
+                <AddBtn label="New Team" path={''}/>
               </div>
             </div>
             

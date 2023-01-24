@@ -1,7 +1,6 @@
-import { useState } from 'react';
-import AddBtn from '../../ReusableComponents/AddBtn'
-import DotsMenu from '../../ReusableComponents/DotsMenu'
-import EditBtn from '../../ReusableComponents/EditBtn';
+import AddBtn from '../../reusableComponents/AddBtn'
+import DotsMenu from '../../reusableComponents/DotsMenu'
+import EditBtn from '../../reusableComponents/EditBtn';
 import { STATUS } from './projectsSlice';
 
 const ProjectDeliverables = ({deliverables, type}) => {
@@ -20,7 +19,7 @@ const ProjectDeliverables = ({deliverables, type}) => {
 
   return (
     <div className='ProjectDeliverables__Snippet'>
-        <AddBtn label={'Add Deliverable'} onClick={()=>{}}/>
+        <AddBtn label={'Add Deliverable'} path={''}/>
         <ul className='ProjectDeliverable__Items'>
 
             {deliverables.map(deliverable => (

@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import useTargetAction from "./customHooks/useTargetAction";
+import useTargetAction from "../customHooks/useTargetAction";
 
 const DotsMenu = ({options}) => {
 

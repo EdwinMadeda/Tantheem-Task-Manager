@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { selectAllProjects } from "./projectsSlice";
-import AddBtn from "../../ReusableComponents/AddBtn";
+import AddBtn from "../../reusableComponents/AddBtn";
 import PreviousProjectsSnippet from "./PreviousProjectsSnippet";
 import ToDoProjectsSnippet from "./ToDoProjectsSnippet";
 import "./Projects.css";
@@ -12,8 +12,8 @@ const Projects = () => {
     <section className="Project main">
     <div className="Project__Container top">
 
-        <div className="Project__AddBtn-Container">
-          <AddBtn label="New Project" onClick={()=>{}}/>
+        <div className="Project__AddBtn-Container AddBtn-Container">
+          <AddBtn label="New Project" path={''}/>
         </div>
      
     </div>

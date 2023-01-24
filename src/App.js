@@ -9,12 +9,18 @@ import Teams from './features/teams/Teams';
 import SingleProject from './features/projects/SingleProject';
 import SingleTeam from './features/teams/SingleTeam';
 
+import AddNewTask from './features/tasks/AddNewTask';
+
 function App() {
   return (
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />}/>
-          <Route path='/mytasks' element={<Tasks />}/>
+          
+          <Route path='/mytasks'>
+            <Route index element={<Tasks />}/>
+            <Route path="/mytasks/add" element={<AddNewTask />}/>
+          </Route>
 
           <Route path='/myprojects'>
               <Route index element={<Projects />}/>

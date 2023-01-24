@@ -3,9 +3,9 @@ import { useSelector } from "react-redux";
 import { selectOneProject } from "./projectsSlice";
 import { STATUS } from "./projectsSlice";
 import ProjectDeliverables from "./ProjectDeliverables";
-import ProgressBar from "../../ReusableComponents/ProgressBar";
-import BackBtn from "../../ReusableComponents/BackBtn";
-import SingleTeam__Btns from "../../ReusableComponents/SingleTeam__Btns";
+import ProgressBar from "../../reusableComponents/ProgressBar";
+import BackBtn from "../../reusableComponents/BackBtn";
+import SingleTeamBtns from "../../reusableComponents/SingleTeamBtns";
 
 import "./SingleProject.css";
 
@@ -29,7 +29,7 @@ const SingleProject = () => {
                     totalItems={totalDeliverables} 
                 />
             </div>
-            <SingleTeam__Btns members={[]}/>
+            <SingleTeamBtns members={[]}/>
         </div>
         <div className="SingleProject__Container bottom">
             <div className="SingleProject__InnerContainer">

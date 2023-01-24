@@ -1,5 +1,5 @@
-import Bell from "../../ReusableComponents/Bell";
-import CheckBox from "../../ReusableComponents/CheckBox";
+import Bell from "../../reusableComponents/Bell";
+import CheckBox from "../../reusableComponents/CheckBox";
 import ViewMoreBtn from "./ViewMoreBtn";
 
 const ToDoSnippet = ({tasks, viewMore=false, setViewMore=false}) => { 

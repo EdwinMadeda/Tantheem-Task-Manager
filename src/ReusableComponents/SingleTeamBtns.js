@@ -1,6 +1,6 @@
 import {FaUsers, FaShare} from "react-icons/fa";
 
-const SingleTeam__Btns = ({members}) => {
+const SingleTeamBtns = ({members}) => {
   return (
     <div className="SingleTeam__Btns">
         <button className="SingleTeam__MembersBtn SingleTeam__Btn">
@@ -15,4 +15,4 @@ const SingleTeam__Btns = ({members}) => {
   )
 }
 
-export default SingleTeam__Btns
+export default SingleTeamBtns

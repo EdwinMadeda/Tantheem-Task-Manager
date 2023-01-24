@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 import { selectOneTeam } from "./teamsSlice";
 import { selectProjectsByTeam } from "../projects/projectsSlice";
 import { selectTasksByTeam } from "../tasks/taskSlice";
-import BackBtn from "../../ReusableComponents/BackBtn";
-import SingleTeam__Btns from "../../ReusableComponents/SingleTeam__Btns";
+import BackBtn from "../../reusableComponents/BackBtn";
+import SingleTeamBtns from "../../reusableComponents/SingleTeamBtns";
 import team_bgImage from "../../assets/images/team_bgImage.jpg";
 import PreviousProjectsSnippet from "../projects/PreviousProjectsSnippet";
 import TodoTeamTasks from "../teams/ToDoTeamTasks";
@@ -30,7 +30,7 @@ const SingleTeam = () => {
         </div>
     </div>
     <div className="SingleTeam__Container bottom">
-        <SingleTeam__Btns members={[]}/>
+        <SingleTeamBtns members={[]}/>
         <div className="SingleTeam__InnerContainer">
             <PreviousProjectsSnippet projects={selectProjects}/>
             <TodoTeamTasks tasks={selectTasks} />

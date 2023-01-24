@@ -62,6 +62,7 @@ table {
 :root{
   --primary__Color: #ceb4db;
   --primary__Color2: #fef8f8;
+  --primary__Color-Darker: #7f6f87;
   --secondary__Color: #a3d2ff;
   --secondary__Color2: #deefff;
   --accent__Color4: #fffdfe;
@@ -137,10 +138,11 @@ table {
 	padding: 8px;
 	border-radius: var(--border__Radius);
 	
-	display: flex;
+	display: inline-flex;
 	justify-content: flex-start;
 	align-items: center;
 	font-weight: bold;
+	text-decoration: none;
 }
 
 .addBtn:hover{
@@ -159,6 +161,10 @@ table {
 
 .addBtn .label{
 	padding: 0 10px;
+}
+
+.AddBtn-Container{
+	text-align: initial;
 }
 
 .OrderByBtns__Wrapper{
@@ -195,7 +201,7 @@ table {
 }
 
 .checkBox__label{
-	display: block;
+	display: inline-block;
 	position: relative;
 	cursor: pointer;
 	font-size: 22px;
@@ -204,12 +210,16 @@ table {
 	-ms-user-select: none;
 	user-select: none;
 
-	height: 15px;
-	width: 15px;
+	height: 16px;
+	width: 16px;
 
 	border: 2px solid #333;
 	border-radius: 2px;
 	align-self: center;
+}
+
+.radio__container .checkBox__label{
+	border-radius: 50%;
 }
 
 .checkBox__label input{
@@ -229,8 +239,17 @@ table {
 	background-color: #eee;
 }
 
+.radio__container .checkmark{
+	border-radius: 50%;
+	border: 1.5px solid #fff;
+}
+
 .checkBox__label:hover input ~ .checkmark {
 	background-color: #ccc;
+}
+
+.radio__container input:checked ~ .checkmark {
+	background: var( --primary__Color-Darker);
 }
 
 .checkBox__label input:checked ~ .checkmark::after {
@@ -243,16 +262,25 @@ table {
 	height: 10px;
 	border: solid crimson;
 	border-width: 0 3px 3px 0;
-	-webkit-transform: rotate(45deg);
-	-ms-transform: rotate(45deg);
-	transform: rotate(45deg) translate(-1px, -2px);
+	-webkit-transform: rotate(45deg) translate(0, -2px);
+	-ms-transform: rotate(45deg) translate(0, -2px);
+	transform: rotate(45deg) translate(0, -2px);
 	display: none;
-  }
+}
+
+.radio__container .checkmark::after{
+	display: none!important;
+}
+
+
 
 .bellIcon{
 	height: 25px;
 	width: 25px;
 	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;	
 }
 
 .bellIcon:active{
@@ -314,6 +342,140 @@ table {
 	background: var(--primary__Color);
 	border-radius: 10px;
 }
+
+.AddNewItem{
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.form{
+	text-align: initial;	
+	border-radius: 5px;
+	padding: 0 10px;
+	position: relative;
+	width: 100%;
+
+    border-radius: 5px;
+    margin: 30px auto;
+    max-width: 900px;
+    min-height: 300px;
+    overflow: auto;
+    padding: 30px;
+	background: #fff;
+	box-shadow: 1px 2px  2px #858585;
+}
+
+.Form__TopContainer{
+	display: flex;
+	align-items: center;
+}
+
+.form-title{
+	font-weight: bolder;
+	font-size: 20px;
+	margin: 0 20px;
+}
+
+.form-control{
+	margin: 15px 0;
+}
+
+.form-control label {
+	display: block;
+	font-weight: bold;
+}
+
+.label__title{
+	display: inline-block;
+	margin-right: 5px;
+	font-weight: bold;
+}
+
+.form-control input {
+	font-size: 17px;
+	height: 40px;
+	margin: 5px 0;
+	padding: 3px 7px;
+	width: 100%;
+	border-radius: 5px;
+	border: 1.5px solid #333;
+	outline: none;
+}
+
+.form-control textarea{
+	border-radius: 5px;
+	border: 1.5px solid #333;
+	outline: none;
+	width: 100%;
+}
+
+.form-control input:focus,
+.form-control textarea:focus{
+	border-color: var( --primary__Color-Darker);
+	outline: 1.5px solid var( --primary__Color-Darker);
+}
+
+.form-control-check{
+	display: inline-flex!important;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.form-control .radioBtns__wrapper{
+	display: flex;
+	justify-content: flex-start;
+	padding: 10px 0;
+}
+
+.form-control .radio__container {
+	align-items: center;
+	border-radius: 5px;
+	cursor: pointer;
+	display: flex;
+	justify-content: flex-start;
+	margin: 4px 10px 0 4px;
+}
+
+.form-control .radio__container input {
+	margin: 8px 10px;
+}
+
+.form-control .radio__container .checkBox__label{
+	margin-right: 8px;
+}
+
+.form-control .btn {
+	background: var(--primary__Color);
+	border: none;
+	border-radius: 5px;
+	color: #333;
+	font-weight: bold;
+	cursor: pointer;
+	display: inline-block;
+	font-family: inherit;
+	font-size: 15px;
+	margin: 5px;
+	padding: 10px 20px;
+	text-decoration: none;
+}
+
+.form-control .btn:hover{
+	background: #333;
+	color: var(--primary__Color);
+}
+
+.form-control-check {
+	align-items: center;
+	display: flex;
+	justify-content: flex-start;
+	margin: 10px 0;
+}
+
+
+
+
 
 main{
 	background: var(--primary__Color2);

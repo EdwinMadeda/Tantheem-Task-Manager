@@ -1,8 +1,8 @@
-import { useState, useReducer, useRef } from "react";
-import useTargetAction from "../../ReusableComponents/customHooks/useTargetAction";
+import { useState, useReducer, useRef} from "react";
+import useTargetAction from "../../customHooks/useTargetAction";
 import { Link } from "react-router-dom";
 import { BsSearch} from 'react-icons/bs';
-import Bell from "../../ReusableComponents/Bell";
+import Bell from "../../reusableComponents/Bell";
 import logo from "../../assets/images/logo.svg";
 import AppLink from "./AppLink";
 import './Header.css';
@@ -65,6 +65,7 @@ const Header = () => {
 
   const [isMobile, setIsMobile] = useState(false);
   const [state, dispatch] = useReducer(reducer, initialState, init);
+
   const ref = useRef(null);
 
   const AppLinks = () =>{
@@ -77,7 +78,7 @@ const Header = () => {
     })
   };
 
-  useTargetAction(setIsMobile, ref, 'click');
+   useTargetAction(setIsMobile, ref, 'click');
 
   return (
     <header className="App-header" ref={ref}>

@@ -1,6 +1,6 @@
 import { nanoid } from "@reduxjs/toolkit"
 
-const CheckBox = ({checked}) => {
+const CheckBox = ({checked, onChange=false}) => {
     const id = nanoid();
 
     // <div className="checkbox">
@@ -14,7 +14,11 @@ const CheckBox = ({checked}) => {
 
   return (
     <label htmlFor={`checkbox${id}`} className="checkBox__label">
-        <input type="checkbox" id={`checkbox${id}`}/>
+        <input 
+          type="checkbox" 
+          id={`checkbox${id}`} 
+          defaultChecked={checked}
+          onChange={e => onChange(e.target.value)}/>
         <span className="checkmark"></span>
     </label>
   )

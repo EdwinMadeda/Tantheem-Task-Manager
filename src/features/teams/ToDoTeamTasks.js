@@ -1,13 +1,13 @@
 import { useSelector } from "react-redux";
 import { selectOneTeam } from "./teamsSlice";
-import OrderByBtnsWrapper from "../../ReusableComponents/OrderByBtnsWrapper";
-import CheckBox from "../../ReusableComponents/CheckBox";
+import OrderByBtnsWrapper from "../../reusableComponents/OrderByBtnsWrapper";
+import CheckBox from "../../reusableComponents/CheckBox";
 
 
 const TodoTeamTasks = ({tasks}) => {
 
 
-  const TeamsTask__Team = ({teamId})=>{
+  const TeamsTaskTeam = ({teamId})=>{
   
       const selectTeam = useSelector(state => selectOneTeam(state, teamId));
 
@@ -36,7 +36,7 @@ const TodoTeamTasks = ({tasks}) => {
                 <span className="TeamsTasks__Name">{`${task.name.substring(0, 20)}...`}</span>
                 <span className="TeamsTasks__DueDate">{'Due Today'}</span>
                 <span className="TeamTasks__Priority">{`${task.priority} Priority`}</span>
-                {task?.teamId !== undefined && <TeamsTask__Team teamId={task.teamId}/>}
+                {task?.teamId !== undefined && <TeamsTaskTeam teamId={task.teamId}/>}
               </div>
 
           </li>))

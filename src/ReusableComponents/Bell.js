@@ -1,14 +1,15 @@
 import { BsBell, BsBellFill, BsBellSlash } from "react-icons/bs";
-import { useState, useEffect, useRef } from "react";
-import useTargetAction from "./customHooks/useTargetAction";
+import { useState, useRef } from "react";
+import useTargetAction from "../customHooks/useTargetAction";
 
-const Bell = ({className, onClick}) => {
+const Bell = ({className, status = false, onClick}) => {
   const [isHover, setIsHover] = useState(false);
-  const [isClick, setIsClick] = useState(false);
+  const [isOn, setIsOn] = useState(status);
+
   const ref = useRef(null);
   const onBellClick = () =>{
-    setIsClick(!isClick);
-    onClick();
+    setIsOn(!isOn);
+    onClick(isOn);
     ref.current.classList.remove('animate');
   }
 
@@ -18,7 +19,7 @@ const Bell = ({className, onClick}) => {
     <div className={`${className} icon bellIcon animate`}
          onClick={onBellClick} 
          ref={ref}>
-            {isClick? <BsBellSlash/> : (
+            {isOn? <BsBellSlash/> : (
                 <>{isHover? <BsBellFill className="fill"/> : <BsBell />}</>
             )}
     </div>

@@ -1,14 +1,12 @@
 import { BsPlus } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
-const AddBtn = ({label, onClick}) => {
+const AddBtn = ({label, path}) => {
   return (
-    <button 
-            type="button"
-            className="addBtn btn"
-            onClick={() => onClick}>
+    <Link className="addBtn btn" to={path}>
                 <BsPlus className="icon"/>
                 <p className="label">{label}</p>
-    </button>
+    </Link>
   )
 }
 

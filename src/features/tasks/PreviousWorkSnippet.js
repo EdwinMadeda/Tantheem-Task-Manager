@@ -1,4 +1,4 @@
-import CheckBox from "../../ReusableComponents/CheckBox";
+import CheckBox from "../../reusableComponents/CheckBox";
 import ViewMoreBtn from "./ViewMoreBtn";
 
 const PreviousWorkSnippet = ({tasks, viewMore, setViewMore}) => {

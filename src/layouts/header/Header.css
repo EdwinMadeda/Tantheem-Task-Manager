@@ -133,7 +133,6 @@ nav{
     background-color: #fff;
     margin: 0 20px;
     flex: 1;
-    min-width: 300px;
 }
 
 .App-search__input{
@@ -174,7 +173,17 @@ nav{
     left: -2px;
 }
 
-@media only screen and (max-width: 850px) {
+@media only screen and (max-width: 950px){
+    .App-header__Container{
+      padding: 5px 20px;
+    }
+    .App-link{
+      padding: 5px 0 10px;
+      position: relative;
+  }
+}
+
+@media only screen and (max-width: 750px) {
   main{
     padding-top: 40px;
   }

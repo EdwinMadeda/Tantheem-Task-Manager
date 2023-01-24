@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import ToActionBtn from "../../ReusableComponents/ToActionBtn";
+import ToActionBtn from "../../reusableComponents/ToActionBtn";
 import { selectLatestTeam } from "./teamsSlice";
 
 const LatestTeam = () => {

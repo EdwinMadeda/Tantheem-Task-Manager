@@ -1,7 +1,7 @@
 import studentImg from "../../assets/images/student_photo.png";
 
-import AddBtn from "../../ReusableComponents/AddBtn";
-import OrderByBtnsWrapper from "../../ReusableComponents/OrderByBtnsWrapper";
+import AddBtn from "../../reusableComponents/AddBtn";
+import OrderByBtnsWrapper from "../../reusableComponents/OrderByBtnsWrapper";
 import LatestProject from "../projects/LatestProject";
 
 import LatestTask from "../tasks/LatestTask";
@@ -14,7 +14,7 @@ const Home = () => {
     <section className="Home main">
       <div className="Home__Container top">
         <div className="Home__AddBtns">
-                <AddBtn label="New Task" onClick={()=> {}}/>
+                <AddBtn label="New Task" path="/mytasks/add"/>
                 <AddBtn label="New Project" onClick={()=> {}}/>
                 <AddBtn label="New Team" onClick={()=> {}}/>
           </div>

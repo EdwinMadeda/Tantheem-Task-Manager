@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import OrderByBtnsWrapper from '../../ReusableComponents/OrderByBtnsWrapper';
+import OrderByBtnsWrapper from '../../reusableComponents/OrderByBtnsWrapper';
 
 const ToDoProjectsSnippet = ({projects}) => {
 

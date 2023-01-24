@@ -1,7 +1,7 @@
-import { BsArrowLeftShort } from "react-icons/bs";
 import { useNavigate } from "react-router";
+import { BsArrowLeftShort } from "react-icons/bs";
 
-const BackBtn = ({path}) => {
+const BackBtn = ({path = false}) => {
   const navigate = useNavigate();
 
   return (
