@@ -1,28 +1,36 @@
-.Teams{
-    display: grid;
-    grid-template-columns: minmax(280px, auto) 1fr;
-    grid-template-rows: 1fr;
-    grid-gap: 30px;
+.Teams.main{
+   display: grid;
+   grid-template-columns: minmax(200px, 300px) 3fr;
+   grid-template-rows: auto 1fr;
+   grid-gap: 50px 30px;
+   grid-template-areas: 
+                    'Sidebar ContainerTop'
+                    'Sidebar ContainerBottom';
+                
+   padding-top: 70px;
 }
+
 .Teams__Sidebar{
-   
+    grid-area: Sidebar;
 }
 
-.Teams__Container{
-    margin-top: 70px;
+.Teams__Container.top{
+    grid-area: ContainerTop;
 }
 
-.Teams__InnerContainer.top{
-    min-height: 20vh;
-}
+.Teams__Container.bottom{
+    grid-area: ContainerBottom;
+}   
+
+/*--------------------------------Team Snippet-----------------------------------*/
 
 .Teams__Snippet{
-    margin-top: 70px;
     background: #fff;
     border-radius: 15px;
-    padding: 20px 10px;
+    padding: 20px;
     box-shadow: 2px 2px  2px #858585;
-    height: 75vh;
+    min-height: 75vh;
+    max-width: 300px;
     text-align: initial;
 }
 
@@ -59,9 +67,19 @@
     padding: 0 5px;
 }
 
+
+/*--------------------------------Team Tasks-----------------------------------*/
+
+.TeamTasks__Snippet{
+    position: relative;
+    max-height: 60vh;
+    overflow: hidden;
+}
+
 .TeamTasks__Snippet-title{
-    padding: 10px 0;
+    padding: 20px 0;
     text-align: initial;
+    font-weight: bold;
 }
 
 .TeamTasks__Data{
@@ -75,6 +93,7 @@
     justify-items: left;
     padding-left: 25px;
 }
+
 .TeamTasks__Data span{
     color: #474747;
     font-size: 13px;
@@ -86,34 +105,18 @@
     color: #333;
 }
 
-@media only screen and (max-width: 900px) {
-    .Teams{
-        display: block;
-    }
-    
-    .Teams__Container{
-        margin-top: unset;
-    }
+@media only screen and (max-width: 940px) {
+   
+    .Teams.main{
+        grid-template-rows: minmax(75vh, auto) 1fr;
+        grid-gap: 15px 40px;
+        grid-template-areas: 
+                'Sidebar ContainerTop'
+                'ContainerBottom ContainerBottom';
+     } 
 
-    .Teams__InnerContainer.top{
-        max-height: 10vh;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-    }
-
-    .Teams__Snippet{
-        display: block;
-        margin-top: 50px;
-        padding: 20px;
-    }
-}
-
-@media only screen and (max-width: 700px){
-
-    .Teams__Snippet{
-        max-width: 280px;
-        padding: 20px 10px;
+    .Teams__Container.top{
+        padding: 60px 0;
     }
 
     .TeamTasks__Data{
@@ -122,4 +125,24 @@
         justify-content: center;
         padding-left: 8%;
     }
+
+}
+
+
+@media only screen and (max-width: 570px) {
+   
+    .Teams.main{
+        grid-template-rows: minmax(10vh, auto) minmax(75vh, auto) 1fr;
+        grid-gap: 15px 50px;
+        grid-template-areas: 
+                'ContainerTop ContainerTop'
+                'Sidebar Sidebar'
+                'ContainerBottom ContainerBottom';
+     } 
+
+    .Teams__Container.top{
+        padding: unset;
+    }
+    
+
 }

@@ -171,8 +171,10 @@ export const selectProjectsByTeam = (state, teamId) => {
     return state.projects.filter(project => project.teamId === teamId);
 }
 
+export const selectProjectById = (state, projectId) => state.projects.find(project => project.id === projectId);
+
 export const selectOneProject = (state, projectId) => {
-    const selectProject = state.projects.find(project => project.id === projectId);
+    const selectProject = selectProjectById(state, projectId);
     let toDo = [], 
         inProgress = [], 
         complete = [],

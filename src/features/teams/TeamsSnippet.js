@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import CustomLink from "../../reusableComponents/CustomLink";
 
 const TeamsSnippet = ({teams}) => {
 
@@ -9,7 +9,7 @@ const TeamsSnippet = ({teams}) => {
             {teams.map(team => (
                <li key={team.id} className="Teams__Snippet-item">
                   <p className="Teams__Snippet-itemName">
-                     <Link to={`/teams/${team.id}`}>{team.name}</Link>
+                     <CustomLink to={`/teams/${team.id}`}>{team.name}</CustomLink>
                   </p>
                   <p className="Teams__Tasks__Data">
                      <span>13 Tasks</span>

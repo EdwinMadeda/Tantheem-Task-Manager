@@ -1,12 +1,12 @@
 import { BsChevronCompactUp, BsChevronCompactDown } from "react-icons/bs";
 
 const ViewMoreBtn = ({viewMore, setViewMore}) => {
-
+  
   return (
-    <div className={`Tasks__ViewmoreBtn-Wrapper ${viewMore? 'viewMore':''}`}>
+    <div className={`ViewmoreBtn-Wrapper ${viewMore? 'viewMore':''}`}>
         <button 
             type="button" 
-            className="Tasks__ViewmoreBtn"
+            className="ViewmoreBtn"
             onClick={()=> setViewMore(!viewMore)}>
 
         

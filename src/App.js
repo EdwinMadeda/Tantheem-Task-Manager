@@ -6,13 +6,15 @@ import Tasks from './features/tasks/Tasks';
 import Projects from './features/projects/Projects';
 import Calender from './features/calendar/MyCalendar';
 import Teams from './features/teams/Teams';
+
+import SingleTask from './features/tasks/SingleTask';
 import SingleProject from './features/projects/SingleProject';
 import SingleTeam from './features/teams/SingleTeam';
 
-import AddNewTask from './features/tasks/AddNewTask';
-import AddNewProject from './features/projects/AddNewProject';
-import AddNewTeam from './features/teams/AddNewTeam';
-import AddNewDeliverable from './features/projects/AddNewDeliverable';
+import AddOrEditTask from './features/tasks/AddOrEditTask';
+import AddOrEditProject from './features/projects/AddOrEditProject';
+import AddOrEditTeam from './features/teams/AddOrEditTeam';
+import AddOrEditDeliverable from './features/projects/AddOrEditDeliverable';
 
 function App() {
   return (
@@ -22,14 +24,15 @@ function App() {
           
           <Route path='/mytasks'>
             <Route index element={<Tasks />}/>
-            <Route path="/mytasks/add" element={<AddNewTask />}/>
+            <Route path=":taskId" element={<SingleTask/>}/>
+            <Route path="/mytasks/add" element={<AddOrEditTask />}/>
           </Route>
 
           <Route path='/myprojects'>
               <Route index element={<Projects />}/>
               <Route path=":projectId" element={<SingleProject/>}/>
-              <Route path="/myprojects/add" element={<AddNewProject />}/>
-              <Route path=":projectId/add" element={<AddNewDeliverable />}/>
+              <Route path=":projectId/add" element={<AddOrEditDeliverable />}/>
+              <Route path="/myprojects/add" element={<AddOrEditProject />}/>
           </Route>
 
           <Route path='/calender' element={<Calender />}/>
@@ -37,7 +40,7 @@ function App() {
           <Route path='/teams'>
               <Route index element={<Teams />}/>
               <Route path=":teamId" element={<SingleTeam/>}/>
-              <Route path="/teams/add" element={<AddNewTeam />}/>
+              <Route path="/teams/add" element={<AddOrEditTeam />}/>
           </Route>
 
 

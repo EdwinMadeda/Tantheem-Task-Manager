@@ -1,9 +1,11 @@
 import { useSelector } from "react-redux";
 import ToActionBtn from "../../reusableComponents/ToActionBtn";
 import { selectLatestTask } from "./taskSlice";
+import CustomLink from "../../reusableComponents/CustomLink";
 
 const LatestTask = () => {
   const latestTask = useSelector(selectLatestTask);
+
 
   return (
     <div className="Latest Task">
@@ -11,7 +13,11 @@ const LatestTask = () => {
        <div className="Item">
           <div className="Content">
             <p>
-                <span className="Title">{latestTask.name}</span>
+                <CustomLink
+                  className="Title"
+                  to={`/mytasks/${latestTask.id}`}>
+                    {latestTask.name}
+                </CustomLink>
                 <span className="Duedate">Due on 22/05/2022</span>
             </p>
             <p className="Description">Do ABCD</p>

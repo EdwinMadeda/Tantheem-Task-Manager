@@ -1,0 +1,179 @@
+/***************************************SINGLE PAGE STYLES*****************************************/
+/*
+   Affects: SingleProjectPage, SingleTaskPage,
+*/
+
+
+.SinglePage__Container.top{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 30px;
+    min-height: 30vh;
+}
+
+
+.SinglePage__Container.top .Page__BackBtn{
+	background: var(--primary__Color2);
+	border-radius: 0 5px 5px 0;
+	z-index: 4;
+}
+
+.SinglePage__Container.top .Progress-bar__Wrapper{
+	flex: unset;
+}
+
+.SinglePage__Container.top .Progress-bar__Bar{
+    width: 150px;
+}
+
+.top .SinglePage__InnerContainer{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.SinglePage__Title{
+    font-weight: bold;
+    font-size: 20px;
+    text-align: initial;
+	margin: 0 10px 0 20px;
+	z-index: 4;
+    line-height: 30px;
+}
+
+.SinglePage__Description{
+    margin-bottom: 20px;
+    line-height: 25px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #333;
+    width: 100%;
+    min-height: 20vh;
+    text-align: initial;
+}
+
+.SinglePage__Description h3{
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.SinglePage__Ctrl-Btns{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex: 1;
+}
+
+.SinglePage__Ctrl-Btn{
+    margin-left: 20px;
+    font-size: 20px;
+}
+
+.SinglePage__MemberShare__Btns{
+    display: flex;
+    padding: 20px 0;
+}
+
+.SinglePage__MemberShare__Btn{
+  display: flex;
+  padding: 8px 10px;
+  border-radius: 15px;
+  margin-right: 25px;
+  border: none;
+  outline: none;
+  background: #fff;
+  box-shadow: 1px 1px  1px #909090;
+  font-weight: bold;
+}
+
+.SinglePage__MemberShare__Btn .icon{
+    margin-right: 5px;
+}
+
+.SinglePage__MemberShare__Btn:hover{
+    cursor: pointer;
+}
+
+.SinglePage__MemberShare__Btn:active{
+    transform: scale(.98);
+}
+
+.SinglePage__Container.bottom{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    column-gap: 20px;
+    row-gap: 20px;
+    flex-wrap: wrap;
+}
+
+.bottom .SinglePage__InnerContainer{
+    flex: 1;
+    min-width: 300px;
+    max-width: 600px;
+}
+
+.SinglePage__Sub-item__Snippet{
+    background: var(--primary__Color);
+    margin: 20px 0;
+    padding: 20px 15px;
+    border-radius: 5px;
+}
+
+.SinglePage__Sub-item__Items{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.SinglePage__Sub-item__Item{
+   background: var(--secondary__Color2);
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   line-height: 25px;
+   margin-bottom: 20px;
+   padding: 10px 6px;
+   border-radius: 10px;
+}
+
+.SinglePage__Sub-item__ItemName{
+    flex: 1;
+    text-align: initial;
+    margin-left: 15px;
+}
+
+
+@media only screen and (max-width: 800px){
+    body{
+        background: green;
+    }
+
+    .SinglePage__InnerContainer.Title__Container{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas: 
+                            'SinglePage__ItemName SinglePage__ItemName'
+                            'Progress-bar__Wrapper SinglePage__Ctrl-Btns';
+      
+    }
+
+    .SinglePage__ItemName{
+        grid-area: SinglePage__ItemName;
+        display: block;
+    }
+
+    .Progress-bar__Wrapper{
+        grid-area: Progress-bar__Wrapper;
+        justify-content: left;
+    }
+
+    .SinglePage__Ctrl-Btns{
+        grid-area: SinglePage__Ctrl-Btns;
+    }
+}

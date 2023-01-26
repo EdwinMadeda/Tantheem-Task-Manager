@@ -1,5 +1,8 @@
-import { PRIORITY } from "./taskSlice";
 import { useReducer } from "react";
+import { STATUS, PRIORITY, selectProjectById } from "./projectsSlice";
+
+import useAddOrEdit from "../../customHooks/useAddOrEdit";
+
 import Form, { InputText,
                InputTextArea,
                InputBell,
@@ -8,15 +11,14 @@ import Form, { InputText,
                InputSubmit} from "../../reusableComponents/Form";
 
 const initialState = {
-  name : '',
-  description : '',
-  teamId: undefined,
-  startDate : '',
-  endDate : '',
-  reminder : false,
-  isComplete : false,
-  priority : PRIORITY.HIGH,
-
+        name : '',
+        description : '',
+        status : STATUS.TO_DO,
+        priority : undefined, 
+        teamId : undefined, 
+        startDate: '',
+        endDate: '',
+        deliverables : [],
 };
 
 const init = () => initialState;
@@ -25,57 +27,61 @@ const reducer = (state, action) => {
 
    switch(action.type){
       case 'init' : init();
-      case 'setValue': return {...state, ...action.payload};
+      case 'setProjectValue': return {...state, ...action.payload};
       default: return state;
    }
 }
 
-const AddNewTask = () => {
+const AddOrEditProject = () => {
   const [state, dispatch] = useReducer(reducer, initialState, init);
+  const setProjectValue = (payload) => {
+        dispatch({ type: 'setProjectValue', payload });
+  }  
 
-  const setValue = (payload) => {
-      dispatch({ type: 'setValue', payload });
-  }
+  const mode = useAddOrEdit('projectId', selectProjectById, setProjectValue);
 
   const submit = () =>{
      console.log(state);
   }
 
   return (
-    <section className='AddNewTask AddNewItem main'>
-        <Form className='AddNewTask__Form'
-              title='Add New Task'>
+    <section className='AddOrEditProject AddNewItem main'>
+        <Form className='AddOrEditProject__Form'
+                title='Project'
+                mode={mode}>
+                
            <InputText
               label='Name'
               id='name'
               value={state.name}
-              onChange={inputVal => setValue({name : inputVal})}
+              onChange={inputVal => setProjectValue({name : inputVal})}
             />
+
            <InputTextArea 
                label='Description'
                id='description'
                value={state.description}
-               onChange={inputVal => setValue({description : inputVal})}
+               onChange={inputVal => setProjectValue({description : inputVal})}
            />
 
           <InputDate
                label='Start date'
                id='due-date'
                value={state.startDate}
-               onChange={inputVal => setValue({dueDate : inputVal})}
+               onChange={inputVal => setProjectValue({dueDate : inputVal})}
            />
 
            <InputDate
                label='End date'
                id='due-date'
                value={state.endDate}
-               onChange={inputVal => setValue({dueDate : inputVal})}
+               onChange={inputVal => setProjectValue({dueDate : inputVal})}
            />
 
            <InputBell 
                label='Set Reminder'
                value={state.reminder}
-               onChange={inputVal => setValue({reminder : inputVal})}
+               onChange={inputVal => setProjectValue({reminder : inputVal})}
            />
            
            <InputRadio
@@ -89,7 +95,7 @@ const AddNewTask = () => {
            />
 
            <InputSubmit 
-              label='Add Task'
+              label='Add Project'
               onClick={submit}
             />
         </Form>
@@ -97,4 +103,4 @@ const AddNewTask = () => {
   )
 }
 
-export default AddNewTask
+export default AddOrEditProject

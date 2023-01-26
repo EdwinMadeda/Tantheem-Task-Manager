@@ -1,8 +1,19 @@
+import { Link } from "react-router-dom";
+
+import { useSelector, useDispatch } from "react-redux";
+import { selectViewMoreTasksToDo, setViewMoreTasksToDo } from "../viewMore/viewMoreSlice";
+
 import Bell from "../../reusableComponents/Bell";
 import CheckBox from "../../reusableComponents/CheckBox";
-import ViewMoreBtn from "./ViewMoreBtn";
+import ViewMoreBtn from "../../reusableComponents/ViewMoreBtn";
+import CustomLink from "../../reusableComponents/CustomLink";
 
-const ToDoSnippet = ({tasks, viewMore=false, setViewMore=false}) => { 
+const ToDoSnippet = ({tasks}) => { 
+
+  const viewMore = useSelector(selectViewMoreTasksToDo);
+
+  const dispatch = useDispatch();
+  const setViewMore = viewMore => dispatch(setViewMoreTasksToDo(viewMore));
 
   return (
     <div className={`ToDo Tasks__Snippet ${viewMore? 'viewMore':''}`}>
@@ -13,7 +24,11 @@ const ToDoSnippet = ({tasks, viewMore=false, setViewMore=false}) => {
                 key={task.id}>
                 <CheckBox checked={task.isComplete}/>
                 <div className="Task__Data">
-                  <span className="Task__Name">{task.name.substring(0, 20)}...</span>
+                  <CustomLink
+                      to={`/mytasks/${task.id}`}
+                      className="Task__Name">
+                    {task.name.substring(0, 20)}...
+                  </CustomLink>
                   <span>{'Due Today'}</span>
                   {task?.team &&  <span>By {task.team}</span>}
                 </div>
@@ -22,10 +37,12 @@ const ToDoSnippet = ({tasks, viewMore=false, setViewMore=false}) => {
           }
         </ul>
 
-        { Boolean(setViewMore) && 
-         <ViewMoreBtn viewMore={viewMore} setViewMore={setViewMore} />}
-       
+        <ViewMoreBtn 
+          viewMore={viewMore} 
+          setViewMore={setViewMore} />
+
     </div>
+    
   )
   
 }

@@ -17,18 +17,16 @@ const Teams = () => {
           <TeamsSnippet teams={teams}/>
        </article>
 
-       <div className="Teams__Container">
-            <div className="Teams__InnerContainer top">
+       <div className="Teams__Container top">
               <div className="Teams__AddBtn-Container AddBtn-Container">
                 <AddBtn label="New Team" path="/teams/add"/>
               </div>
-            </div>
+        </div>
             
-            <div className="Teams__InnerContainer bottom">
-            <ToDoTeamTasks tasks={teamTasks}/>
-            </div>
-       </div>
-       
+        <div className="Teams__Container bottom">
+        <ToDoTeamTasks tasks={teamTasks}/>
+        </div>
+
     </section>
   )
 }

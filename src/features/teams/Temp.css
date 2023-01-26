@@ -1,0 +1,125 @@
+.Teams{
+    display: grid;
+    grid-template-columns: minmax(280px, auto) 1fr;
+    grid-template-rows: 1fr;
+    grid-gap: 30px;
+}
+.Teams__Sidebar{
+   
+}
+
+.Teams__Container{
+    margin-top: 70px;
+}
+
+.Teams__InnerContainer.top{
+    min-height: 20vh;
+}
+
+.Teams__Snippet{
+    margin-top: 70px;
+    background: #fff;
+    border-radius: 15px;
+    padding: 20px 10px;
+    box-shadow: 2px 2px  2px #858585;
+    height: 75vh;
+    text-align: initial;
+}
+
+.Teams__Snippet-title{
+    font-weight: bold;
+}
+
+.Teams__Snippet-items{
+    padding: 20px 0;
+}
+
+.Teams__Snippet-item{
+    background: var(--primary__Color);
+    margin-bottom: 10px;
+    line-height: 20px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.Teams__Tasks__Data{
+    font-size: 12px;
+    font-weight: bold;
+    color: #474747;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 10px;
+    margin: 10px 0;
+}
+
+.Teams__Tasks__Data span{
+    background: #fff;
+    border-radius: 5px;
+    padding: 0 5px;
+}
+
+.TeamTasks__Snippet-title{
+    padding: 10px 0;
+    text-align: initial;
+}
+
+.TeamTasks__Data{
+    flex: 1;
+    text-align: initial;
+    padding: 0 10px;
+    line-height: 20px;
+    display: grid;
+    grid-template-columns: 1fr minmax(100px, auto) minmax(100px, auto) minmax(100px, auto);
+    grid-gap: 10px;
+    justify-items: left;
+    padding-left: 25px;
+}
+.TeamTasks__Data span{
+    color: #474747;
+    font-size: 13px;
+}
+
+.TeamsTasks__Name{
+    font-size: 15px!important;
+    font-weight: bold;
+    color: #333;
+}
+
+@media only screen and (max-width: 900px) {
+    .Teams{
+        display: block;
+    }
+    
+    .Teams__Container{
+        margin-top: unset;
+    }
+
+    .Teams__InnerContainer.top{
+        max-height: 10vh;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .Teams__Snippet{
+        display: block;
+        margin-top: 50px;
+        padding: 20px;
+    }
+}
+
+@media only screen and (max-width: 700px){
+
+    .Teams__Snippet{
+        max-width: 280px;
+        padding: 20px 10px;
+    }
+
+    .TeamTasks__Data{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-left: 8%;
+    }
+}

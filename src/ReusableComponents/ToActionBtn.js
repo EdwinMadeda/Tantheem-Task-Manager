@@ -1,12 +1,12 @@
-import { Link } from "react-router-dom"
+import CustomLink from "./CustomLink"
 
 const ToActionBtn = ({label, linkTo='/'}) => {
     return (
-      <Link
+      <CustomLink
           className="toActionBtn btn"
           to={linkTo}>
               {label}
-      </Link>
+      </CustomLink>
     )
   }
   

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import CustomLink from "../../reusableComponents/CustomLink";
 
 const AppLink = ({item, dispatch, setIsMobile})=>{
     const onClick = () =>{
@@ -9,7 +9,7 @@ const AppLink = ({item, dispatch, setIsMobile})=>{
     return (
         <li className={`App-link ${statusActive}`} 
             onClick={onClick}>
-                <Link to={item.path}>{item.label}</Link>
+                <CustomLink to={item.path}>{item.label}</CustomLink>
         </li>
     )
 }

@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
 import ProgressBar from '../../reusableComponents/ProgressBar';
 import { useSelector } from 'react-redux';
 import { selectOneProject } from './projectsSlice';
+import CustomLink from '../../reusableComponents/CustomLink';
 
 const PreviousProjectsSnippet = ({projects}) => {
 
@@ -24,9 +24,9 @@ const PreviousProjectsSnippet = ({projects}) => {
               <li className="Projects__Snippet-item Snippet__Type3-Item" 
                   key={project.id}>
                        <p className="Projects__Item-name Snippet__Type3-ItemName">
-                          <Link to={`/myprojects/${project.id}`}>
+                          <CustomLink to={`/myprojects/${project.id}`}>
                              {`${project.name.substring(0,15)}...`}
-                          </Link>
+                          </CustomLink>
                         </p>
                         <DraftProgressBar projectId={project.id}/>
                   </li>

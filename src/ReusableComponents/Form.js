@@ -1,20 +1,25 @@
 import CheckBox from "./CheckBox";
 import Bell from "./Bell";
 import BackBtn from "./BackBtn";
-import { useLocation } from "react-router";
+import usePrevLocation from "../customHooks/usePrevLocation";
+
 
 const Form = (props) => {
    
-    const location = useLocation();
-    const prevLocation = location.state.prevLocation;
+   
+    const formTitles = {
+        view : 'View ',
+        edit : 'Edit ',
+        add : 'Add New ',
+    }
 
     return (
         <form className={`form ${props.className}`} onSubmit={e => e.preventDefault()}>
             <div className="Form__TopContainer">
-                 <BackBtn path={prevLocation}/>
+                 <BackBtn />
                  <h2 className="form-title">
                     <p className="form-title__ParentName">{props.parentName}</p>
-                    <p className="form-title__Text">{props.title}</p>
+                    <p className="form-title__Text">{(formTitles[props.mode] ?? '') + props.title}</p>
                 </h2>
             </div>
             {props.children}
@@ -22,7 +27,7 @@ const Form = (props) => {
     )
 };
 
-export const InputText = ({label, id, placeholder="", value, onChange}) => {
+export const InputText = ({label, id, placeholder="", value, onChange , disabled = false}) => {
     return (
         <div className='form-control'>
             <label htmlFor={id}>{label}</label>
@@ -32,12 +37,13 @@ export const InputText = ({label, id, placeholder="", value, onChange}) => {
                 name={id}
                 placeholder={placeholder} 
                 value={value} 
-                onChange={e => onChange(e.target.value)}/>
+                onChange={e => onChange(e.target.value)}
+                disabled={disabled}/>
         </div>
     )
 }
 
-export const InputTextArea = ({label, id, value, onChange}) => {
+export const InputTextArea = ({label, id, value, onChange, disabled = false}) => {
     return (
         <div className='form-control'>
             <label htmlFor={id}>{label}</label>
@@ -47,12 +53,13 @@ export const InputTextArea = ({label, id, value, onChange}) => {
                 cols="30" 
                 rows="5"
                 defaultValue={value}
-                onChange={e => onChange(e.target.value)} />
+                onChange={e => onChange(e.target.value)}
+                disabled={disabled} />
         </div>
     )
 }
 
-export const InputDate = ({label, id, placeholder="", value, onChange})=>{
+export const InputDate = ({label, id, placeholder="", value, onChange, disabled = false})=>{
     return (
         <div className='form-control'>
             <label htmlFor="add_dueDate">{label}</label>
@@ -61,30 +68,33 @@ export const InputDate = ({label, id, placeholder="", value, onChange})=>{
                 id={id} 
                 placeholder={placeholder} 
                 value={value} 
-                onChange={e => onChange(e.target.value)}/>
+                onChange={e => onChange(e.target.value)}
+                disabled={disabled}/>
         </div>
     )
 }
 
-export const InputCheckBox = ({label, value, onChange})=>{
+export const InputCheckBox = ({label, value, onChange, disabled = false})=>{
     return (
         <div className='form-control-check'>
             <label htmlFor="add_reminder">{label}</label>
-            <CheckBox checked={value} onClick={inputVal => onChange(inputVal)}/>
+            <CheckBox checked={value} onClick={inputVal => onChange(inputVal)} disabled={disabled}/>
         </div>
     )
 }
 
-export const InputBell = ({label, value, onChange})=>{
+export const InputBell = ({label, value, onChange, disabled = false})=>{
+
     return (
         <div className='form-control-check '>
             <p className="label__title">{label}</p>
-            <Bell status={value} onClick={inputVal => onChange(inputVal)}/>
+            <Bell status={value} onClick={inputVal => onChange(inputVal)} disabled={disabled}/>
+            <p style={{marginLeft: '6px'}}>{value? 'ON':'OFF'}</p>
         </div>
     )
 }
 
-export const InputRadio = ({label, id, options = [] , defaultValue, onChange}) => {
+export const InputRadio = ({label, id, options = [] , defaultValue, onChange, disabled = false}) => {
 
     const RadioContainer = ({option}) =>{
         return (
@@ -97,7 +107,9 @@ export const InputRadio = ({label, id, options = [] , defaultValue, onChange}) =
                     id={id + option?.name} 
                     value={option.value}
                     defaultChecked={defaultValue === option.value}
-                    onChange={e => onChange(e.target.value)}/>
+                    onChange={e => onChange(e.target.value)}
+                    disabled={disabled}/>
+
                 <span className="checkmark"></span>
              </label>
                 
@@ -117,10 +129,15 @@ export const InputRadio = ({label, id, options = [] , defaultValue, onChange}) =
     )
 }
 
-export const InputSubmit = ({label, onClick})=>{
+export const InputSubmit = ({label, onClick, disabled=false})=>{
     return (
         <div className="form-control submit-btn__Wrapper">
-            <input className="btn submit-btn" type="button" value={label} onClick={onClick}/>
+            {!disabled && 
+                <input 
+                    className="btn submit-btn" 
+                    type="button" value={label} 
+                    onClick={onClick} />
+            }
         </div>
     );
 }

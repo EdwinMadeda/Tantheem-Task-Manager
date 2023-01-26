@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import CustomLink from '../../reusableComponents/CustomLink';
 import OrderByBtnsWrapper from '../../reusableComponents/OrderByBtnsWrapper';
 
 const ToDoProjectsSnippet = ({projects}) => {
@@ -19,9 +20,9 @@ const ToDoProjectsSnippet = ({projects}) => {
                   key={project.id}>
                   <div className="Projects__Data">
                     <span className='Projects__Name'>
-                        <Link to={`/myprojects/${project.id}`}>
+                        <CustomLink to={`/myprojects/${project.id}`}>
                             {`${project.name.substring(0, 10)}...`}
-                        </Link>
+                        </CustomLink>
                     </span>
                     <span>{'Due Today'}</span>
                     <span className="Projects__Priority">{`${project.priority} Priority`}</span>

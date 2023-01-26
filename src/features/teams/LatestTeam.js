@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import CustomLink from "../../reusableComponents/CustomLink";
 import ToActionBtn from "../../reusableComponents/ToActionBtn";
 import { selectLatestTeam } from "./teamsSlice";
 
@@ -10,9 +11,9 @@ const LatestTeam = () => {
        <ToActionBtn label="Teams" linkTo="/teams"/>
        <div className="Item">
           <div className="Content">
-              <p>
+              <CustomLink to={`/teams/${latestTeam.id}`}>
                   <span className="Title">{latestTeam.name}</span>
-              </p>
+              </CustomLink>
               <p className="Description">Do ABCD</p>
           </div>
           <p className="Label">Latest Team</p>

@@ -4,7 +4,7 @@ import { selectOneTeam } from "./teamsSlice";
 import { selectProjectsByTeam } from "../projects/projectsSlice";
 import { selectTasksByTeam } from "../tasks/taskSlice";
 import BackBtn from "../../reusableComponents/BackBtn";
-import SingleTeamBtns from "../../reusableComponents/SingleTeamBtns";
+import MemberShareBtns from "../../reusableComponents/MemberShareBtns";
 import team_bgImage from "../../assets/images/team_bgImage.jpg";
 import PreviousProjectsSnippet from "../projects/PreviousProjectsSnippet";
 import TodoTeamTasks from "../teams/ToDoTeamTasks";
@@ -30,7 +30,7 @@ const SingleTeam = () => {
         </div>
     </div>
     <div className="SingleTeam__Container bottom">
-        <SingleTeamBtns members={[]}/>
+        <MemberShareBtns members={[]}/>
         <div className="SingleTeam__InnerContainer">
             <PreviousProjectsSnippet projects={selectProjects}/>
             <TodoTeamTasks tasks={selectTasks} />

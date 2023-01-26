@@ -1,11 +1,19 @@
-import { useSelector } from "react-redux";
+import { useState } from "react";
+
+import { useSelector, useDispatch } from "react-redux";
+import { selectViewMoreTeamsToDo,  setViewMoreTeamsToDo } from "../viewMore/viewMoreSlice";
+
 import { selectOneTeam } from "./teamsSlice";
 import OrderByBtnsWrapper from "../../reusableComponents/OrderByBtnsWrapper";
 import CheckBox from "../../reusableComponents/CheckBox";
+import ViewMoreBtn from "../../reusableComponents/ViewMoreBtn";
 
 
 const TodoTeamTasks = ({tasks}) => {
 
+  const viewMore = useSelector(selectViewMoreTeamsToDo);
+  const dispatch = useDispatch();
+  const setViewMore = viewMore => dispatch(setViewMoreTeamsToDo(viewMore))
 
   const TeamsTaskTeam = ({teamId})=>{
   
@@ -17,8 +25,10 @@ const TodoTeamTasks = ({tasks}) => {
       </span>);
   }
 
+  
+
   return (
-    <div className='ToDoTeamTasks TeamTasks__Snippet'>
+    <div className={`ToDoTeamTasks TeamTasks__Snippet ${viewMore? 'viewMore':''}`}>
     <p className='TeamTasks__Snippet-title'>TO DO Tasks</p>
     <div className="TeamTasks__OrderByBtns">
           <OrderByBtnsWrapper 
@@ -42,6 +52,8 @@ const TodoTeamTasks = ({tasks}) => {
           </li>))
         }
       </ul>
+
+      <ViewMoreBtn viewMore={viewMore} setViewMore={setViewMore} />
 </div>
   )
 }

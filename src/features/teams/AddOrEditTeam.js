@@ -21,7 +21,7 @@ const reducer = (state, action) => {
    }
 }
 
-const AddNewTeam = () => {
+const AddOrEditTeam = () => {
   const [state, dispatch] = useReducer(reducer, initialState, init);
 
   const setValue = (payload) => {
@@ -33,8 +33,8 @@ const AddNewTeam = () => {
   }
 
   return (
-    <section className='AddNewTeam AddNewItem main'>
-        <Form className='AddNewTeam__Form'
+    <section className='AddOrEditTeam AddNewItem main'>
+        <Form className='AddOrEditTeam__Form'
               title='Add New Team'>
                 
            <InputText
@@ -59,4 +59,4 @@ const AddNewTeam = () => {
   )
 }
 
-export default AddNewTeam
+export default AddOrEditTeam

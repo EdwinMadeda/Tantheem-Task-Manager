@@ -1,5 +1,6 @@
+import { PRIORITY } from "./taskSlice";
 import { useReducer } from "react";
-import { STATUS, PRIORITY } from "./projectsSlice";
+import { selectTaskById } from "./taskSlice";
 
 import Form, { InputText,
                InputTextArea,
@@ -7,86 +8,83 @@ import Form, { InputText,
                InputRadio,
                InputDate,
                InputSubmit} from "../../reusableComponents/Form";
+import useAddOrEdit from "../../customHooks/useAddOrEdit";
 
 const initialState = {
-    project : {
-        name : '',
-        description : '',
-        status : STATUS.TO_DO,
-        priority : undefined, 
-        teamId : undefined, 
-        startDate: '',
-        endDate: '',
-        deliverables : [],
-    },
-    deliverable : {
-        name: '',
-        status: STATUS.TO_DO,
-        description: '',
-        priority : undefined,
-        startDate: '',
-        endDate: '',
-    }
+  name : '',
+  description : '',
+  teamId: undefined,
+  startDate : '',
+  endDate : '',
+  reminder : false,
+  isComplete : false,
+  priority : PRIORITY.HIGH,
+
 };
 
 const init = () => initialState;
-
 const reducer = (state, action) => {
 
    switch(action.type){
       case 'init' : init();
-      case 'setProjectValue': return {...state, project : {...state.project, ...action.payload}};
+      case 'setValue': return {...state, ...action.payload};
       default: return state;
    }
 }
 
-const AddNewProject = () => {
+const AddOrEditTask = () => {
   const [state, dispatch] = useReducer(reducer, initialState, init);
-
-  const setProjectValue = (payload) => {
-      dispatch({ type: 'setProjectValue', payload });
+  const setValue = (payload) => {
+    dispatch({ type: 'setValue', payload });
   }
+  const mode = useAddOrEdit('taskId', selectTaskById, setValue);
 
   const submit = () =>{
      console.log(state);
   }
 
   return (
-    <section className='AddNewProject AddNewItem main'>
-        <Form className='AddNewProject__Form'
-              title='Add New Project'>
+    <section className='AddOrEditTask AddNewItem main'>
+        <Form className='AddOrEditTask__Form'
+              title='Task'
+              mode={mode}>
                 
            <InputText
               label='Name'
               id='name'
               value={state.name}
-              onChange={inputVal => setProjectValue({name : inputVal})}
+              onChange={inputVal => setValue({name : inputVal})}
+              disabled={mode === 'view'}
             />
            <InputTextArea 
                label='Description'
                id='description'
                value={state.description}
-               onChange={inputVal => setProjectValue({description : inputVal})}
+               onChange={inputVal => setValue({description : inputVal})}
+               disabled={mode === 'view'}
            />
 
           <InputDate
                label='Start date'
                id='due-date'
                value={state.startDate}
-               onChange={inputVal => setProjectValue({dueDate : inputVal})}
+               onChange={inputVal => setValue({dueDate : inputVal})}
+               disabled={mode === 'view'}
            />
 
            <InputDate
                label='End date'
                id='due-date'
                value={state.endDate}
-               onChange={inputVal => setProjectValue({dueDate : inputVal})}
+               onChange={inputVal => setValue({dueDate : inputVal})}
+               disabled={mode === 'view'}
            />
 
            <InputBell 
                label='Set Reminder'
                value={state.reminder}
-               onChange={inputVal => setProjectValue({reminder : inputVal})}
+               onChange={inputVal => setValue({reminder : inputVal})}
+               disabled={mode === 'view'}
            />
            
            <InputRadio
@@ -97,15 +95,17 @@ const AddNewProject = () => {
                 {name: 'Medium', value: PRIORITY.MEDIUM},
                 {name: 'High', value: PRIORITY.HIGH},
               ]}
+              disabled={mode === 'view'}
            />
 
            <InputSubmit 
-              label='Add Project'
+              label='Add Task'
               onClick={submit}
+              disabled={mode === 'view'}
             />
         </Form>
     </section>
   )
 }
 
-export default AddNewProject
+export default AddOrEditTask

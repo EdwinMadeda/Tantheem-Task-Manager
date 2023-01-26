@@ -1,8 +1,19 @@
+import { useState} from "react";
+
+import { useSelector, useDispatch } from "react-redux";
+import { selectViewMorePreviousWork, setViewMorePreviousWork } from "../viewMore/viewMoreSlice";
+
 import CheckBox from "../../reusableComponents/CheckBox";
-import ViewMoreBtn from "./ViewMoreBtn";
+import ViewMoreBtn from "../../reusableComponents/ViewMoreBtn";
+import CustomLink from "../../reusableComponents/CustomLink";
 
-const PreviousWorkSnippet = ({tasks, viewMore, setViewMore}) => {
+const PreviousWorkSnippet = ({tasks}) => {
 
+  const viewMore = useSelector(selectViewMorePreviousWork);
+
+  const dispatch = useDispatch();
+  const setViewMore = viewMore => dispatch(setViewMorePreviousWork(viewMore));
+    
   return (
     <div className={`PreviousWork Tasks__Snippet ${viewMore? 'viewMore':''}`}>
         <p className="Tasks__Snippet-title">previous Work</p>
@@ -11,14 +22,16 @@ const PreviousWorkSnippet = ({tasks, viewMore, setViewMore}) => {
             <li className="Tasks__Snippet-item Snippet__Type1-Item"
                 key={task.id}>
                 <CheckBox checked={task.isComplete}/>
-                <p className="Task__Item-name Snippet__Type1-ItemName">{task.name.substring(0, 20)}...</p>
+                <CustomLink
+                    to={`/mytasks/${task.id}`}
+                    className="Task__ItemName Snippet__Type1-ItemName">
+                  {task.name.substring(0, 20)}...
+                </CustomLink>
             </li>))
           }
         </ul>
-        <ViewMoreBtn 
-            viewMore={viewMore} 
-            setViewMore={setViewMore} 
-          />
+
+        <ViewMoreBtn viewMore={viewMore} setViewMore={setViewMore} />
         
     </div>
   )

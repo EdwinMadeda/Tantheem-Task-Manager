@@ -1,16 +1,14 @@
 import { BsPlus } from "react-icons/bs";
-import { Link, useLocation } from "react-router-dom";
+import CustomLink from "./CustomLink";
 
 const AddBtn = ({label, path}) => {
-   const location = useLocation();
-   
+
   return (
-    <Link 
-        className="addBtn btn" to={path} 
-        state={{prevLocation : location.pathname}}>
+    <CustomLink
+        className="addBtn btn" to={path}>
                 <BsPlus className="icon"/>
                 <p className="label">{label}</p>
-    </Link>
+    </CustomLink>
   )
 }
 

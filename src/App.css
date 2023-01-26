@@ -143,6 +143,8 @@ table {
 	align-items: center;
 	font-weight: bold;
 	text-decoration: none;
+	line-height: 22px;
+	text-align: initial;
 }
 
 .addBtn:hover{
@@ -198,6 +200,42 @@ table {
 .orderByBtn:hover,
 .toActionBtn:hover{
 	cursor: pointer;
+}
+
+.viewMore{
+    overflow: unset!important;
+    max-height: unset!important;
+}
+
+.ViewmoreBtn-Wrapper{
+    position: absolute;
+    bottom: 0;
+    background-image: linear-gradient(to bottom, #ffffff1f, #fff);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 40px;
+}
+
+.ViewmoreBtn-Wrapper.viewMore{
+    position: relative;
+    padding-top: unset;
+    background: transparent;
+}
+
+.ViewmoreBtn{
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 20%;
 }
 
 .checkBox__label{
@@ -284,7 +322,7 @@ table {
 }
 
 .bellIcon:active{
-	transform: scale(.88);
+	transform: scale(.78);
 }
 
 .bellIcon .fill{
@@ -292,15 +330,16 @@ table {
 	color: #333;
 }
 
- .bellIcon:hover{
-	cursor: pointer;
-	animation-name: shake;
-	animation-timing-function: ease-in-out;
-	animation-duration: .5s;
-	animation-iteration-count: 2;
-	animation-delay: .5s;
-  }
-  
+.bellIcon:hover{
+cursor: pointer;
+animation-name: shake;
+animation-timing-function: ease-in-out;
+animation-duration: .5s;
+animation-iteration-count: 2;
+animation-delay: .5s;
+}
+
+
   @keyframes shake {
 	0%,
 	100% {
@@ -577,70 +616,3 @@ section.main{
     text-align: initial;
 }
 
-/***************************************SINGLE PAGE STYLES*****************************************/
-
-.SinglePage__Container.top .Progress-bar__Wrapper{
-	flex: unset;
-}
-
-.SinglePage__Container.top .Progress-bar__Bar{
-    width: 150px;
-}
-
-.SinglePage__Container.top{
-    min-height: 30vh;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-}
-
-.SinglePage__Container.top .Page__BackBtn{
-	background: var(--primary__Color2);
-	border-radius: 0 5px 5px 0;
-	z-index: 4;
-}
-
-.top .SinglePage__InnerContainer{
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-top: 30px;
-}
-
-.SinglePage__Title{
-    font-weight: bold;
-    font-size: 18px;
-    text-align: initial;
-	margin: 0 10px 0 20px;
-	z-index: 4;
-}
-
-.SingleTeam__Btns{
-    display: flex;
-    padding: 20px 0;
-}
-
-.SingleTeam__Btn{
-  display: flex;
-  padding: 8px 10px;
-  border-radius: 15px;
-  margin-right: 25px;
-  border: none;
-  outline: none;
-  background: #fff;
-  box-shadow: 1px 1px  1px #909090;
-  font-weight: bold;
-}
-
-.SingleTeam__Btn .icon{
-    margin-right: 5px;
-}
-
-.SingleTeam__Btn:hover{
-    cursor: pointer;
-}
-
-.SingleTeam__Btn:active{
-    transform: scale(.98);
-}

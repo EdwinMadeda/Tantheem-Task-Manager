@@ -1,11 +1,11 @@
 import { useState, useReducer, useRef} from "react";
 import useTargetAction from "../../customHooks/useTargetAction";
-import { Link } from "react-router-dom";
 import { BsSearch} from 'react-icons/bs';
 import Bell from "../../reusableComponents/Bell";
 import logo from "../../assets/images/logo.svg";
 import AppLink from "./AppLink";
 import './Header.css';
+import CustomLink from "../../reusableComponents/CustomLink";
 
 const initialState = {
     Links : [
@@ -110,9 +110,9 @@ const Header = () => {
                     <Bell className="App-notifications__bellIcon" onClick={()=>{}}/>
                 </div>  
 
-                <Link to={'/'}>
+                <CustomLink to={'/'}>
                     <img className="App-logo" src={logo} alt="Logo" />
-                </Link>
+                </CustomLink>
             </div>
         </div>
     </header>
