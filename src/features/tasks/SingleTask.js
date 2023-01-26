@@ -10,8 +10,8 @@ import { STATUS } from "./taskSlice";
 import EditBtn from "../../reusableComponents/EditBtn";
 import DeleteBtn from "../../reusableComponents/DeleteBtn";
 
-import "./SingleTask.css";
 import "../../SinglePage.css";
+import "./SingleTask.css";
 
 const SingleTask = () => {
 

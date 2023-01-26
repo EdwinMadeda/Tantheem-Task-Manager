@@ -38,7 +38,7 @@ const AddOrEditProject = () => {
         dispatch({ type: 'setProjectValue', payload });
   }  
 
-  const mode = useAddOrEdit('projectId', selectProjectById, setProjectValue);
+  const { mode } = useAddOrEdit('projectId', selectProjectById, setProjectValue);
 
   const submit = () =>{
      console.log(state);

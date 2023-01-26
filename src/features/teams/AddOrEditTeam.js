@@ -28,7 +28,7 @@ const AddOrEditTeam = () => {
       dispatch({ type: 'setValue', payload });
   }
 
- const mode = useAddOrEdit('teamId', selectTeamById, setValue);
+ const { mode } = useAddOrEdit('teamId', selectTeamById, setValue);
 
   const submit = () =>{
      console.log(state);

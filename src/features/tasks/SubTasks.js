@@ -19,7 +19,7 @@ const subTasks = ({subTasks, taskId, status}) => {
                       key={subTask.id}>
                       <CheckBox checked={false} onChange={()=>{}}/>
                       <p className="subTask__ItemName SinglePage__Sub-item__ItemName">{subTask.name}</p>
-                      <EditBtn onClick={()=>{}}/>
+                      <EditBtn onClick={()=>{}} path={`/mytasks/${taskId}/edit/${subTask.id}`}/>
                 </li>
               ))}
           </ul>

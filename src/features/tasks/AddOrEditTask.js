@@ -37,7 +37,8 @@ const AddOrEditTask = () => {
   const setValue = (payload) => {
     dispatch({ type: 'setValue', payload });
   }
-  const mode = useAddOrEdit('taskId', selectTaskById, setValue);
+
+  const { mode } = useAddOrEdit('taskId', selectTaskById, setValue);
 
   const submit = () =>{
      console.log(state);
@@ -46,7 +47,7 @@ const AddOrEditTask = () => {
   return (
     <section className='AddOrEditTask AddNewItem main'>
         <Form className='AddOrEditTask__Form'
-              title='Task'
+              title={'Task'}
               mode={mode}>
                 
            <InputText
@@ -99,7 +100,7 @@ const AddOrEditTask = () => {
            />
 
            <InputSubmit 
-              label={mode + ' Task'}
+              label={`${mode} Task`}
               onClick={submit}
               disabled={mode === 'View'}
             />

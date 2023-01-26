@@ -31,7 +31,7 @@ const ProjectDeliverables = ({deliverables, status, projectId}) => {
                       key={deliverable.id}>
                       <DotsMenu options={options}/>
                       <p className="SinglePage__Sub-item__ItemName">{deliverable.name}</p>
-                      <EditBtn onClick={()=>{}}/>
+                      <EditBtn path={`/myprojects/${projectId}/edit/${deliverable.id}`}/>
                 </li>
               ))}
           </ul>

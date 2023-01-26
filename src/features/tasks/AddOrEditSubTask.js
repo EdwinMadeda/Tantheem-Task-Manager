@@ -1,86 +1,93 @@
+import { PRIORITY } from "./taskSlice";
 import { useReducer } from "react";
-import { useParams } from "react-router";
-import { useSelector } from "react-redux";
-import { selectOneProject, selectProjectById } from "./projectsSlice";
-import { STATUS, PRIORITY } from "./projectsSlice";
+import { selectTaskById } from "./taskSlice";
 
 import Form, { InputText,
                InputTextArea,
+               InputBell,
                InputRadio,
                InputDate,
                InputSubmit} from "../../reusableComponents/Form";
 import useAddOrEdit from "../../customHooks/useAddOrEdit";
 
 const initialState = {
-    projectId : undefined,
-    deliverable : {
-        name: '',
-        description: '',
-        status: STATUS.TO_DO,
-        priority : undefined,
-        startDate: '',
-        endDate: '',
-    }
+  name : '',
+  description : '',
+  teamId: undefined,
+  startDate : '',
+  endDate : '',
+  reminder : false,
+  isComplete : false,
+  priority : PRIORITY.HIGH,
+
 };
 
 const init = () => initialState;
-
 const reducer = (state, action) => {
 
    switch(action.type){
       case 'init' : init();
-      case 'setDeliverableValue': return {...state, project : {...state.deliverable, ...action.payload}};
+      case 'setValue': return {...state, ...action.payload};
       default: return state;
    }
 }
 
-const AddNewDeliverable = () => {
+const AddOrEditSubTask = () => {
   const [state, dispatch] = useReducer(reducer, initialState, init);
-  const { projectId } = useParams();
-  const { selectProject } = useSelector(state => selectOneProject(state, Number(projectId)));
-  const setDeliverableValue = (payload) => {
-      dispatch({ type: 'setDeliverableValue', payload });
+  const setValue = (payload) => {
+    dispatch({ type: 'setValue', payload });
   }
 
-  const { mode } = useAddOrEdit('delivarableId', selectProjectById, values => ()=>{console.log(values)})
+  const { mode } = useAddOrEdit('taskId', selectTaskById, values =>{console.log(values)});
 
   const submit = () =>{
      console.log(state);
   }
 
   return (
-    <section className='AddNewDeliverable AddNewItem main'>
-        <Form className='AddNewDeliverable__Form'
-              title={`Deliverable`}
+    <section className='AddOrEditSubTask AddNewItem main'>
+        <Form className='AddOrEditSubTask__Form'
+              title={'SubTask'}
               mode={mode}>
                 
            <InputText
               label='Name'
               id='name'
               value={state.name}
-              onChange={inputVal => setDeliverableValue({name : inputVal})}
+              onChange={inputVal => setValue({name : inputVal})}
+              disabled={mode === 'View'}
             />
            <InputTextArea 
                label='Description'
                id='description'
                value={state.description}
-               onChange={inputVal => setDeliverableValue({description : inputVal})}
+               onChange={inputVal => setValue({description : inputVal})}
+               disabled={mode === 'View'}
            />
 
           <InputDate
                label='Start date'
                id='due-date'
                value={state.startDate}
-               onChange={inputVal => setDeliverableValue({dueDate : inputVal})}
+               onChange={inputVal => setValue({dueDate : inputVal})}
+               disabled={mode === 'View'}
            />
 
            <InputDate
                label='End date'
                id='due-date'
                value={state.endDate}
-               onChange={inputVal => setDeliverableValue({dueDate : inputVal})}
+               onChange={inputVal => setValue({dueDate : inputVal})}
+               disabled={mode === 'View'}
            />
-  
+
+           <InputBell 
+               label='Set Reminder'
+               value={state.reminder}
+               onChange={inputVal => setValue({reminder : inputVal})}
+               disabled={mode === 'View'}
+           />
+           
            <InputRadio
               label='Priority'
               id='priority'
@@ -89,15 +96,17 @@ const AddNewDeliverable = () => {
                 {name: 'Medium', value: PRIORITY.MEDIUM},
                 {name: 'High', value: PRIORITY.HIGH},
               ]}
+              disabled={mode === 'View'}
            />
 
            <InputSubmit 
-              label={`${mode} Deliverable`}
+              label={`${mode} SubTask`}
               onClick={submit}
+              disabled={mode === 'View'}
             />
         </Form>
     </section>
   )
 }
 
-export default AddNewDeliverable
+export default AddOrEditSubTask

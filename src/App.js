@@ -12,9 +12,11 @@ import SingleProject from './features/projects/SingleProject';
 import SingleTeam from './features/teams/SingleTeam';
 
 import AddOrEditTask from './features/tasks/AddOrEditTask';
+import AddOrEditSubTask from './features/tasks/AddOrEditSubTask';
 import AddOrEditProject from './features/projects/AddOrEditProject';
 import AddOrEditTeam from './features/teams/AddOrEditTeam';
 import AddOrEditDeliverable from './features/projects/AddOrEditDeliverable';
+
 
 function App() {
   return (
@@ -25,14 +27,18 @@ function App() {
           <Route path='/mytasks'>
             <Route index element={<Tasks />}/>
             <Route path=":taskId" element={<SingleTask/>}/>
+            <Route path=":taskId/add" element={<AddOrEditSubTask />}/>
+            <Route path="/mytasks/:taskId/edit/:subTaskId" element={<AddOrEditSubTask />}/>
             <Route path="/mytasks/add" element={<AddOrEditTask />}/>
             <Route path="/mytasks/edit/:taskId" element={<AddOrEditTask />}/>
+       
           </Route>
 
           <Route path='/myprojects'>
               <Route index element={<Projects />}/>
               <Route path=":projectId" element={<SingleProject/>}/>
               <Route path=":projectId/add" element={<AddOrEditDeliverable />}/>
+              <Route path="/myprojects/:projectId/edit/:deliverableId" element={<AddOrEditDeliverable />}/>
               <Route path="/myprojects/add" element={<AddOrEditProject />}/>
               <Route path="/myprojects/edit/:projectId" element={<AddOrEditProject />}/>
           </Route>

@@ -12,8 +12,8 @@ import TodoTeamTasks from "../teams/ToDoTeamTasks";
 import EditBtn from "../../reusableComponents/EditBtn";
 import DeleteBtn from "../../reusableComponents/DeleteBtn";
 
+import "../../SinglePage.css";
 import "./SingleTeam.css";
-
 
 const SingleTeam = () => {
   const { teamId } = useParams();

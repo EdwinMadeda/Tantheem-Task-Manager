@@ -16,7 +16,8 @@ const useAddOrEdit = (id, selector, setValues) => {
     },[selectItem]);
 
     const { mode } = useSelector(getPrevLocation);
-    return mode;
+
+    return { mode };
 
 }
 

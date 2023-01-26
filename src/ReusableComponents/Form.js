@@ -15,7 +15,6 @@ const Form = (props) => {
             <div className="Form__TopContainer">
                  <BackBtn />
                  <h2 className="form-title">
-                    <p className="form-title__ParentName">{props.parentName}</p>
                     <p className="form-title__Text">{(formTitles[props.mode] ?? '') + props.title}</p>
                 </h2>
             </div>
