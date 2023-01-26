@@ -32,6 +32,6 @@ const teamsSlice = createSlice({
 
 export const selectAllTeams = state => state.teams;
 export const selectLatestTeam = state => state.teams[state.teams.length-1];
-export const selectOneTeam = (state, teamId) => state.teams.find(team => team.id === teamId);
+export const selectTeamById = (state, teamId) => state.teams.find(team => team.id === teamId);
 
 export default teamsSlice.reducer;

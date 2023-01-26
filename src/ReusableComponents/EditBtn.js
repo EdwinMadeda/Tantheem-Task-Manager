@@ -1,8 +1,14 @@
-import { CiEdit } from "react-icons/ci"
+import { CiEdit } from "react-icons/ci";
+import CustomLink from "./CustomLink";
 
-const EditBtn = ({className, onClick}) => {
+const EditBtn = ({className, path}) => {
   return (
-    <CiEdit onClick={onClick} className={`editBtn icon ` + className}/>
+    <CustomLink 
+      className={className} 
+      to={path} 
+      state={{mode : 'Edit'}}>
+        <CiEdit className={`editBtn icon ` + className} title='edit'/>
+    </CustomLink>
   )
 }
 

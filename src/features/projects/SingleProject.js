@@ -24,7 +24,7 @@ const SingleProject = () => {
   return (
     <section className="SinglePage SingleProject main">
         <div className="SinglePage__Container SinglePage__Container top">
-            <BackBtn path="/myprojects"/>
+            <BackBtn />
             <div className="SinglePage__InnerContainer Title__Container">
                 <h2 className="SinglePage__Title SinglePage__ItemName">
                     {selectProject.name}
@@ -34,7 +34,7 @@ const SingleProject = () => {
                     totalItems={totalDeliverables} 
                 />
                 <div className="SinglePage__Ctrl-Btns">
-                    <EditBtn className="SinglePage__Ctrl-Btn"/>
+                    <EditBtn className="SinglePage__Ctrl-Btn" path={`/myprojects/edit/${selectProject.id}`}/>
                     <DeleteBtn className="SinglePage__Ctrl-Btn"/>
                 </div>
             </div>

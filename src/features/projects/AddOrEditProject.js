@@ -95,7 +95,7 @@ const AddOrEditProject = () => {
            />
 
            <InputSubmit 
-              label='Add Project'
+              label={mode + ' Project'}
               onClick={submit}
             />
         </Form>

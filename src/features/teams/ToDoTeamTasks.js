@@ -1,9 +1,8 @@
-import { useState } from "react";
-
+import CustomLink from "../../reusableComponents/CustomLink";
 import { useSelector, useDispatch } from "react-redux";
 import { selectViewMoreTeamsToDo,  setViewMoreTeamsToDo } from "../viewMore/viewMoreSlice";
 
-import { selectOneTeam } from "./teamsSlice";
+import { selectTeamById } from "./teamsSlice";
 import OrderByBtnsWrapper from "../../reusableComponents/OrderByBtnsWrapper";
 import CheckBox from "../../reusableComponents/CheckBox";
 import ViewMoreBtn from "../../reusableComponents/ViewMoreBtn";
@@ -17,7 +16,7 @@ const TodoTeamTasks = ({tasks}) => {
 
   const TeamsTaskTeam = ({teamId})=>{
   
-      const selectTeam = useSelector(state => selectOneTeam(state, teamId));
+      const selectTeam = useSelector(state => selectTeamById(state, teamId));
 
       return (
       <span className="TeamsTask__Team">
@@ -43,7 +42,9 @@ const TodoTeamTasks = ({tasks}) => {
               key={task.id}>
               <CheckBox checked={task.isComplete}/>
               <div className="TeamTasks__Data">
-                <span className="TeamsTasks__Name">{`${task.name.substring(0, 20)}...`}</span>
+                <CustomLink className="TeamsTasks__Name" to={`/mytasks/${task.id}`}>
+                   {`${task.name.substring(0, 20)}...`}
+                </CustomLink>
                 <span className="TeamsTasks__DueDate">{'Due Today'}</span>
                 <span className="TeamTasks__Priority">{`${task.priority} Priority`}</span>
                 {task?.teamId !== undefined && <TeamsTaskTeam teamId={task.teamId}/>}

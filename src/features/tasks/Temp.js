@@ -20,7 +20,7 @@ const SingleTask = () => {
   return (
     <section className="SingleTask main">
         <div className="SingleTask__Container SinglePage__Container top">
-            <BackBtn path="/mytasks"/>
+            <BackBtn />
             <div className="SinglePage__InnerContainer">
                 <h2 className="SinglePage__Title">{selectTask.name}</h2>
                 <ProgressBar 

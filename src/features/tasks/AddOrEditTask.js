@@ -54,14 +54,14 @@ const AddOrEditTask = () => {
               id='name'
               value={state.name}
               onChange={inputVal => setValue({name : inputVal})}
-              disabled={mode === 'view'}
+              disabled={mode === 'View'}
             />
            <InputTextArea 
                label='Description'
                id='description'
                value={state.description}
                onChange={inputVal => setValue({description : inputVal})}
-               disabled={mode === 'view'}
+               disabled={mode === 'View'}
            />
 
           <InputDate
@@ -69,7 +69,7 @@ const AddOrEditTask = () => {
                id='due-date'
                value={state.startDate}
                onChange={inputVal => setValue({dueDate : inputVal})}
-               disabled={mode === 'view'}
+               disabled={mode === 'View'}
            />
 
            <InputDate
@@ -77,14 +77,14 @@ const AddOrEditTask = () => {
                id='due-date'
                value={state.endDate}
                onChange={inputVal => setValue({dueDate : inputVal})}
-               disabled={mode === 'view'}
+               disabled={mode === 'View'}
            />
 
            <InputBell 
                label='Set Reminder'
                value={state.reminder}
                onChange={inputVal => setValue({reminder : inputVal})}
-               disabled={mode === 'view'}
+               disabled={mode === 'View'}
            />
            
            <InputRadio
@@ -95,13 +95,13 @@ const AddOrEditTask = () => {
                 {name: 'Medium', value: PRIORITY.MEDIUM},
                 {name: 'High', value: PRIORITY.HIGH},
               ]}
-              disabled={mode === 'view'}
+              disabled={mode === 'View'}
            />
 
            <InputSubmit 
-              label='Add Task'
+              label={mode + ' Task'}
               onClick={submit}
-              disabled={mode === 'view'}
+              disabled={mode === 'View'}
             />
         </Form>
     </section>

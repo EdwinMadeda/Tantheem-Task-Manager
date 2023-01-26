@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
-import { selectOneTeam } from "./teamsSlice";
+import { selectTeamById } from "./teamsSlice";
 import { selectProjectsByTeam } from "../projects/projectsSlice";
 import { selectTasksByTeam } from "../tasks/taskSlice";
 import BackBtn from "../../reusableComponents/BackBtn";
@@ -9,6 +9,9 @@ import team_bgImage from "../../assets/images/team_bgImage.jpg";
 import PreviousProjectsSnippet from "../projects/PreviousProjectsSnippet";
 import TodoTeamTasks from "../teams/ToDoTeamTasks";
 
+import EditBtn from "../../reusableComponents/EditBtn";
+import DeleteBtn from "../../reusableComponents/DeleteBtn";
+
 import "./SingleTeam.css";
 
 
@@ -16,17 +19,23 @@ const SingleTeam = () => {
   const { teamId } = useParams();
   const teamIdNo = Number(teamId);
 
-  const selectTeam = useSelector(state => selectOneTeam(state, teamIdNo));
+  const selectTeam = useSelector(state => selectTeamById(state, teamIdNo));
   const selectProjects = useSelector(state => selectProjectsByTeam(state, teamIdNo));
   const selectTasks = useSelector(state => selectTasksByTeam(state, teamIdNo));
+
+  console.log(selectTeam.id);
   
   return (
     <section className="SingleTeam main">
     <div className="SinglePage__Container SingleTeam__Container top"
          style={{backgroundImage : `url(${team_bgImage})`}}>
-        <BackBtn path="/teams"/>
+        <BackBtn />
         <div className="SinglePage__InnerContainer">
             <h2 className="SinglePage__Title SingleTeam__Title">{selectTeam.name}</h2>
+            <div className="SinglePage__Ctrl-Btns">
+                  <EditBtn className="SinglePage__Ctrl-Btn" path={`/teams/edit/${selectTeam.id}`}/>
+                  <DeleteBtn className="SinglePage__Ctrl-Btn"/>
+            </div>
         </div>
     </div>
     <div className="SingleTeam__Container bottom">

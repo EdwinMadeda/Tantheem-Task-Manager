@@ -1,5 +1,6 @@
 import { useReducer } from "react";
-import { useLocation } from "react-router";
+import { selectTeamById } from "./teamsSlice";
+import useAddOrEdit from "../../customHooks/useAddOrEdit";
 
 import Form, { InputText,
                InputTextArea,
@@ -23,10 +24,11 @@ const reducer = (state, action) => {
 
 const AddOrEditTeam = () => {
   const [state, dispatch] = useReducer(reducer, initialState, init);
-
   const setValue = (payload) => {
       dispatch({ type: 'setValue', payload });
   }
+
+ const mode = useAddOrEdit('teamId', selectTeamById, setValue);
 
   const submit = () =>{
      console.log(state);
@@ -35,8 +37,9 @@ const AddOrEditTeam = () => {
   return (
     <section className='AddOrEditTeam AddNewItem main'>
         <Form className='AddOrEditTeam__Form'
-              title='Add New Team'>
-                
+                title='Team'
+                mode={mode}>
+               
            <InputText
               label='Name'
               id='name'
@@ -51,7 +54,7 @@ const AddOrEditTeam = () => {
            />
 
            <InputSubmit 
-              label='Add Team'
+              label={mode + ' Team'}
               onClick={submit}
             />
         </Form>

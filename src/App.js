@@ -26,6 +26,7 @@ function App() {
             <Route index element={<Tasks />}/>
             <Route path=":taskId" element={<SingleTask/>}/>
             <Route path="/mytasks/add" element={<AddOrEditTask />}/>
+            <Route path="/mytasks/edit/:taskId" element={<AddOrEditTask />}/>
           </Route>
 
           <Route path='/myprojects'>
@@ -33,6 +34,7 @@ function App() {
               <Route path=":projectId" element={<SingleProject/>}/>
               <Route path=":projectId/add" element={<AddOrEditDeliverable />}/>
               <Route path="/myprojects/add" element={<AddOrEditProject />}/>
+              <Route path="/myprojects/edit/:projectId" element={<AddOrEditProject />}/>
           </Route>
 
           <Route path='/calender' element={<Calender />}/>
@@ -41,6 +43,7 @@ function App() {
               <Route index element={<Teams />}/>
               <Route path=":teamId" element={<SingleTeam/>}/>
               <Route path="/teams/add" element={<AddOrEditTeam />}/>
+              <Route path="/teams/edit/:teamId" element={<AddOrEditTeam />}/>
           </Route>
 
 

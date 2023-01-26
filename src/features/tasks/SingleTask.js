@@ -25,7 +25,7 @@ const SingleTask = () => {
     <section className="SinglePage SingleTeam main">
 
         <div className="SinglePage__Container SinglePage__Container top">
-            <BackBtn path="/mytasks"/>
+            <BackBtn />
             <div className="SinglePage__InnerContainer Title__Container">
                 <h2 className="SinglePage__Title SinglePage__ItemName">{selectTask.name}</h2>
                 <ProgressBar 
@@ -33,7 +33,7 @@ const SingleTask = () => {
                     totalItems={totalSubTasks} 
                 />
                 <div className="SinglePage__Ctrl-Btns">
-                    <EditBtn className="SinglePage__Ctrl-Btn"/>
+                    <EditBtn className="SinglePage__Ctrl-Btn" path={`/mytasks/edit/${selectTask.id}`}/>
                     <DeleteBtn className="SinglePage__Ctrl-Btn"/>
                 </div>
             </div>
@@ -52,13 +52,14 @@ const SingleTask = () => {
                 status={STATUS.TO_DO}
             /> 
 
-        
-            <SubTasks 
-                subTasks={subTasks.complete}
-                taskId={taskId}
-                status={STATUS.COMPLETE}
-            />
-    
+            {subTasks.complete.length > 0 &&
+                <SubTasks 
+                    subTasks={subTasks.complete}
+                    taskId={taskId}
+                    status={STATUS.COMPLETE}
+                />
+            }
+            
         </div>
     </section>
   )

@@ -3,6 +3,7 @@ import tasksReducer from "../features/tasks/taskSlice";
 import projectsReducer from "../features/projects/projectsSlice";
 import teamsReducer from "../features/teams/teamsSlice";
 import viewMoreReducer from "../features/viewMore/viewMoreSlice";
+import prevLocationReducer from "../features/prevLocation/prevLocationSlice";
 
 
 export const store = configureStore({
@@ -11,5 +12,6 @@ export const store = configureStore({
         projects : projectsReducer,
         teams : teamsReducer,
         viewMore: viewMoreReducer,
+        prevLocation: prevLocationReducer,
     }
 });

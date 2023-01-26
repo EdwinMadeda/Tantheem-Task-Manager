@@ -1,16 +1,13 @@
 import CheckBox from "./CheckBox";
 import Bell from "./Bell";
 import BackBtn from "./BackBtn";
-import usePrevLocation from "../customHooks/usePrevLocation";
-
 
 const Form = (props) => {
    
-   
     const formTitles = {
-        view : 'View ',
-        edit : 'Edit ',
-        add : 'Add New ',
+        View : 'View',
+        Edit : 'Edit ',
+        Add : 'Add New ',
     }
 
     return (
