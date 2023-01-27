@@ -1,8 +1,8 @@
 .App-logo {
     height: 6vmin;
     pointer-events: none;
-    margin: 0 10px;
-  }
+    margin-left: 10px;
+}
   
   @media (prefers-reduced-motion: no-preference) {
     .App-logo {
@@ -94,7 +94,6 @@ nav{
 .App-links__container{
     display: flex;
     justify-content: space-between;
-    max-width: 600px;
 }
 
 .App-link{
@@ -125,14 +124,18 @@ nav{
     text-decoration: none;
 }
 
-.App-search__innerContainer{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 5em;
-    background-color: #fff;
-    margin: 0 20px;
-    flex: 1;
+.App-search__form{
+  margin: 0 20px;
+}
+
+.App-search__input-Wrapper{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 5em;
+      background-color: #fff;
+      flex: 1;
+      min-width: 280px;
 }
 
 .App-search__input{
@@ -141,10 +144,17 @@ nav{
     border-radius: 5em;
     padding: 7px 15px;
     width: 100%;
+    font-size: 16px;
 }
 
 .App-search__icon{
    margin-right: 10px;
+   font-size: 20px;
+   cursor: pointer;
+}
+
+.App-search__icon:active{
+   transform: scale(.88);
 }
 
 .App-headerInnerWrapper{
@@ -173,26 +183,72 @@ nav{
     left: -2px;
 }
 
-@media only screen and (max-width: 950px){
-    .App-header__Container{
-      padding: 5px 20px;
-    }
+@media only screen and (min-width: 1000px) and (max-width: 1080px){
+  .App-header__Container{
+      padding: 5px 40px;
+  }
+}
+
+@media only screen and (min-width: 700px) and (max-width: 1010px){
     .App-link{
       padding: 5px 0 10px;
       position: relative;
   }
+
+  .App-search__form{
+     position: relative;
+     margin-left: 30px;
+  }
+
+  .App-search__input-Wrapper{
+     position: absolute;
+     top: calc(100% + 20px);
+     right: 0;
+     -webkit-box-shadow: 0 0 1px 1px #606060;
+     -moz-box-shadow: 0 0 1px 1px #606060;
+     box-shadow: 0 0 1px 1px #606060;
+     min-width: 300px;
+     display: none;
+  }
+
+  .App-search__input-Wrapper.show{
+    display: flex;
+  }
+
+.App-search__input{
+    padding: 9px 9px 9px 15px;
+    position: relative;
 }
 
-@media only screen and (max-width: 750px) {
+.App-search__input.show{
+  display: block;
+}
+
+.App-search__icon.closeBtn{
+  font-size: 17px;
+}
+
+.App-search__icon.hidden{
+  display: block;
+}
+
+}
+
+@media only screen and (max-width: 700px) {
   main{
     padding-top: 40px;
   }
+  
   .App-logo {
     height: 30px;
   }
   .App-header{
     position: fixed;
     top: 0;
+  }
+
+  .App-header__Container{
+    padding: 5px 20px;
   }
 
   .App-humbergerMenu{
@@ -245,10 +301,10 @@ nav{
 
   .App-search__form{
     width: 100%;
-  
+    padding: 0 20px;
   }
 
-  .App-search__innerContainer{
+  .App-search__input-Wrapper{
     background: transparent;
     min-width: unset;
   }
@@ -257,7 +313,8 @@ nav{
     margin-right: 10px;
     border-radius: unset;
     background: transparent;
-    border-bottom: 1px solid #fff;
+    border-bottom: 2px solid #fff;
+    padding: 9px 9px 9px 15px;
   }
 
   .App-links__container{

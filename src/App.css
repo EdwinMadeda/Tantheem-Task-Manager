@@ -70,6 +70,13 @@ table {
   --border__Radius: 10px;
 }
 
+body{
+	background: var(--primary__Color2)
+}
+.hidden{
+	display: none;
+}
+
 .icon{
   font-size: 18px;
 }
@@ -77,7 +84,6 @@ table {
 .btn:active{
 	transform: scale(.98);
 }
-
 
 .editBtn:hover{
 	cursor: pointer;
@@ -139,12 +145,14 @@ table {
 	border-radius: var(--border__Radius);
 	
 	display: inline-flex;
-	justify-content: flex-start;
+	justify-content: center;
 	align-items: center;
 	font-weight: bold;
 	text-decoration: none;
 	line-height: 22px;
 	text-align: initial;
+
+	word-wrap: break-word;
 }
 
 .addBtn:hover{
@@ -155,8 +163,8 @@ table {
 .addBtn .icon{
 	color: #333;
 	font-weight: bolder;
-	width: 15px;
-	height: 15px;
+	width: 20px;
+	height: 20px;
 	background: #fff;
 	border-radius: 50%;
 }

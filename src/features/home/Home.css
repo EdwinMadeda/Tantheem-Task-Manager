@@ -93,11 +93,12 @@
     margin-right: 20px;
 }
 
-@media only screen and (max-width: 850px){
+@media only screen and (max-width: 1000px){
     .Home__Container.top{
         display: block;
         max-height: unset;
     }
+
     .Home__AddBtns{
         justify-content: center;
         margin: 30px 0 10px;
@@ -109,7 +110,7 @@
 
     .Home__Img{
         text-align: center;
-        height: 200px;
+        height: 300px;
         padding: 20px;
     }
     
@@ -121,4 +122,30 @@
     .Latest span{
         margin-right: 10px;
     }
+}
+
+@media only screen and (max-width: 500px){
+    .Home__Img{
+        min-height: 200px;
+        padding: 20px 0 20px 40px;
+    }
+    
+    .Home__Img img{
+        height: 100%;
+        object-fit: contain;
+        max-height: 200px;
+    }
+    
+    main{
+       
+    }
+    .Home__AddBtns{
+        flex-direction: column;
+        position: absolute;
+    }
+
+    .Home__AddBtns .btn{
+        margin-bottom: 15px;
+    }
+    
 }

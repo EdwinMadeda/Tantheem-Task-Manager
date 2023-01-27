@@ -138,6 +138,7 @@
                 'ContainerTop ContainerTop'
                 'Sidebar Sidebar'
                 'ContainerBottom ContainerBottom';
+        padding-top: 50px;
      } 
 
     .Teams__Container.top{

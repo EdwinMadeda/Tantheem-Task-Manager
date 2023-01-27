@@ -1,6 +1,7 @@
 import { useState, useReducer, useRef} from "react";
 import useTargetAction from "../../customHooks/useTargetAction";
-import { BsSearch} from 'react-icons/bs';
+import { BsSearch } from 'react-icons/bs';
+import { GrClose } from 'react-icons/gr';
 import Bell from "../../reusableComponents/Bell";
 import logo from "../../assets/images/logo.svg";
 import AppLink from "./AppLink";
@@ -39,7 +40,9 @@ const initialState = {
             path : "/teams",
             isActive : false,
         },
-    ]
+    ],
+    isMobile : false,
+    searchInputVisible : false,
 }
 
 const activeLinks = (targetId = 0) => {
@@ -55,6 +58,8 @@ const init = () => {
 const reducer = (state,action) =>{
      switch(action.type){
         case 'setActive' : return {...state, Links : activeLinks(action.payload)};
+        case 'setIsMobile' : return {...state, isMobile: action.payload};
+        case 'setSearchInputVisible' : return {...state, searchInputVisible: action.payload};
         case 'init' : return init();
         default : return state;
      }
@@ -67,6 +72,12 @@ const Header = () => {
   const [state, dispatch] = useReducer(reducer, initialState, init);
 
   const ref = useRef(null);
+  
+  const toggleSearchInput = ()=>{
+        const isToggleSearch = window.innerWidth > 680 && window.innerWidth < 1010;
+        const payload = isToggleSearch ? !state.searchInputVisible : false;
+              dispatch({type : 'setSearchInputVisible', payload})
+  }
 
   const AppLinks = () =>{
     return state.Links.map(link => {
@@ -83,7 +94,7 @@ const Header = () => {
   return (
     <header className="App-header" ref={ref}>
         <div className="App-header__Container">
-            <div className={`App-humbergerMenu ${isMobile? 'active':''}`}
+            <div className={`App-humbergerMenu ${state.isMobile? 'active':''}`}
                 onClick={()=> setIsMobile(!isMobile)}>
                 <span></span>
                 <span></span>
@@ -97,10 +108,29 @@ const Header = () => {
                     </ul>
                 </nav>
             <form className="App-search__form">
-                    <div className="App-search__innerContainer">
-                        <input className="App-search__input" type="text" name="search" id="search" />
-                        <BsSearch className="App-search__icon icon"/>
-                    </div>
+                <label className={`App-search__input-Wrapper ${state.searchInputVisible? 'show': ''}`} 
+                       htmlFor="searchApp">
+                    <input 
+                        className="App-search__input" 
+                        type="text" 
+                        name="search" 
+                        id="searchApp" />
+
+                    <BsSearch 
+                            className="App-search__icon icon" 
+                            onClick={()=>{}}/> 
+                </label>
+
+                {!state.searchInputVisible?  
+                    <BsSearch 
+                        className="App-search__icon icon hidden" 
+                        onClick={toggleSearchInput}/> :
+
+                    <GrClose 
+                        className="App-search__icon closeBtn icon hidden"
+                        onClick={toggleSearchInput}/>
+
+                }
             </form>
             </div>
 
