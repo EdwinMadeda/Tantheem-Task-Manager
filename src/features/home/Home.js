@@ -2,10 +2,9 @@ import studentImg from "../../assets/images/student_photo.png";
 
 import AddBtn from "../../reusableComponents/AddBtn";
 import OrderByBtnsWrapper from "../../reusableComponents/OrderByBtnsWrapper";
-import LatestProject from "../projects/LatestProject";
 
-import LatestTask from "../tasks/LatestTask";
-import LatestTeam from "../teams/LatestTeam";
+
+import RecentTasks from "../tasks/RecentTasks";
 
 import "./Home.css";
 
@@ -28,9 +27,7 @@ const Home = () => {
           />
       </div>
       <div className="Home__Container bottom">
-        <LatestTask />
-        <LatestProject />
-        <LatestTeam />
+        <RecentTasks />
       </div>
     </section>
   )

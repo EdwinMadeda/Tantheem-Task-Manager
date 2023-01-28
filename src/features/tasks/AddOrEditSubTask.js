@@ -38,7 +38,7 @@ const AddOrEditSubTask = () => {
     dispatch({ type: 'setValue', payload });
   }
 
-  const { mode } = useAddOrEdit('taskId', selectTaskById, values =>{console.log(values)});
+  const { mode } = useAddOrEdit('taskId', selectTaskById, values =>{/*console.log(values)*/});
 
   const submit = () =>{
      console.log(state);

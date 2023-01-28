@@ -1,54 +1,65 @@
-import { useParams } from "react-router";
+import { useState, useEffect, useReducer } from "react";
 import { useSelector } from "react-redux";
-import { selectOneTask } from "./taskSlice";
-import { STATUS } from "./tasksSlice";
-import SubTasks from "./SubTasks";
-import ProgressBar from "../../reusableComponents/ProgressBar";
-import BackBtn from "../../reusableComponents/BackBtn";
+import ToActionBtn from "../../reusableComponents/ToActionBtn";
+import { selectAllTasks } from "./taskSlice";
+import CustomLink from "../../reusableComponents/CustomLink";
 
-import "./SingleTask.css";
-
-const SingleTask = () => {
-
-  const { taskId } = useParams();
-  const {selectTask, 
-         subTasks, 
-         completesubTasks, 
-         totalsubTasks} = useSelector(state => selectOneTask(state, Number(taskId)));
-  
-
+const Item = ({task})=>{
   return (
-    <section className="SingleTask main">
-        <div className="SingleTask__Container SinglePage__Container top">
-            <BackBtn />
-            <div className="SinglePage__InnerContainer">
-                <h2 className="SinglePage__Title">{selectTask.name}</h2>
-                <ProgressBar 
-                    completeItems={completesubTasks} 
-                    totalItems={totalsubTasks} 
-                />
-            </div>
-        </div>
-        <div className="SingleTask__Container bottom">
-            <div className="SingleTask__InnerContainer">
-                <h3 className="subTasks__Title SinglePage__Title">To Do</h3>
-                <SubTasks 
-                    subTasks={subTasks.toDo}
-                    type={STATUS.TO_DO}
-                    taskId={taskId}
-                /> 
-            </div>
-            <div className="SingleTask__InnerContainer">
-                <h3 className="subTasks__Title SinglePage__Title">Completed</h3>
-                <SubTasks 
-                    subTasks={subTasks.complete}
-                    type={STATUS.COMPLETE}
-                    taskId={taskId}
-                /> 
-            </div>
-        </div>
-    </section>
+      <div className="Item Latest__Item" style={{}}>
+          <div className="Content">
+            <p>
+                <CustomLink
+                  className="Title"
+                  to={`/mytasks/${task.id}`}>
+                    {task.name}
+                </CustomLink>
+                <span className="Duedate">Due on 22/05/2022</span>
+            </p>
+            <p className="Description">Do ABCD</p>
+          </div>
+          {/* <p className="Label">Latest Task</p> */}
+      </div>
   )
 }
 
-export default SingleTask
+const Ctrl__Btns = (total) =>{
+  let content = [];
+  for (let count = 0; count < total; count++) 
+    content.push(<span className="Ctrl__Btn"></span>)
+  return content;
+}
+
+const maxItemWidth = 500;
+const getItemsPerPage = ()  => Math.floor(window.innerWidth / maxItemWidth);
+
+const LatestTask = () => {
+const tasks = useSelector(selectAllTasks);
+const tasksCount = tasks.length;
+const [itemsPerPage, setItemsPerPage] = useState(getItemsPerPage());
+const [ctrlBtnsCount, setCtrlBtnsCount] = useState(tasksCount / itemsPerPage);
+
+  window.addEventListener('resize', ()=>{
+     setItemsPerPage(getItemsPerPage());
+  })
+
+  useEffect(()=>{
+    setCtrlBtnsCount(tasksCount / itemsPerPage);
+  },[itemsPerPage, tasksCount]);
+
+  return (
+    <div className="Latest Task">
+        <ToActionBtn label="My Tasks" linkTo="/mytasks" />
+        <div className="Latest__Items" style={{width : `${tasksCount  * (100/itemsPerPage)}%`}}>
+          {tasks.map(task => (
+              <Item key={task.id} task={task}/>
+            ))}
+        </div>
+        <div className="Ctrl__Btns">
+            {Ctrl__Btns(ctrlBtnsCount)}
+        </div>
+    </div>
+  )
+}
+
+export default LatestTask
