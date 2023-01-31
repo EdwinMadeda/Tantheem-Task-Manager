@@ -1,35 +1,36 @@
 .App-logo {
-    height: 6vmin;
-    pointer-events: none;
-    margin-left: 10px;
-}
-  
-  @media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-      animation: App-logo-spin infinite 50s linear;
-    }
-  }
-  
-  @keyframes App-logo-spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-.App-header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-   
-    max-height: 45px;
-    z-index: 5;
-    width: 100%;
+  height: 6vmin;
+  pointer-events: none;
+  margin-left: 10px;
 }
 
-.App-header__Container{
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 50s linear;
+  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.App-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  max-height: 45px;
+  z-index: 5;
+  width: 100%;
+}
+
+.App-header__Container {
   background: var(--primary__Color);
   width: 100%;
   display: flex;
@@ -39,7 +40,7 @@
   z-index: 6;
 }
 
-.App-humbergerMenu{
+.App-humbergerMenu {
   width: 20px;
   height: 10px;
   position: relative;
@@ -49,213 +50,214 @@
   z-index: 1;
 }
 
-.App-humbergerMenu span{
+.App-humbergerMenu span {
   position: absolute;
   width: 100%;
   height: 2px;
   background: #333;
 }
 
-.App-humbergerMenu span:nth-child(2){
+.App-humbergerMenu span:nth-child(2) {
   top: 50%;
 }
 
-.App-humbergerMenu span:nth-child(3){
+.App-humbergerMenu span:nth-child(3) {
   top: 100%;
 }
 
-.App-humbergerMenu.active span{
-  top: 50%!important;
+.App-humbergerMenu.active span {
+  top: 50% !important;
 }
 
-.App-humbergerMenu.active span:first-child{
+.App-humbergerMenu.active span:first-child {
   transform: rotate(45deg);
 }
 
-.App-humbergerMenu.active span:nth-child(2){
+.App-humbergerMenu.active span:nth-child(2) {
   opacity: 0;
 }
 
-.App-humbergerMenu.active span:last-child{
+.App-humbergerMenu.active span:last-child {
   transform: rotate(-45deg);
 }
 
-.App-navWrapper{
+.App-navWrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex: 1;
 }
 
-nav{
-   flex: 1;
+nav {
+  flex: 1;
 }
 
-.App-links__container{
-    display: flex;
-    justify-content: space-between;
+.App-links__container {
+  display: flex;
+  justify-content: space-between;
 }
 
-.App-link{
-    padding: 5px 20px 10px;
-    position: relative;
+.App-link {
+  padding: 5px 20px 10px;
+  position: relative;
 }
 
-.App-link::after{
+.App-link::after {
   position: absolute;
   height: 4px;
   width: 0%;
   content: '';
   background: #333;
   bottom: 0;
-  left : 50%;
+  left: 50%;
   transform: translateX(-50%);
   transition: all .5s ease;
   border-radius: 10px;
 }
 
-.App-link.active::after{
+.App-link.active::after {
   width: 85%;
 }
 
-.App-link a{
-    color: #333;
-    font-weight: bold;
-    text-decoration: none;
+.App-link a {
+  color: #333;
+  font-weight: bold;
+  text-decoration: none;
 }
 
-.App-search__form{
+.App-search__form {
   margin: 0 20px;
 }
 
-.App-search__input-Wrapper{
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-radius: 5em;
-      background-color: #fff;
-      flex: 1;
-      min-width: 280px;
+.App-search__input-Wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 5em;
+  background-color: #fff;
+  flex: 1;
+  min-width: 280px;
 }
 
-.App-search__input{
-    border: none;
-    outline: none;
-    border-radius: 5em;
-    padding: 7px 15px;
-    width: 100%;
-    font-size: 16px;
+.App-search__input {
+  border: none;
+  outline: none;
+  border-radius: 5em;
+  padding: 7px 15px;
+  width: 100%;
+  font-size: 16px;
 }
 
-.App-search__icon{
-   margin-right: 10px;
-   font-size: 20px;
-   cursor: pointer;
+.App-search__icon {
+  margin-right: 10px;
+  font-size: 20px;
+  cursor: pointer;
 }
 
-.App-search__icon:active{
-   transform: scale(.88);
+.App-search__icon:active {
+  transform: scale(.88);
 }
 
-.App-headerInnerWrapper{
+.App-headerInnerWrapper {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.App-notifications__container{
+.App-notifications__container {
+  position: relative;
+  cursor: pointer;
+}
+
+.App-notifications__indicator {
+  background: crimson;
+  width: 10px;
+  height: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 80%;
+  position: absolute;
+  bottom: 6px;
+  left: -2px;
+}
+
+@media only screen and (min-width: 1000px) and (max-width: 1080px) {
+  .App-header__Container {
+    padding: 5px 40px;
+  }
+}
+
+@media only screen and (min-width: 700px) and (max-width: 1010px) {
+  .App-link {
+    padding: 5px 0 10px;
     position: relative;
-    cursor: pointer;
-}
+  }
 
-.App-notifications__indicator{
-    background: crimson;
-    width: 10px;
-    height: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    color: #fff;
-    font-size: 80%;
+  .App-search__form {
+    position: relative;
+    margin-left: 30px;
+  }
+
+  .App-search__input-Wrapper {
     position: absolute;
-    bottom: 6px;
-    left: -2px;
-}
-
-@media only screen and (min-width: 1000px) and (max-width: 1080px){
-  .App-header__Container{
-      padding: 5px 40px;
-  }
-}
-
-@media only screen and (min-width: 700px) and (max-width: 1010px){
-    .App-link{
-      padding: 5px 0 10px;
-      position: relative;
+    top: calc(100% + 20px);
+    right: 0;
+    -webkit-box-shadow: 0 0 1px 1px #606060;
+    -moz-box-shadow: 0 0 1px 1px #606060;
+    box-shadow: 0 0 1px 1px #606060;
+    min-width: 300px;
+    display: none;
   }
 
-  .App-search__form{
-     position: relative;
-     margin-left: 30px;
-  }
-
-  .App-search__input-Wrapper{
-     position: absolute;
-     top: calc(100% + 20px);
-     right: 0;
-     -webkit-box-shadow: 0 0 1px 1px #606060;
-     -moz-box-shadow: 0 0 1px 1px #606060;
-     box-shadow: 0 0 1px 1px #606060;
-     min-width: 300px;
-     display: none;
-  }
-
-  .App-search__input-Wrapper.show{
+  .App-search__input-Wrapper.show {
     display: flex;
   }
 
-.App-search__input{
+  .App-search__input {
     padding: 9px 9px 9px 15px;
     position: relative;
-}
+  }
 
-.App-search__input.show{
-  display: block;
-}
+  .App-search__input.show {
+    display: block;
+  }
 
-.App-search__icon.closeBtn{
-  font-size: 17px;
-}
+  .App-search__icon.closeBtn {
+    font-size: 17px;
+  }
 
-.App-search__icon.hidden{
-  display: block;
-}
+  .App-search__icon.hidden {
+    display: block;
+  }
 
 }
 
 @media only screen and (max-width: 700px) {
-  main{
+  main {
     padding-top: 40px;
   }
-  
+
   .App-logo {
     height: 30px;
   }
-  .App-header{
+
+  .App-header {
     position: fixed;
     top: 0;
   }
 
-  .App-header__Container{
+  .App-header__Container {
     padding: 5px 20px;
   }
 
-  .App-humbergerMenu{
+  .App-humbergerMenu {
     display: block;
   }
-  
-  .App-navWrapper{
+
+  .App-navWrapper {
     position: fixed;
     top: 0;
     left: 0;
@@ -271,45 +273,45 @@ nav{
     opacity: 0;
   }
 
-  .App-navWrapper.active{
+  .App-navWrapper.active {
     opacity: 1;
     transform: translateY(0);
   }
 
-  nav{
+  nav {
     width: 100%;
     flex: unset;
     padding-left: 28px;
     margin-left: 0;
   }
 
-  .App-link.active::after{
+  .App-link.active::after {
     display: none;
   }
 
-  .App-link.active::before{
+  .App-link.active::before {
     position: absolute;
     width: 4px;
     height: 50%;
     content: '';
     background: #333;
     left: 0;
-    top : 50%;
-    transform : translateY(-50%);
+    top: 50%;
+    transform: translateY(-50%);
     border-radius: 10px;
   }
 
-  .App-search__form{
+  .App-search__form {
     width: 100%;
     padding: 0 20px;
   }
 
-  .App-search__input-Wrapper{
+  .App-search__input-Wrapper {
     background: transparent;
     min-width: unset;
   }
 
-  .App-search__input{
+  .App-search__input {
     margin-right: 10px;
     border-radius: unset;
     background: transparent;
@@ -317,17 +319,17 @@ nav{
     padding: 9px 9px 9px 15px;
   }
 
-  .App-links__container{
+  .App-links__container {
     flex-direction: column;
     justify-content: flex-start;
   }
 
-  .App-link{
+  .App-link {
     padding: 10px 20px;
     line-height: 40px;
   }
 
 
-  
-  
+
+
 }

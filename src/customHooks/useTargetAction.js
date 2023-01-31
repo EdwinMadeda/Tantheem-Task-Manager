@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 const useTargetAction = (callback, ref, eventName) => {
 
     if(ref?.current){

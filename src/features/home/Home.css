@@ -1,91 +1,127 @@
-.Home__Container.top{
+.Home__Container.top {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     max-height: calc(50vh - 60px);
 }
 
-.Home__AddBtns{
+.Home__AddBtns {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     margin: 30px 0;
 }
 
-.Home__AddBtns .btn{
+.Home__AddBtns .btn {
     margin-right: 20px;
 }
 
-.Home__Img{
+.Home__Img {
     text-align: left;
     max-height: 200px;
     width: 100%;
     padding: 20px 0;
 }
 
-.Home__Img img{
+.Home__Img img {
     height: 100%;
     object-fit: contain;
     max-height: 200px;
 }
 
-.Home__Container.bottom{
-   margin-top: 20px;
+.Home__Container.bottom {
+    margin: 20px 0;
 }
 
-@media only screen and (max-width: 1000px){
-    .Home__Container.top{
+.Latest .Content {
+    background: var(--secondary__Color2);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.Recent .Title {
+    font-weight: bold;
+}
+
+.Recent .Duedate {
+    font-size: 14px;
+    color: #464545;
+    margin: 5px 0;
+}
+
+.Recent p {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.Recent .Title,
+.Recent span {
+    margin-right: 20px;
+}
+
+.Home .OrderByBtns__Wrapper.sticky {
+    position: fixed;
+    top: 0;
+    z-index: 4;
+    padding: 10px 0;
+    background: var(--primary__Color2);
+    width: 100%;
+}
+
+@media only screen and (max-width: 1000px) {
+    .Home__Container.top {
         display: block;
         max-height: unset;
     }
 
-    .Home__AddBtns{
+    .Home__AddBtns {
         justify-content: center;
         margin: 30px 0 10px;
     }
 
-    .Home__AddBtns .btn{
+    .Home__AddBtns .btn {
         margin-right: 10px;
     }
 
-    .Home__Img{
+    .Home__Img {
         text-align: center;
         height: 300px;
         padding: 20px;
     }
-    
-    .Latest p{
-        flex-direction: column;
-        padding: 10px 8px;
-    }
-    
-    .Latest span{
-        margin-right: 10px;
+
+}
+
+
+@media only screen and (max-width: 700px) {
+    .Home .OrderByBtns__Wrapper.sticky {
+        top: 45px;
     }
 }
 
-@media only screen and (max-width: 500px){
-    .Home__Img{
+@media only screen and (max-width: 500px) {
+
+
+    .Home__Img {
         min-height: 200px;
         padding: 20px 0 20px 40px;
     }
-    
-    .Home__Img img{
+
+    .Home__Img img {
         height: 100%;
         object-fit: contain;
         max-height: 200px;
     }
-    
-    main{
-       
-    }
-    .Home__AddBtns{
+
+    main {}
+
+    .Home__AddBtns {
         flex-direction: column;
         position: absolute;
     }
 
-    .Home__AddBtns .btn{
+    .Home__AddBtns .btn {
         margin-bottom: 15px;
     }
-    
+
 }

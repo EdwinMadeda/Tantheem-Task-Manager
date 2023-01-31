@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
-import { getPrevLocation } from "../features/prevLocation/prevLocationSlice";
 
 const useAddOrEdit = (id, selector, setValues) => {
 
@@ -15,7 +14,7 @@ const useAddOrEdit = (id, selector, setValues) => {
   
     },[selectItem]);
 
-    const { mode } = useSelector(getPrevLocation);
+    const mode = '';
 
     return { mode };
 
