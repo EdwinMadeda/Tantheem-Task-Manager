@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import { PRIORITY } from "../../constants";
 
 export const STATUS = Object.freeze({
@@ -106,13 +106,28 @@ const initialState = [
 const tasksSlice = createSlice({
   name: "tasks",
   initialState,
-  reducers: {},
+  reducers: {
+    addTask(state, action) {
+      const id = state.length + 1;
+      state.push({ id, ...action.payload, subTasks: [] });
+    },
+    editTask(state, action) {
+      return state.map((task) =>
+        task.id === action.payload.id ? action.payload : task
+      );
+    },
+  },
 });
 
 export const selectAllTasks = (state) => state.tasks;
 export const selectLatestTask = (state) => state.tasks[state.tasks.length - 1];
 export const selectTaskById = (state, id) =>
   state.tasks.find((task) => task.id === id);
+
+export const selectSubTaskById = (state, taskId, subTaskId) => {
+  const task = selectTaskById(state, taskId);
+  return task ? task.subTasks.find((subTask) => subTask.id === subTaskId) : {};
+};
 
 export const selectOneTask = (state, taskId) => {
   const selectTask = selectTaskById(state, taskId);
@@ -140,4 +155,5 @@ export const selectOneTask = (state, taskId) => {
 export const selectTasksByTeam = (state, teamId) =>
   state.tasks.filter((task) => task.teamId === teamId);
 
+export const { addTask, editTask } = tasksSlice.actions;
 export default tasksSlice.reducer;

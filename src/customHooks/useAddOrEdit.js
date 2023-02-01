@@ -2,22 +2,19 @@ import { useEffect } from "react";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 
-const useAddOrEdit = (id, selector, setValues) => {
+const useAddOrEdit = (selectItem, setValues) => {
+  const pathname = useParams()["*"];
+  const mode = pathname.includes("edit")
+    ? "Edit"
+    : pathname.includes("add")
+    ? "Add"
+    : "View";
 
-    const selectItemId = useParams()[id];
-    const selectItem = useSelector(state => selector(state, Number(selectItemId)));
+  useEffect(() => {
+    Boolean(selectItem) && !pathname.includes("add") && setValues(selectItem);
+  }, [selectItem, mode]);
 
-    useEffect(()=>{
-  
-      Boolean(selectItem) && 
-      setValues(selectItem);
-  
-    },[selectItem]);
+  return { mode };
+};
 
-    const mode = '';
-
-    return { mode };
-
-}
-
-export default useAddOrEdit
+export default useAddOrEdit;

@@ -15,7 +15,7 @@ const initialState = [
     status: STATUS.COMPLETE,
     priority: PRIORITY.HIGH,
     startDate: "",
-    endDate: "",
+    endDate: new Date("2022-03-24").toISOString(),
     teamId: 0,
     deliverables: [
       {
@@ -73,7 +73,7 @@ const initialState = [
     priority: PRIORITY.MEDIUM,
     teamId: 1,
     startDate: "",
-    endDate: "",
+    endDate: new Date("2022-03-27").toISOString(),
     deliverables: [
       {
         id: 0,
@@ -169,6 +169,15 @@ export const selectProjectsByTeam = (state, teamId) => {
 
 export const selectProjectById = (state, projectId) =>
   state.projects.find((project) => project.id === projectId);
+
+export const selectDeliverableById = (state, projectId, deliverableId) => {
+  const project = selectProjectById(state, projectId);
+  return project
+    ? project.deliverables.find(
+        (deliverable) => deliverable.id === deliverableId
+      )
+    : {};
+};
 
 export const selectOneProject = (state, projectId) => {
   const selectProject = selectProjectById(state, projectId);

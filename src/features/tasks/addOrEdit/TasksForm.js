@@ -1,6 +1,7 @@
-import { PRIORITY } from "../../constants";
-import { useReducer } from "react";
-import { selectTaskById } from "./taskSlice";
+import { PRIORITY } from "../../../constants";
+import { useEffect, useReducer } from "react";
+import { useNavigate } from "react-router";
+import { useState } from "react";
 
 import Form, {
   InputText,
@@ -9,8 +10,7 @@ import Form, {
   InputRadio,
   InputDate,
   InputSubmit,
-} from "../../reusableComponents/Form";
-import useAddOrEdit from "../../customHooks/useAddOrEdit";
+} from "../../../reusableComponents/Form";
 
 const initialState = {
   name: "",
@@ -35,34 +35,53 @@ const reducer = (state, action) => {
   }
 };
 
-const AddOrEditTask = () => {
+const TasksForm = ({
+  formTitle,
+  submitLabel,
+  defaultValues = false,
+  disabled = false,
+  reduxDispatch,
+}) => {
   const [state, dispatch] = useReducer(reducer, initialState, init);
   const setValue = (payload) => {
     dispatch({ type: "setValue", payload });
   };
 
-  const { mode } = useAddOrEdit("taskId", selectTaskById, setValue);
+  useEffect(() => {
+    Boolean(defaultValues) && setValue(defaultValues);
+  }, [defaultValues]);
 
-  const submit = () => {
-    console.log(state);
+  const [error, setError] = useState(false);
+  const navigate = useNavigate();
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    try {
+      reduxDispatch(state);
+    } catch (error) {
+      setError(`Could not ${formTitle.toLowerCase()}`);
+    } finally {
+      !error && navigate(-1);
+    }
   };
 
   return (
     <section className="AddOrEditTask AddNewItem main">
-      <Form className="AddOrEditTask__Form" title={"Task"} mode={mode}>
+      <Form className="AddOrEditTask__Form" title={formTitle}>
         <InputText
           label="Name"
           id="name"
           value={state.name}
           onChange={(inputVal) => setValue({ name: inputVal })}
-          disabled={mode === "View"}
+          disabled={disabled}
         />
         <InputTextArea
           label="Description"
           id="description"
           value={state.description}
           onChange={(inputVal) => setValue({ description: inputVal })}
-          disabled={mode === "View"}
+          disabled={disabled}
         />
 
         <InputDate
@@ -70,7 +89,7 @@ const AddOrEditTask = () => {
           id="due-date"
           value={state.startDate}
           onChange={(inputVal) => setValue({ dueDate: inputVal })}
-          disabled={mode === "View"}
+          disabled={disabled}
         />
 
         <InputDate
@@ -78,14 +97,14 @@ const AddOrEditTask = () => {
           id="due-date"
           value={state.endDate}
           onChange={(inputVal) => setValue({ dueDate: inputVal })}
-          disabled={mode === "View"}
+          disabled={disabled}
         />
 
         <InputBell
           label="Set Reminder"
           value={state.reminder}
           onChange={(inputVal) => setValue({ reminder: inputVal })}
-          disabled={mode === "View"}
+          disabled={disabled}
         />
 
         <InputRadio
@@ -96,17 +115,17 @@ const AddOrEditTask = () => {
             { name: "Medium", value: PRIORITY.MEDIUM },
             { name: "High", value: PRIORITY.HIGH },
           ]}
-          disabled={mode === "View"}
+          disabled={disabled}
         />
 
         <InputSubmit
-          label={`${mode} Task`}
-          onClick={submit}
-          disabled={mode === "View"}
+          label={submitLabel}
+          onClick={onSubmit}
+          disabled={disabled}
         />
       </Form>
     </section>
   );
 };
 
-export default AddOrEditTask;
+export default TasksForm;

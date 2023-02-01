@@ -2,7 +2,13 @@ import { BsBell, BsBellFill, BsBellSlash } from "react-icons/bs";
 import { useState, useRef } from "react";
 import useTargetAction from "../customHooks/useTargetAction";
 
-const Bell = ({ className, status = false, onClick, disabled = false }) => {
+const Bell = ({
+  className,
+  status = false,
+  onClick,
+  title = "",
+  disabled = false,
+}) => {
   const [isHover, setIsHover] = useState(false);
   const [isOn, setIsOn] = useState(status);
 
@@ -20,6 +26,7 @@ const Bell = ({ className, status = false, onClick, disabled = false }) => {
       className={`${className} icon bellIcon`}
       onClick={onBellClick}
       ref={ref}
+      title={title}
     >
       {!isOn ? (
         <BsBellSlash />

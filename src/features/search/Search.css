@@ -1,0 +1,40 @@
+.Search {
+    padding: 20px 30px !important;
+}
+
+.SearchFeature {
+    text-align: initial;
+    padding: 0;
+    line-height: 25px;
+    margin: 0;
+}
+
+.SearchFeature__Title {
+    font-size: 22px;
+    font-weight: bold;
+    padding: 10px;
+}
+
+.SearchFeature__Content {
+    border: 2px solid #333;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.SearchFeature__ItemName {
+    font-weight: bold;
+    font-size: 18px;
+    padding: 5px 0;
+}
+
+.SearchFeature__ItemDescription {
+    text-indent: 2%;
+}
+
+.SearchFeature__MarchingSub {
+    margin-left: 2%;
+}
+
+.SearchFeature__MarchingSub_Title {
+    font-weight: bold;
+}

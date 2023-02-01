@@ -1,4 +1,8 @@
 import { useState, useReducer, useRef } from "react";
+import { useNavigate, useLocation } from "react-router";
+import { useSelector, useDispatch } from "react-redux";
+import { input, selectSearchText } from "../../features/search/searchSlice";
+
 import useTargetAction from "../../customHooks/useTargetAction";
 import { BsSearch } from "react-icons/bs";
 import { GrClose } from "react-icons/gr";
@@ -43,6 +47,7 @@ const initialState = {
   ],
   isMobile: false,
   searchInputVisible: false,
+  currPath: "/",
 };
 
 const activeLinks = (targetId = 0) => {
@@ -63,6 +68,8 @@ const reducer = (state, action) => {
       return { ...state, isMobile: action.payload };
     case "setSearchInputVisible":
       return { ...state, searchInputVisible: action.payload };
+    case "setCurrPath":
+      return { ...state, currPath: action.payload };
     case "init":
       return init();
     default:
@@ -73,8 +80,11 @@ const reducer = (state, action) => {
 const Header = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [state, dispatch] = useReducer(reducer, initialState, init);
-
   const ref = useRef(null);
+  const reduxDispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const searchText = useSelector(selectSearchText);
 
   const toggleSearchInput = () => {
     const isToggleSearch = window.innerWidth > 680 && window.innerWidth < 1010;
@@ -127,6 +137,21 @@ const Header = () => {
                 type="text"
                 name="search"
                 id="searchApp"
+                value={searchText}
+                onChange={(e) => {
+                  const searchText = e.target.value;
+                  reduxDispatch(input(searchText));
+
+                  if (searchText !== "" && location.pathname !== "/search") {
+                    navigate("/search");
+                    dispatch({
+                      type: "setCurrPath",
+                      payload: location.pathname,
+                    });
+                  }
+                  if (searchText === "" && location.pathname === "/search")
+                    navigate(state.currPath);
+                }}
               />
 
               <BsSearch className="App-search__icon icon" onClick={() => {}} />

@@ -6,42 +6,48 @@ import Tasks from "./features/tasks/Tasks";
 import Projects from "./features/projects/Projects";
 import Calender from "./features/calendar/MyCalendar";
 import Teams from "./features/teams/Teams";
+import Search from "./features/search/Search";
 
 import SingleTask from "./features/tasks/SingleTask";
 import SingleProject from "./features/projects/SingleProject";
 import SingleTeam from "./features/teams/SingleTeam";
 
-import AddOrEditTask from "./features/tasks/AddOrEditTask";
-import AddOrEditSubTask from "./features/tasks/AddOrEditSubTask";
+import AddTask from "./features/tasks/addOrEdit/AddTask";
+import EditTask from "./features/tasks/addOrEdit/EditTask";
+import AddSubTask from "./features/tasks/addOrEdit/AddSubTask";
+import EditSubTask from "./features/tasks/addOrEdit/EditSubTask";
+
 import AddOrEditProject from "./features/projects/AddOrEditProject";
 import AddOrEditTeam from "./features/teams/AddOrEditTeam";
-import AddOrEditDeliverable from "./features/projects/AddOrEditDeliverable";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
+        <Route path="/search" element={<Search />} />
 
         <Route path="/mytasks">
           <Route index element={<Tasks />} />
           <Route path=":taskId" element={<SingleTask />} />
-          <Route path=":taskId/add" element={<AddOrEditSubTask />} />
+          <Route path=":taskId/:subTaskId" element={<SingleTask />} />
+          <Route path="/mytasks/add" element={<AddTask />} />
+          <Route path="/mytasks/edit/:taskId" element={<EditTask />} />
+          <Route path=":taskId/add" element={<AddSubTask />} />
           <Route
             path="/mytasks/:taskId/edit/:subTaskId"
-            element={<AddOrEditSubTask />}
+            element={<EditSubTask />}
           />
-          <Route path="/mytasks/add" element={<AddOrEditTask />} />
-          <Route path="/mytasks/edit/:taskId" element={<AddOrEditTask />} />
         </Route>
 
         <Route path="/myprojects">
           <Route index element={<Projects />} />
           <Route path=":projectId" element={<SingleProject />} />
-          <Route path=":projectId/add" element={<AddOrEditDeliverable />} />
+          <Route path=":projectId/:deliverableId" element={<SingleProject />} />
+          <Route path=":projectId/add" element={<AddOrEditProject />} />
           <Route
             path="/myprojects/:projectId/edit/:deliverableId"
-            element={<AddOrEditDeliverable />}
+            element={<AddOrEditProject />}
           />
           <Route path="/myprojects/add" element={<AddOrEditProject />} />
           <Route

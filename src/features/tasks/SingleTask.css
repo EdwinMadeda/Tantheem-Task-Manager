@@ -1,4 +1,4 @@
-.SinglePage__Ctrl-Btns .icon{
+.SinglePage__Ctrl-Btns .icon {
     color: #333;
     background: #fff;
     padding: 4px;
@@ -7,3 +7,6 @@
     border-radius: 50%;
 }
 
+.SinglePage__Ctrl-Btns .bellIcon {
+    margin-right: -20px;
+}

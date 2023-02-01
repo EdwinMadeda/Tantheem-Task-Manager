@@ -1,48 +1,48 @@
-.Teams.main{
-   display: grid;
-   grid-template-columns: minmax(200px, 300px) 3fr;
-   grid-template-rows: auto 1fr;
-   grid-gap: 50px 30px;
-   grid-template-areas: 
-                    'Sidebar ContainerTop'
-                    'Sidebar ContainerBottom';
-                
-   padding-top: 70px;
+.Teams.main {
+    display: grid;
+    grid-template-columns: minmax(200px, 300px) 3fr;
+    grid-template-rows: auto 1fr;
+    grid-gap: 50px 30px;
+    grid-template-areas:
+        'Sidebar ContainerTop'
+        'Sidebar ContainerBottom';
+
+    padding-top: 70px;
 }
 
-.Teams__Sidebar{
+.Teams__Sidebar {
     grid-area: Sidebar;
 }
 
-.Teams__Container.top{
+.Teams__Container.top {
     grid-area: ContainerTop;
 }
 
-.Teams__Container.bottom{
+.Teams__Container.bottom {
     grid-area: ContainerBottom;
-}   
+}
 
 /*--------------------------------Team Snippet-----------------------------------*/
 
-.Teams__Snippet{
+.Teams__Snippet {
     background: #fff;
     border-radius: 15px;
     padding: 20px;
-    box-shadow: 2px 2px  2px #858585;
+    box-shadow: 2px 2px 2px #858585;
     min-height: 75vh;
     max-width: 300px;
     text-align: initial;
 }
 
-.Teams__Snippet-title{
+.Teams__Snippet-title {
     font-weight: bold;
 }
 
-.Teams__Snippet-items{
+.Teams__Snippet-items {
     padding: 20px 0;
 }
 
-.Teams__Snippet-item{
+.Teams__Snippet-item {
     background: var(--primary__Color);
     margin-bottom: 10px;
     line-height: 20px;
@@ -50,7 +50,7 @@
     border-radius: 5px;
 }
 
-.Teams__Tasks__Data{
+.Teams__Tasks__Data {
     font-size: 12px;
     font-weight: bold;
     color: #474747;
@@ -61,7 +61,7 @@
     margin: 10px 0;
 }
 
-.Teams__Tasks__Data span{
+.Teams__Tasks__Data span {
     background: #fff;
     border-radius: 5px;
     padding: 0 5px;
@@ -70,19 +70,19 @@
 
 /*--------------------------------Team Tasks-----------------------------------*/
 
-.TeamTasks__Snippet{
+.TeamTasks__Snippet {
     position: relative;
     max-height: 60vh;
     overflow: hidden;
 }
 
-.TeamTasks__Snippet-title{
+.TeamTasks__Snippet-title {
     padding: 20px 0;
     text-align: initial;
     font-weight: bold;
 }
 
-.TeamTasks__Data{
+.TeamTasks__Data {
     flex: 1;
     text-align: initial;
     padding: 0 10px;
@@ -94,32 +94,37 @@
     padding-left: 25px;
 }
 
-.TeamTasks__Data span{
+.TeamTasks__Data span {
     color: #474747;
     font-size: 13px;
 }
 
-.TeamsTasks__Name{
-    font-size: 15px!important;
+.TeamsTasks__Name {
+    font-size: 15px !important;
     font-weight: bold;
     color: #333;
 }
 
+.TeamTasks__Priority,
+.TeamsTask__Team {
+    font-weight: bold;
+}
+
 @media only screen and (max-width: 940px) {
-   
-    .Teams.main{
+
+    .Teams.main {
         grid-template-rows: minmax(75vh, auto) 1fr;
         grid-gap: 15px 40px;
-        grid-template-areas: 
-                'Sidebar ContainerTop'
-                'ContainerBottom ContainerBottom';
-     } 
+        grid-template-areas:
+            'Sidebar ContainerTop'
+            'ContainerBottom ContainerBottom';
+    }
 
-    .Teams__Container.top{
+    .Teams__Container.top {
         padding: 60px 0;
     }
 
-    .TeamTasks__Data{
+    .TeamTasks__Data {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -130,20 +135,20 @@
 
 
 @media only screen and (max-width: 570px) {
-   
-    .Teams.main{
+
+    .Teams.main {
         grid-template-rows: minmax(10vh, auto) minmax(75vh, auto) 1fr;
         grid-gap: 15px 50px;
-        grid-template-areas: 
-                'ContainerTop ContainerTop'
-                'Sidebar Sidebar'
-                'ContainerBottom ContainerBottom';
+        grid-template-areas:
+            'ContainerTop ContainerTop'
+            'Sidebar Sidebar'
+            'ContainerBottom ContainerBottom';
         padding-top: 50px;
-     } 
+    }
 
-    .Teams__Container.top{
+    .Teams__Container.top {
         padding: unset;
     }
-    
+
 
 }

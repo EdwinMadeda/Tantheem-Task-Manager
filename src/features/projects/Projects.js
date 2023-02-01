@@ -10,19 +10,17 @@ const Projects = () => {
 
   return (
     <section className="Project main">
-    <div className="Project__Container top">
-
+      <div className="Project__Container top">
         <div className="Project__AddBtn-Container AddBtn-Container">
-          <AddBtn label="New Project" path="/myprojects/add"/>
+          <AddBtn label="New Project" path="/myprojects/add" />
         </div>
-     
-    </div>
-    <div className="Project__Container bottom">
-           <PreviousProjectsSnippet projects={projects} />
-           <ToDoProjectsSnippet projects={projects}/>        
-    </div>
-  </section>
-  )
-}
+      </div>
+      <div className="Project__Container bottom">
+        <PreviousProjectsSnippet projects={projects} />
+        <ToDoProjectsSnippet rawProjects={projects} />
+      </div>
+    </section>
+  );
+};
 
-export default Projects
+export default Projects;

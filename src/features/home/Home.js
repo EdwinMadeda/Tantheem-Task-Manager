@@ -1,14 +1,9 @@
-import { useState, useReducer } from "react";
 import { useSelector } from "react-redux";
 import { selectAllTasks } from "../tasks/taskSlice";
 import { selectAllProjects } from "../projects/projectsSlice";
 import { selectAllTeams } from "../teams/teamsSlice";
 
-import {
-  orderByAlphabet,
-  orderByDate,
-  orderByPriority,
-} from "../../customHooks/useOrderBy";
+import useOrderBy from "../../customHooks/useOrderBy";
 
 import studentImg from "../../assets/images/student_photo.png";
 import AddBtn from "../../reusableComponents/AddBtn";
@@ -18,48 +13,20 @@ import RecentItems from "./RecentItems";
 import "./Home.css";
 
 const Home = () => {
-  const rawTasks = Object.freeze(useSelector(selectAllTasks));
-  const rawProjects = Object.freeze(useSelector(selectAllProjects));
-  const rawTeams = Object.freeze(useSelector(selectAllTeams));
+  const rawTasks = useSelector(selectAllTasks);
+  const rawProjects = useSelector(selectAllProjects);
+  const rawTeams = useSelector(selectAllTeams);
 
-  const reducer = (state, action) => {
-    switch (action.type) {
-      case "orderByDate":
-        return {
-          ...state,
-          tasks: orderByDate(rawTasks, "endDate"),
-          projects: orderByDate(rawProjects, "endDate"),
-          teams: orderByDate(rawTeams, "createdAt"),
-        };
-
-      case "orderByPriority":
-        return {
-          ...state,
-          tasks: orderByPriority(rawTasks),
-          projects: orderByPriority(rawProjects),
-        };
-
-      case "orderByAlphabet":
-        return {
-          ...state,
-          tasks: orderByAlphabet(rawTasks, "name"),
-          projects: orderByAlphabet(rawProjects, "name"),
-          teams: orderByAlphabet(rawTeams, "name"),
-        };
-
-      default:
-        return state;
-    }
-  };
-
-  const [state, dispatch] = useReducer(reducer, {
-    tasks: orderByDate(rawTasks, "endDate"),
-    projects: orderByDate(rawProjects, "endDate"),
-    teams: orderByDate(rawTeams, "createdAt"),
-  });
-
-  const [isAsc, setIsAsc] = useState(false);
-  const order = () => (isAsc ? "asc" : "desc");
+  const {
+    tasks,
+    projects,
+    teams,
+    setIsAsc,
+    order,
+    onOrderByDate,
+    onOrderByPriority,
+    onOrderByAlphabet,
+  } = useOrderBy(rawTasks, rawProjects, rawTeams);
 
   return (
     <section className="Home main">
@@ -73,9 +40,9 @@ const Home = () => {
           <img src={studentImg} alt="student" />
         </div>
         <OrderByBtnsWrapper
-          onDateClick={() => dispatch({ type: "orderByDate" })}
-          onPriorityClick={() => dispatch({ type: "orderByPriority" })}
-          onAlphabeticallyClick={() => dispatch({ type: "orderByAlphabet" })}
+          onDateClick={onOrderByDate}
+          onPriorityClick={onOrderByPriority}
+          onAlphabeticallyClick={onOrderByAlphabet}
           onAscClick={() => setIsAsc(true)}
           onDescClick={() => setIsAsc(false)}
           order={order()}
@@ -85,20 +52,16 @@ const Home = () => {
         <RecentItems
           label="My Tasks"
           pathname="/mytasks"
-          items={state.tasks[order()]}
+          items={tasks[order()]}
         />
 
         <RecentItems
           label="Projects"
           pathname="/myprojects"
-          items={state.projects[order()]}
+          items={projects[order()]}
         />
 
-        <RecentItems
-          label="Teams"
-          pathname="/teams"
-          items={state.teams[order()]}
-        />
+        <RecentItems label="Teams" pathname="/teams" items={teams[order()]} />
       </div>
     </section>
   );
