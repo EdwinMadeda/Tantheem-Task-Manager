@@ -88,7 +88,7 @@ const TasksForm = ({
           label="Start date"
           id="due-date"
           value={state.startDate}
-          onChange={(inputVal) => setValue({ dueDate: inputVal })}
+          onChange={(inputVal) => setValue({ startDate: inputVal })}
           disabled={disabled}
         />
 
@@ -96,7 +96,7 @@ const TasksForm = ({
           label="End date"
           id="due-date"
           value={state.endDate}
-          onChange={(inputVal) => setValue({ dueDate: inputVal })}
+          onChange={(inputVal) => setValue({ endDate: inputVal })}
           disabled={disabled}
         />
 

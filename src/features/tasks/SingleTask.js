@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
-import { useSelector } from "react-redux";
-import { selectOneTask, selectSubTaskById, selectTaskById } from "./taskSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectOneTask, selectSubTaskById, editTask } from "./taskSlice";
 import ProgressBar from "../../reusableComponents/ProgressBar";
 import BackBtn from "../../reusableComponents/BackBtn";
 import SubTasks from "./SubTasks";

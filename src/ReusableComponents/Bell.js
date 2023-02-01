@@ -10,13 +10,11 @@ const Bell = ({
   disabled = false,
 }) => {
   const [isHover, setIsHover] = useState(false);
-  const [isOn, setIsOn] = useState(status);
 
   const ref = useRef(null);
   const onBellClick = () => {
-    setIsOn(!isOn);
-    onClick(isOn);
-    ref.current.classList[isOn ? "add" : "remove"]("animate");
+    onClick(!status);
+    ref.current.classList[status ? "add" : "remove"]("animate");
   };
 
   useTargetAction(setIsHover, ref, "mouseover");
@@ -28,7 +26,7 @@ const Bell = ({
       ref={ref}
       title={title}
     >
-      {!isOn ? (
+      {!status ? (
         <BsBellSlash />
       ) : (
         <>{isHover ? <BsBellFill className="fill" /> : <BsBell />}</>
