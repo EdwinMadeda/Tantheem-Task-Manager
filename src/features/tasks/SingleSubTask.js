@@ -1,68 +1,72 @@
 import { useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-import { selectOneTask, editTask, deleteTask } from "./taskSlice";
-import ProgressBar from "../../reusableComponents/ProgressBar";
+import { selectTaskById, editTask } from "./taskSlice";
 import BackBtn from "../../reusableComponents/BackBtn";
-import SubTasks from "./SubTasks";
-
-import { STATUS } from "./taskSlice";
 
 import Bell from "../../reusableComponents/Bell";
 import EditBtn from "../../reusableComponents/EditBtn";
 import DeleteBtn from "../../reusableComponents/DeleteBtn";
+import CustomLink from "../../reusableComponents/CustomLink";
 
 import "../../SinglePage.css";
 import "./SingleTask.css";
 
-const SingleTask = () => {
-  const { taskId } = useParams();
+const SingleSubTask = () => {
+  const { taskId, subTaskId } = useParams();
 
-  const { selectTask, subTasks, completeSubTasks, totalSubTasks } = useSelector(
-    (state) => selectOneTask(state, Number(taskId))
+  const selectTask = useSelector((state) =>
+    selectTaskById(state, Number(taskId))
+  );
+  const selectSubTask = selectTask.subTasks.find(
+    (subTask) => subTask.id === Number(subTaskId)
   );
 
   const dispatch = useDispatch();
 
   const onSetReminder = (status) => {
-    dispatch(editTask({ ...selectTask, reminder: status }));
-  };
-
-  const setIsComplete = (status, subTaskId) => {
     const newSubTasks = selectTask.subTasks.map((subTask) =>
-      subTask.id === subTaskId ? { ...subTask, isComplete: status } : subTask
+      subTask.id === selectSubTask.id
+        ? { ...subTask, reminder: status }
+        : subTask
     );
 
     dispatch(editTask({ ...selectTask, subTasks: newSubTasks }));
   };
 
+  const onDeleteValues = () => {
+    const newSubTasks = selectTask.subTasks.filter(
+      (subTask) => subTask.id !== selectSubTask.id
+    );
+    return { ...selectTask, subTasks: newSubTasks };
+  };
+
   return (
     <>
-      {Boolean(selectTask) && (
+      {Boolean(selectSubTask) && (
         <section className="SinglePage SingleTeam main">
           <div className="SinglePage__Container SinglePage__Container top">
             <BackBtn />
             <div className="SinglePage__InnerContainer Title__Container">
               <h2 className="SinglePage__Title SinglePage__ItemName">
-                {selectTask.name}
+                <CustomLink to={`/mytasks/${selectTask.id}`}>
+                  {`${selectTask.name} | `}
+                </CustomLink>
+                {selectSubTask.name}
               </h2>
-              <ProgressBar
-                completeItems={completeSubTasks}
-                totalItems={totalSubTasks}
-              />
               <div className="SinglePage__Ctrl-Btns">
                 <Bell
                   className="SinglePage__Ctrl-Btn"
-                  status={selectTask.reminder}
+                  status={selectSubTask.reminder}
                   onClick={onSetReminder}
-                  title={`Reminder ${selectTask.reminder ? "ON" : "OFF"}`}
+                  title={`Reminder ${selectSubTask.reminder ? "ON" : "OFF"}`}
                 />
                 <EditBtn
                   className="SinglePage__Ctrl-Btn"
-                  path={`/mytasks/edit/${selectTask.id}`}
+                  path={`/mytasks/${selectTask.id}/edit/${selectSubTask.id}`}
                 />
                 <DeleteBtn
                   className="SinglePage__Ctrl-Btn"
-                  action={deleteTask(selectTask.id)}
+                  action={editTask(onDeleteValues())}
                 />
               </div>
             </div>
@@ -70,28 +74,10 @@ const SingleTask = () => {
               <div className="SinglePage__Description">
                 <h3>Description:</h3>
                 <p className="SinglePage__Description-text">
-                  {selectTask.description}
+                  {selectSubTask.description}
                 </p>
               </div>
             </div>
-          </div>
-
-          <div className="SinglePage__Container bottom">
-            <SubTasks
-              subTasks={subTasks.toDo}
-              taskId={taskId}
-              status={STATUS.TO_DO}
-              setIsComplete={setIsComplete}
-            />
-
-            {subTasks.complete.length > 0 && (
-              <SubTasks
-                subTasks={subTasks.complete}
-                taskId={taskId}
-                status={STATUS.COMPLETE}
-                setIsComplete={setIsComplete}
-              />
-            )}
           </div>
         </section>
       )}
@@ -99,4 +85,4 @@ const SingleTask = () => {
   );
 };
 
-export default SingleTask;
+export default SingleSubTask;

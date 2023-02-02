@@ -1,12 +1,12 @@
-.Task__Container{
+.Task__Container {
     /* padding: 0 30px; */
 }
 
-.Task__Container.top{
+.Task__Container.top {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
     grid-template-rows: 1fr 1fr;
-    grid-template-areas: 
+    grid-template-areas:
         'helloMsg girlImg'
         'addBtn-Container girlImg';
     align-items: center;
@@ -14,19 +14,19 @@
     max-height: calc(48vh - 60px);
 }
 
-.Task__helloMsg{
+.Task__helloMsg {
     padding: 30px 0 20px;
     display: block;
     text-align: left;
     grid-area: helloMsg;
 }
 
-.Task__AddBtn-Container{
+.Task__AddBtn-Container {
     grid-area: addBtn-Container;
     align-self: flex-start;
 }
 
-.Task__img{
+.Task__img {
     text-align: center;
     max-height: 250px;
     height: 100%;
@@ -35,42 +35,42 @@
     grid-area: girlImg;
 }
 
-.Task__img img{
+.Task__img img {
     height: 100%;
     object-fit: contain;
     max-height: 250px;
 }
 
-.Task__Container.bottom{
+.Task__Container.bottom {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 30px;
     padding: 10px 0;
 }
 
-.Tasks__Snippet{
-   max-height: 50vh;
-   overflow: hidden;
-   margin-bottom: 20px;
-   position: relative;
+.Tasks__Snippet {
+    max-height: 50vh;
+    overflow: hidden;
+    margin-bottom: 20px;
+    position: relative;
 }
 
-.Tasks__Snippet-title{
-   font-weight: bold;
-   padding: 10px;
-   text-align: initial;
+.Tasks__Snippet-title {
+    font-weight: bold;
+    padding: 10px;
+    text-align: initial;
 }
 
-.Tasks__Snippet-items{
+.Tasks__Snippet-items {
     margin-top: 20px;
 }
 
 
-.ToDo.Tasks__Snippet{
+.ToDo.Tasks__Snippet {
     padding: 0 5px;
 }
 
-.ToDo .Task__Data{
+.ToDo .Task__Data {
     flex: 1;
     text-align: initial;
     padding: 0 10px 0 25px;
@@ -80,44 +80,44 @@
     grid-template-rows: 1fr;
 }
 
-.ToDo .Task__Data span{
+.ToDo .Task__Data span {
     color: #474747;
     font-size: 13px;
 }
 
-.ToDo .Task__Name{
-    font-size: 15px!important;
+.ToDo .Task__Name {
+    font-size: 15px !important;
     font-weight: bold;
     color: #333;
 }
 
-.ToDo .checkbox{
+.ToDo .checkbox {
     align-self: center;
 }
 
 @media only screen and (max-width: 800px) {
-    .Task__Container.top{
-       display: flex;
-       flex-direction: column;
-       align-items: flex-start;
-       position: relative;
-       max-height: unset;
-       min-height: 250px;
+    .Task__Container.top {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        position: relative;
+        max-height: unset;
+        min-height: 250px;
     }
 
-    .Task__helloMsg{
+    .Task__helloMsg {
         padding: 40px 0 30px;
         z-index: 4;
         position: relative;
     }
-    
-    .Task__AddBtn-Container{
+
+    .Task__AddBtn-Container {
         z-index: 4;
         position: relative;
     }
 
 
-    .Task__img{  
+    .Task__img {
         height: 100%;
         display: flex;
         justify-content: center;
@@ -126,8 +126,8 @@
         top: 0;
     }
 
-    .Task__Container.bottom{
+    .Task__Container.bottom {
         display: block;
         max-height: unset;
-    }   
+    }
 }

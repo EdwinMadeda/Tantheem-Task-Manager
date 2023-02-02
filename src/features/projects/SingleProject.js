@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
-import { selectDeliverableById, selectOneProject } from "./projectsSlice";
+import { deleteProject, selectOneProject } from "./projectsSlice";
 import { STATUS } from "./projectsSlice";
 import ProjectDeliverables from "./ProjectDeliverables";
 import ProgressBar from "../../reusableComponents/ProgressBar";
@@ -11,10 +11,9 @@ import DeleteBtn from "../../reusableComponents/DeleteBtn";
 
 import "./SingleProject.css";
 import "../../SinglePage.css";
-import CustomLink from "../../reusableComponents/CustomLink";
 
 const SingleProject = () => {
-  const { projectId, deliverableId } = useParams();
+  const { projectId } = useParams();
   const {
     selectProject,
     deliverables,
@@ -22,76 +21,65 @@ const SingleProject = () => {
     totalDeliverables,
   } = useSelector((state) => selectOneProject(state, Number(projectId)));
 
-  const selectDeliverable = useSelector((state) =>
-    selectDeliverableById(state, Number(projectId), Number(deliverableId))
-  );
-
-  const selectItem = Boolean(selectDeliverable)
-    ? selectDeliverable
-    : selectProject;
-
-  const editPath = Boolean(selectDeliverable)
-    ? `/myprojects/${selectProject.id}/edit/${selectDeliverable.id}`
-    : `/myprojects/edit/${selectProject.id}`;
-
   return (
-    <section className="SinglePage SingleProject main">
-      <div className="SinglePage__Container SinglePage__Container top">
-        <BackBtn />
-        <div className="SinglePage__InnerContainer Title__Container">
-          <h2 className="SinglePage__Title SinglePage__ItemName">
-            {Boolean(selectDeliverable) && (
-              <CustomLink to={`/myprojects/${selectProject.id}`}>
-                {`${selectProject.name} | `}
-              </CustomLink>
-            )}
-            {selectItem.name}
-          </h2>
-          {!Boolean(deliverableId) && (
-            <ProgressBar
-              completeItems={completeDeliverables}
-              totalItems={totalDeliverables}
-            />
-          )}
-          <div className="SinglePage__Ctrl-Btns">
-            <EditBtn className="SinglePage__Ctrl-Btn" path={editPath} />
-            <DeleteBtn className="SinglePage__Ctrl-Btn" />
+    <>
+      {Boolean(selectProject) && (
+        <section className="SinglePage SingleProject main">
+          <div className="SinglePage__Container SinglePage__Container top">
+            <BackBtn />
+            <div className="SinglePage__InnerContainer Title__Container">
+              <h2 className="SinglePage__Title SinglePage__ItemName">
+                {selectProject.name}
+              </h2>
+              <ProgressBar
+                completeItems={completeDeliverables}
+                totalItems={totalDeliverables}
+              />
+              <div className="SinglePage__Ctrl-Btns">
+                <EditBtn
+                  className="SinglePage__Ctrl-Btn"
+                  path={`/myprojects/edit/${selectProject.id}`}
+                />
+                <DeleteBtn
+                  className="SinglePage__Ctrl-Btn"
+                  action={deleteProject(selectProject.id)}
+                />
+              </div>
+            </div>
+            <div className="SinglePage__InnerContainer">
+              <div className="SinglePage__Description">
+                <h3>Description:</h3>
+                <p>{selectProject.description}</p>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="SinglePage__InnerContainer">
-          <div className="SinglePage__Description">
-            <h3>Description:</h3>
-            <p>{selectItem.description}</p>
-          </div>
-        </div>
-      </div>
 
-      {!Boolean(deliverableId) && (
-        <>
-          <MemberShareBtns members={[]} />
-          <div className="SinglePage__Container bottom">
-            <ProjectDeliverables
-              deliverables={deliverables.toDo}
-              status={STATUS.TO_DO}
-              projectId={projectId}
-            />
-            <ProjectDeliverables
-              deliverables={deliverables.inProgress}
-              status={STATUS.IN_PROGRESS}
-              projectId={projectId}
-            />
-
-            {deliverables.complete.length > 0 && (
+          <>
+            <MemberShareBtns members={[]} />
+            <div className="SinglePage__Container bottom">
               <ProjectDeliverables
-                deliverables={deliverables.complete}
-                status={STATUS.COMPLETE}
+                deliverables={deliverables.toDo}
+                status={STATUS.TO_DO}
                 projectId={projectId}
               />
-            )}
-          </div>
-        </>
+              <ProjectDeliverables
+                deliverables={deliverables.inProgress}
+                status={STATUS.IN_PROGRESS}
+                projectId={projectId}
+              />
+
+              {deliverables.complete.length > 0 && (
+                <ProjectDeliverables
+                  deliverables={deliverables.complete}
+                  status={STATUS.COMPLETE}
+                  projectId={projectId}
+                />
+              )}
+            </div>
+          </>
+        </section>
       )}
-    </section>
+    </>
   );
 };
 

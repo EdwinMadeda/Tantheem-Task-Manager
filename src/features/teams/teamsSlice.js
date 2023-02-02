@@ -7,7 +7,7 @@ const initialState = [
     name: "UX Team",
     description: "",
     memberIDs: [],
-    taskIDs: [],
+    taskIDs: [0],
     createdAt: format(new Date("2022-03-27"), "yyyy-MM-dd"),
   },
   {
@@ -47,6 +47,9 @@ const teamsSlice = createSlice({
         team.id === action.payload.id ? action.payload : team
       );
     },
+    deleteTeam(state, action) {
+      return state.filter((team) => team.id !== action.payload);
+    },
   },
 });
 
@@ -55,5 +58,5 @@ export const selectLatestTeam = (state) => state.teams[state.teams.length - 1];
 export const selectTeamById = (state, teamId) =>
   state.teams.find((team) => team.id === teamId);
 
-export const { addTeam, editTeam } = teamsSlice.actions;
+export const { addTeam, editTeam, deleteTeam } = teamsSlice.actions;
 export default teamsSlice.reducer;

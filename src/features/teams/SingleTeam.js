@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
-import { selectTeamById } from "./teamsSlice";
+import { selectTeamById, deleteTeam } from "./teamsSlice";
 import { selectProjectsByTeam } from "../projects/projectsSlice";
 import { selectTasksByTeam } from "../tasks/taskSlice";
 import BackBtn from "../../reusableComponents/BackBtn";
@@ -19,34 +19,50 @@ const SingleTeam = () => {
   const { teamId } = useParams();
   const teamIdNo = Number(teamId);
 
-  const selectTeam = useSelector(state => selectTeamById(state, teamIdNo));
-  const selectProjects = useSelector(state => selectProjectsByTeam(state, teamIdNo));
-  const selectTasks = useSelector(state => selectTasksByTeam(state, teamIdNo));
+  const selectTeam = useSelector((state) => selectTeamById(state, teamIdNo));
+  const selectProjects = useSelector((state) =>
+    selectProjectsByTeam(state, teamIdNo)
+  );
+  const selectTasks = useSelector((state) =>
+    selectTasksByTeam(state, teamIdNo)
+  );
 
-  console.log(selectTeam.id);
-  
   return (
-    <section className="SingleTeam main">
-    <div className="SinglePage__Container SingleTeam__Container top"
-         style={{backgroundImage : `url(${team_bgImage})`}}>
-        <BackBtn />
-        <div className="SinglePage__InnerContainer">
-            <h2 className="SinglePage__Title SingleTeam__Title">{selectTeam.name}</h2>
-            <div className="SinglePage__Ctrl-Btns">
-                  <EditBtn className="SinglePage__Ctrl-Btn" path={`/teams/edit/${selectTeam.id}`}/>
-                  <DeleteBtn className="SinglePage__Ctrl-Btn"/>
+    <>
+      {Boolean(selectTeam) && (
+        <section className="SingleTeam main">
+          <div
+            className="SinglePage__Container SingleTeam__Container top"
+            style={{ backgroundImage: `url(${team_bgImage})` }}
+          >
+            <BackBtn />
+            <div className="SinglePage__InnerContainer">
+              <h2 className="SinglePage__Title SingleTeam__Title">
+                {selectTeam.name}
+              </h2>
+              <div className="SinglePage__Ctrl-Btns">
+                <EditBtn
+                  className="SinglePage__Ctrl-Btn"
+                  path={`/teams/edit/${selectTeam.id}`}
+                />
+                <DeleteBtn
+                  className="SinglePage__Ctrl-Btn"
+                  action={deleteTeam(selectTeam.id)}
+                />
+              </div>
             </div>
-        </div>
-    </div>
-    <div className="SingleTeam__Container bottom">
-        <MemberShareBtns members={[]}/>
-        <div className="SingleTeam__InnerContainer">
-            <PreviousProjectsSnippet projects={selectProjects}/>
-            <TodoTeamTasks tasks={selectTasks} />
-        </div>
-    </div>
-</section>
-  )
-}
+          </div>
+          <div className="SingleTeam__Container bottom">
+            <MemberShareBtns members={[]} />
+            <div className="SingleTeam__InnerContainer">
+              <PreviousProjectsSnippet projects={selectProjects} />
+              <TodoTeamTasks rawtasks={selectTasks} />
+            </div>
+          </div>
+        </section>
+      )}
+    </>
+  );
+};
 
-export default SingleTeam
+export default SingleTeam;

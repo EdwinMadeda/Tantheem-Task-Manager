@@ -165,6 +165,9 @@ const projectsSlice = createSlice({
         project.id === action.payload.id ? action.payload : project
       );
     },
+    deleteProject(state, action) {
+      return state.filter((project) => project.id !== action.payload);
+    },
   },
 });
 
@@ -236,5 +239,5 @@ export const completeDeliverablesCount = (state, id) => {
   return 0;
 };
 
-export const { addProject, editProject } = projectsSlice.actions;
+export const { addProject, editProject, deleteProject } = projectsSlice.actions;
 export default projectsSlice.reducer;

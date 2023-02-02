@@ -9,7 +9,11 @@ import Teams from "./features/teams/Teams";
 import Search from "./features/search/Search";
 
 import SingleTask from "./features/tasks/SingleTask";
+import SingleSubTask from "./features/tasks/SingleSubTask";
+
 import SingleProject from "./features/projects/SingleProject";
+import SingleDeliverable from "./features/projects/SingleDeliverable";
+
 import SingleTeam from "./features/teams/SingleTeam";
 
 import AddTask from "./features/tasks/addOrEdit/AddTask";
@@ -35,7 +39,7 @@ function App() {
         <Route path="/mytasks">
           <Route index element={<Tasks />} />
           <Route path=":taskId" element={<SingleTask />} />
-          <Route path=":taskId/:subTaskId" element={<SingleTask />} />
+          <Route path=":taskId/:subTaskId" element={<SingleSubTask />} />
           <Route path="/mytasks/add" element={<AddTask />} />
           <Route path="/mytasks/edit/:taskId" element={<EditTask />} />
           <Route path=":taskId/add" element={<AddSubTask />} />
@@ -48,7 +52,10 @@ function App() {
         <Route path="/myprojects">
           <Route index element={<Projects />} />
           <Route path=":projectId" element={<SingleProject />} />
-          <Route path=":projectId/:deliverableId" element={<SingleProject />} />
+          <Route
+            path=":projectId/:deliverableId"
+            element={<SingleDeliverable />}
+          />
           <Route path=":projectId/add" element={<AddDeliverable />} />
           <Route
             path="/myprojects/:projectId/edit/:deliverableId"

@@ -116,6 +116,9 @@ const tasksSlice = createSlice({
         task.id === action.payload.id ? action.payload : task
       );
     },
+    deleteTask(state, action) {
+      return state.filter((task) => task.id !== action.payload);
+    },
   },
 });
 
@@ -155,5 +158,5 @@ export const selectOneTask = (state, taskId) => {
 export const selectTasksByTeam = (state, teamId) =>
   state.tasks.filter((task) => task.teamId === teamId);
 
-export const { addTask, editTask } = tasksSlice.actions;
+export const { addTask, editTask, deleteTask } = tasksSlice.actions;
 export default tasksSlice.reducer;

@@ -4,7 +4,7 @@ import CustomLink from "../../reusableComponents/CustomLink";
 import EditBtn from "../../reusableComponents/EditBtn";
 import { STATUS } from "./taskSlice";
 
-const subTasks = ({ subTasks, taskId, status }) => {
+const subTasks = ({ subTasks, taskId, status, setIsComplete }) => {
   return (
     <div className="SinglePage__InnerContainer">
       <h3 className="SubTasks__Title SinglePage__Sub-item__Title SinglePage__Title">
@@ -20,7 +20,10 @@ const subTasks = ({ subTasks, taskId, status }) => {
               className="SubTask__Item SinglePage__Sub-item__Item"
               key={subTask.id}
             >
-              <CheckBox checked={false} onChange={() => {}} />
+              <CheckBox
+                checked={subTask.isComplete}
+                onChange={(status) => setIsComplete(status, subTask.id)}
+              />
               <CustomLink
                 className="subTask__ItemName SinglePage__Sub-item__ItemName"
                 to={`/mytasks/${taskId}/${subTask.id}`}

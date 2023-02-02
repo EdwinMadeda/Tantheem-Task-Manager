@@ -1,41 +1,57 @@
-import { useState} from "react";
+import { useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { selectViewMorePreviousWork, setViewMorePreviousWork } from "../viewMore/viewMoreSlice";
+import {
+  selectViewMorePreviousWork,
+  setViewMorePreviousWork,
+} from "../viewMore/viewMoreSlice";
 
 import CheckBox from "../../reusableComponents/CheckBox";
 import ViewMoreBtn from "../../reusableComponents/ViewMoreBtn";
 import CustomLink from "../../reusableComponents/CustomLink";
+import NoItems from "../../reusableComponents/NoItemsMsg";
 
-const PreviousWorkSnippet = ({tasks}) => {
-
+const PreviousWorkSnippet = ({ tasks }) => {
   const viewMore = useSelector(selectViewMorePreviousWork);
 
   const dispatch = useDispatch();
-  const setViewMore = viewMore => dispatch(setViewMorePreviousWork(viewMore));
-    
+  const setViewMore = (viewMore) => dispatch(setViewMorePreviousWork(viewMore));
+
   return (
-    <div className={`PreviousWork Tasks__Snippet ${viewMore? 'viewMore':''}`}>
-        <p className="Tasks__Snippet-title">previous Work</p>
-        <ul className="Tasks__Snippet-items Snippet__Type1-Items">
-          {tasks.map(task => (
-            <li className="Tasks__Snippet-item Snippet__Type1-Item"
-                key={task.id}>
-                <CheckBox checked={task.isComplete}/>
+    <div
+      className={`PreviousWork Tasks__Snippet ${viewMore ? "viewMore" : ""}`}
+    >
+      <p className="Tasks__Snippet-title">previous Work</p>
+      {tasks.length > 0 ? (
+        <>
+          <ul className="Tasks__Snippet-items Snippet__Type1-Items">
+            {tasks.map((task) => (
+              <li
+                className="Tasks__Snippet-item Snippet__Type1-Item"
+                key={task.id}
+              >
+                <CheckBox checked={task.isComplete} />
                 <CustomLink
-                    to={`/mytasks/${task.id}`}
-                    className="Task__ItemName Snippet__Type1-ItemName">
+                  to={`/mytasks/${task.id}`}
+                  className="Task__ItemName Snippet__Type1-ItemName"
+                >
                   {task.name.substring(0, 20)}...
                 </CustomLink>
-            </li>))
-          }
-        </ul>
+              </li>
+            ))}
+          </ul>
 
-        <ViewMoreBtn viewMore={viewMore} setViewMore={setViewMore} />
-        
+          <ViewMoreBtn
+            viewMore={viewMore}
+            setViewMore={setViewMore}
+            itemsCount={tasks.length}
+          />
+        </>
+      ) : (
+        <NoItems />
+      )}
     </div>
-  )
+  );
+};
 
-}
-
-export default PreviousWorkSnippet
+export default PreviousWorkSnippet;

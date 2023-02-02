@@ -162,11 +162,18 @@ body {
 }
 
 .hidden {
-	display: none;
+	display: none !important;
 }
 
 .icon {
 	font-size: 18px;
+}
+
+.no-Items-msg {
+	margin: 10px 0;
+	padding: 20px;
+	border: 2px solid #333;
+	border-radius: 8px;
 }
 
 .btn:active {
@@ -332,12 +339,13 @@ body {
 .ViewmoreBtn-Wrapper {
 	position: absolute;
 	bottom: 0;
-	background-image: linear-gradient(to bottom, #ffffff1f, #fff);
+	background-image: linear-gradient(to bottom, #ffffff1f, var(--primary__Color2));
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	padding-top: 40px;
+	border-radius: 10px;
 }
 
 .ViewmoreBtn-Wrapper.viewMore {
@@ -686,6 +694,8 @@ section.main {
 	border-radius: 10px;
 	background: #fff;
 	padding: 10px;
+	box-shadow: 2px 2px 2px #858585;
+	margin-right: 2px;
 }
 
 .Snippet__Type1-Item {
