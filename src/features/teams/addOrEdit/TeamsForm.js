@@ -1,30 +1,20 @@
-import { PRIORITY } from "../../../constants";
-import { useEffect, useReducer } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { useState } from "react";
-import format from "date-fns/format";
+import { useReducer } from "react";
 
 import Form, {
   InputText,
   InputTextArea,
-  InputBell,
-  InputRadio,
-  InputDate,
   InputSubmit,
 } from "../../../reusableComponents/Form";
 
 const initialState = {
   name: "",
   description: "",
-  teamId: undefined,
-  startDate: "", //format(new Date(), "yyyy-MM-dd"),
-  endDate: "",
-  reminder: false,
-  isComplete: false,
-  priority: PRIORITY.HIGH,
 };
 
 const init = () => initialState;
+
 const reducer = (state, action) => {
   switch (action.type) {
     case "init":
@@ -36,7 +26,7 @@ const reducer = (state, action) => {
   }
 };
 
-const TasksForm = ({
+const TeamsForm = ({
   formTitle,
   submitLabel,
   defaultValues = false,
@@ -70,8 +60,8 @@ const TasksForm = ({
   };
 
   return (
-    <section className="AddOrEditTask AddNewItem main">
-      <Form className="AddOrEditTask__Form" title={formTitle}>
+    <section className="AddOrEditTeam AddNewItem main">
+      <Form className="AddOrEditTeam__Form" title={formTitle}>
         <InputText
           label="Name"
           id="name"
@@ -87,48 +77,10 @@ const TasksForm = ({
           disabled={disabled}
         />
 
-        <InputDate
-          label="Start date"
-          id="due-date"
-          value={state.startDate}
-          onChange={(inputVal) => setValue({ startDate: inputVal })}
-          disabled={disabled}
-        />
-
-        <InputDate
-          label="End date"
-          id="due-date"
-          value={state.endDate}
-          onChange={(inputVal) => setValue({ endDate: inputVal })}
-          disabled={disabled}
-        />
-
-        <InputBell
-          label="Set Reminder"
-          value={state.reminder}
-          onChange={(inputVal) => setValue({ reminder: inputVal })}
-          disabled={disabled}
-        />
-
-        <InputRadio
-          label="Priority"
-          id="priority"
-          options={[
-            { name: "Low", value: PRIORITY.LOW },
-            { name: "Medium", value: PRIORITY.MEDIUM },
-            { name: "High", value: PRIORITY.HIGH },
-          ]}
-          disabled={disabled}
-        />
-
-        <InputSubmit
-          label={submitLabel}
-          onClick={onSubmit}
-          disabled={disabled}
-        />
+        <InputSubmit label={submitLabel} onClick={onSubmit} />
       </Form>
     </section>
   );
 };
 
-export default TasksForm;
+export default TeamsForm;

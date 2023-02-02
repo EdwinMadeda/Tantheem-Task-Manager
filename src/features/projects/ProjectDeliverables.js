@@ -27,6 +27,7 @@ const ProjectDeliverables = ({ deliverables, status, projectId }) => {
           <AddBtn
             label={"Add Deliverable"}
             path={`/myprojects/${projectId}/add`}
+            state={{ status }}
           />
         )}
 
@@ -37,6 +38,7 @@ const ProjectDeliverables = ({ deliverables, status, projectId }) => {
               <CustomLink
                 className="SinglePage__Sub-item__ItemName"
                 to={`/myprojects/${projectId}/${deliverable.id}`}
+                state={{ status }}
               >
                 {deliverable.name}
               </CustomLink>

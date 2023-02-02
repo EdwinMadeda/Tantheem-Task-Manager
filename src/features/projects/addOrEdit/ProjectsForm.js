@@ -1,13 +1,6 @@
-import { useReducer } from "react";
-import {
-  STATUS,
-  selectProjectById,
-  selectDeliverableById,
-  selectOneProject,
-} from "./projectsSlice";
-import { PRIORITY } from "../../constants";
-
-import useAddOrEdit from "../../customHooks/useAddOrEdit";
+import { useEffect, useReducer, useState } from "react";
+import { STATUS } from "../projectsSlice";
+import { PRIORITY } from "../../../constants";
 
 import Form, {
   InputText,
@@ -16,9 +9,8 @@ import Form, {
   InputRadio,
   InputDate,
   InputSubmit,
-} from "../../reusableComponents/Form";
-import { useParams } from "react-router";
-import { useSelector } from "react-redux";
+} from "../../../reusableComponents/Form";
+import { Navigate, useNavigate } from "react-router";
 
 const initialState = {
   name: "",
@@ -44,50 +36,44 @@ const reducer = (state, action) => {
   }
 };
 
-const AddOrEditProject = () => {
+const ProjectsForm = ({
+  formTitle,
+  submitLabel,
+  defaultValues = false,
+  disabled = false,
+  reduxDispatch,
+}) => {
   const [state, dispatch] = useReducer(reducer, initialState, init);
   const setProjectValue = (payload) => {
     dispatch({ type: "setProjectValue", payload });
   };
+  const [error, setError] = useState(false);
+  const navigate = useNavigate();
 
-  const { projectId, deliverableId } = useParams();
+  useEffect(() => {
+    Boolean(defaultValues) && setProjectValue(defaultValues);
+  }, [defaultValues]);
 
-  const selectProject = useSelector((state) =>
-    selectProjectById(state, Number(projectId))
-  );
-
-  const selectDeliverable = useSelector((state) =>
-    selectDeliverableById(state, Number(projectId), Number(deliverableId))
-  );
-
-  const selectItem = Boolean(selectDeliverable)
-    ? selectDeliverable
-    : selectProject;
-
-  const { mode } = useAddOrEdit(selectItem, setProjectValue);
-
-  const submit = () => {
-    console.log(state);
+  const submit = (e) => {
+    e.preventDefault();
+    try {
+      reduxDispatch(state);
+    } catch (error) {
+      setError(`Failed to ${submitLabel.toLowerCase()}`);
+    } finally {
+      !error && navigate(-1);
+    }
   };
 
   return (
     <section className="AddOrEditProject AddNewItem main">
-      <Form
-        className="AddOrEditProject__Form"
-        title={
-          (Boolean(selectProject) && Boolean(selectDeliverable)) ||
-          (Boolean(selectProject) && mode === "Add")
-            ? "Deliverable"
-            : "Project"
-        }
-        mode={mode}
-      >
+      <Form className="AddOrEditProject__Form" title={formTitle}>
         <InputText
           label="Name"
           id="name"
           value={state.name}
           onChange={(inputVal) => setProjectValue({ name: inputVal })}
-          disabled={mode === "View"}
+          disabled={disabled}
         />
 
         <InputTextArea
@@ -95,7 +81,7 @@ const AddOrEditProject = () => {
           id="description"
           value={state.description}
           onChange={(inputVal) => setProjectValue({ description: inputVal })}
-          disabled={mode === "View"}
+          disabled={disabled}
         />
 
         <InputDate
@@ -103,7 +89,7 @@ const AddOrEditProject = () => {
           id="due-date"
           value={state.startDate}
           onChange={(inputVal) => setProjectValue({ dueDate: inputVal })}
-          disabled={mode === "View"}
+          disabled={disabled}
         />
 
         <InputDate
@@ -111,14 +97,14 @@ const AddOrEditProject = () => {
           id="due-date"
           value={state.endDate}
           onChange={(inputVal) => setProjectValue({ dueDate: inputVal })}
-          disabled={mode === "View"}
+          disabled={disabled}
         />
 
         <InputBell
           label="Set Reminder"
           value={state.reminder}
           onChange={(inputVal) => setProjectValue({ reminder: inputVal })}
-          disabled={mode === "View"}
+          disabled={disabled}
         />
 
         <InputRadio
@@ -129,19 +115,13 @@ const AddOrEditProject = () => {
             { name: "Medium", value: PRIORITY.MEDIUM },
             { name: "High", value: PRIORITY.HIGH },
           ]}
-          disabled={mode === "View"}
+          disabled={disabled}
         />
 
-        <InputSubmit
-          label={
-            mode + `${Boolean(selectDeliverable) ? "Deliverable" : "Project"}`
-          }
-          onClick={submit}
-          disabled={mode === "View"}
-        />
+        <InputSubmit label={submitLabel} onClick={submit} disabled={disabled} />
       </Form>
     </section>
   );
 };
 
-export default AddOrEditProject;
+export default ProjectsForm;

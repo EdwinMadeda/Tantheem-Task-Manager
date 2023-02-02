@@ -15,7 +15,7 @@ const initialState = [
     status: STATUS.COMPLETE,
     priority: PRIORITY.HIGH,
     startDate: "",
-    endDate: new Date("2022-03-24").toISOString(),
+    endDate: "2022-03-24",
     teamId: 0,
     deliverables: [
       {
@@ -73,7 +73,7 @@ const initialState = [
     priority: PRIORITY.MEDIUM,
     teamId: 1,
     startDate: "",
-    endDate: new Date("2022-03-27").toISOString(),
+    endDate: "2022-03-27",
     deliverables: [
       {
         id: 0,
@@ -155,7 +155,17 @@ const initialState = [
 const projectsSlice = createSlice({
   name: "projects",
   initialState,
-  reducers: {},
+  reducers: {
+    addProject(state, action) {
+      const id = state.length + 1;
+      state.push({ id, ...action.payload, deliverables: [] });
+    },
+    editProject(state, action) {
+      return state.map((project) =>
+        project.id === action.payload.id ? action.payload : project
+      );
+    },
+  },
 });
 
 export const selectAllProjects = (state) => state.projects;
@@ -226,4 +236,5 @@ export const completeDeliverablesCount = (state, id) => {
   return 0;
 };
 
+export const { addProject, editProject } = projectsSlice.actions;
 export default projectsSlice.reducer;

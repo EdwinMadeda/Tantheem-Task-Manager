@@ -12,7 +12,7 @@ const EditTask = () => {
   const dispatch = useDispatch();
 
   const reduxDispatch = (values) => {
-    dispatch(editTask(values)).unwrap();
+    return dispatch(editTask(values)).unwrap();
   };
 
   return (

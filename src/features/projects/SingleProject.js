@@ -80,11 +80,14 @@ const SingleProject = () => {
               status={STATUS.IN_PROGRESS}
               projectId={projectId}
             />
-            <ProjectDeliverables
-              deliverables={deliverables.complete}
-              status={STATUS.COMPLETE}
-              projectId={projectId}
-            />
+
+            {deliverables.complete.length > 0 && (
+              <ProjectDeliverables
+                deliverables={deliverables.complete}
+                status={STATUS.COMPLETE}
+                projectId={projectId}
+              />
+            )}
           </div>
         </>
       )}
