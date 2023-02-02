@@ -2,26 +2,15 @@ import { useState, useRef } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import useTargetAction from "../customHooks/useTargetAction";
 
-const DotsMenu = ({ options }) => {
+const DotsMenu = ({ options, targetId }) => {
   const [menuVisible, setMenuVisible] = useState(false);
   const ref = useRef(null);
 
   useTargetAction(setMenuVisible, ref, "click");
 
-  // const options = [
-  //   {
-  //      name: 'In Progress',
-  //      onClick : ()=>{}
-  //   },
-  //   {
-  //     name: 'Complete',
-  //     onClick : ()=>{}
-  //   }
-  // ]
-
-  const onOptionClick = (callback) => {
+  const onOptionClick = (value, callback) => {
     setMenuVisible(false);
-    callback();
+    callback(value, targetId);
   };
 
   const Options = () => {
@@ -30,7 +19,7 @@ const DotsMenu = ({ options }) => {
         {options.map((option, index) => (
           <li
             key={index}
-            onClick={() => onOptionClick(option.onClick)}
+            onClick={() => onOptionClick(option.name, option.onClick)}
             className="dotsMenu__Option"
           >
             {option.name}

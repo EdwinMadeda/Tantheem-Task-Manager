@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
-import { useSelector } from "react-redux";
-import { deleteProject, selectOneProject } from "./projectsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteProject, editProject, selectOneProject } from "./projectsSlice";
 import { STATUS } from "./projectsSlice";
 import ProjectDeliverables from "./ProjectDeliverables";
 import ProgressBar from "../../reusableComponents/ProgressBar";
@@ -20,6 +20,17 @@ const SingleProject = () => {
     completeDeliverables,
     totalDeliverables,
   } = useSelector((state) => selectOneProject(state, Number(projectId)));
+  const dispatch = useDispatch();
+
+  const setStatus = (status, deliverableId) => {
+    const newDeliverables = selectProject.deliverables.map((deliverable) =>
+      deliverable.id === deliverableId
+        ? { ...deliverable, status }
+        : deliverable
+    );
+
+    dispatch(editProject({ ...selectProject, deliverables: newDeliverables }));
+  };
 
   return (
     <>
@@ -61,11 +72,13 @@ const SingleProject = () => {
                 deliverables={deliverables.toDo}
                 status={STATUS.TO_DO}
                 projectId={projectId}
+                setStatus={setStatus}
               />
               <ProjectDeliverables
                 deliverables={deliverables.inProgress}
                 status={STATUS.IN_PROGRESS}
                 projectId={projectId}
+                setStatus={setStatus}
               />
 
               {deliverables.complete.length > 0 && (
@@ -73,6 +86,7 @@ const SingleProject = () => {
                   deliverables={deliverables.complete}
                   status={STATUS.COMPLETE}
                   projectId={projectId}
+                  setStatus={setStatus}
                 />
               )}
             </div>

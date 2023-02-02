@@ -4,7 +4,12 @@ import DotsMenu from "../../reusableComponents/DotsMenu";
 import EditBtn from "../../reusableComponents/EditBtn";
 import { STATUS } from "./projectsSlice";
 
-const ProjectDeliverables = ({ deliverables, status, projectId }) => {
+const ProjectDeliverables = ({
+  deliverables,
+  status,
+  projectId,
+  setStatus,
+}) => {
   const optionEntries = Object.entries(STATUS)
     .map((entry) => entry[1])
     .filter((entry) => entry !== status);
@@ -13,7 +18,7 @@ const ProjectDeliverables = ({ deliverables, status, projectId }) => {
     return {
       id: index,
       name: entry,
-      onClick: () => {},
+      onClick: setStatus,
     };
   });
 
@@ -34,7 +39,7 @@ const ProjectDeliverables = ({ deliverables, status, projectId }) => {
         <ul className="SinglePage__Sub-item__Items">
           {deliverables.map((deliverable) => (
             <li className="SinglePage__Sub-item__Item" key={deliverable.id}>
-              <DotsMenu options={options} />
+              <DotsMenu options={options} targetId={deliverable.id} />
               <CustomLink
                 className="SinglePage__Sub-item__ItemName"
                 to={`/myprojects/${projectId}/${deliverable.id}`}
