@@ -11,11 +11,12 @@ import ViewMoreBtn from "../../reusableComponents/ViewMoreBtn";
 import CustomLink from "../../reusableComponents/CustomLink";
 import NoItems from "../../reusableComponents/NoItemsMsg";
 
-const PreviousWorkSnippet = ({ tasks }) => {
+const PreviousWorkSnippet = ({ tasks, setIsTaskComplete }) => {
   const viewMore = useSelector(selectViewMorePreviousWork);
 
   const dispatch = useDispatch();
   const setViewMore = (viewMore) => dispatch(setViewMorePreviousWork(viewMore));
+  const hasSubTasks = (task) => task.subTasks.length !== 0;
 
   return (
     <div
@@ -30,7 +31,12 @@ const PreviousWorkSnippet = ({ tasks }) => {
                 className="Tasks__Snippet-item Snippet__Type1-Item"
                 key={task.id}
               >
-                <CheckBox checked={task.isComplete} />
+                {!hasSubTasks(task) && (
+                  <CheckBox
+                    checked={task.isComplete}
+                    onChange={(status) => setIsTaskComplete(task, status)}
+                  />
+                )}
                 <CustomLink
                   to={`/mytasks/${task.id}`}
                   className="Task__ItemName Snippet__Type1-ItemName"

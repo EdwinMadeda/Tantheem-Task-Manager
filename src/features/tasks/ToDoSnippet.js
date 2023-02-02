@@ -12,11 +12,12 @@ import ViewMoreBtn from "../../reusableComponents/ViewMoreBtn";
 import CustomLink from "../../reusableComponents/CustomLink";
 import NoItems from "../../reusableComponents/NoItemsMsg";
 
-const ToDoSnippet = ({ tasks }) => {
+const ToDoSnippet = ({ tasks, setIsTaskComplete, onSetReminder }) => {
   const viewMore = useSelector(selectViewMoreTasksToDo);
 
   const dispatch = useDispatch();
   const setViewMore = (viewMore) => dispatch(setViewMoreTasksToDo(viewMore));
+  const hasSubTasks = (task) => task.subTasks.length !== 0;
 
   return (
     <div className={`ToDo Tasks__Snippet ${viewMore ? "viewMore" : ""}`}>
@@ -29,7 +30,12 @@ const ToDoSnippet = ({ tasks }) => {
                 className="Tasks__Snippet-item Snippet__Type2-Item"
                 key={task.id}
               >
-                <CheckBox checked={task.isComplete} />
+                {!hasSubTasks(task) && (
+                  <CheckBox
+                    checked={task.isComplete}
+                    onChange={(status) => setIsTaskComplete(task, status)}
+                  />
+                )}
                 <div className="Task__Data">
                   <CustomLink to={`/mytasks/${task.id}`} className="Task__Name">
                     {task.name.substring(0, 20)}...
@@ -37,7 +43,13 @@ const ToDoSnippet = ({ tasks }) => {
                   <span>{"Due Today"}</span>
                   {task?.team && <span>By {task.team}</span>}
                 </div>
-                <Bell className="reminder" onClick={() => {}} />
+                <Bell
+                  className="reminder"
+                  status={task.reminder}
+                  onClick={(status) => {
+                    onSetReminder(status, task);
+                  }}
+                />
               </li>
             ))}
           </ul>

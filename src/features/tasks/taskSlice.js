@@ -17,7 +17,7 @@ const initialState = [
     startDate: "",
     endDate: "2022-03-24",
     reminder: false,
-    isComplete: false,
+    isComplete: true,
     priority: PRIORITY.HIGH,
     subTasks: [],
   },
