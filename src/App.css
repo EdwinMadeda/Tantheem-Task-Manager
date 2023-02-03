@@ -158,7 +158,8 @@ table {
 }
 
 body {
-	background: var(--primary__Color2)
+	background: var(--primary__Color2);
+	font-family: 'Poppins', sans-serif !important;
 }
 
 .hidden {
