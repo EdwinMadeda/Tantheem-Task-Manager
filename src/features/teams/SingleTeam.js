@@ -7,7 +7,7 @@ import BackBtn from "../../reusableComponents/BackBtn";
 import MemberShareBtns from "../../reusableComponents/MemberShareBtns";
 import team_bgImage from "../../assets/images/team_bgImage.jpg";
 import PreviousProjectsSnippet from "../projects/PreviousProjectsSnippet";
-import TodoTeamTasks from "../teams/ToDoTeamTasks";
+import TeamTasks from "./TeamTasks";
 
 import EditBtn from "../../reusableComponents/EditBtn";
 import DeleteBtn from "../../reusableComponents/DeleteBtn";
@@ -55,8 +55,11 @@ const SingleTeam = () => {
           <div className="SingleTeam__Container bottom">
             <MemberShareBtns members={[]} />
             <div className="SingleTeam__InnerContainer">
-              <PreviousProjectsSnippet projects={selectProjects} />
-              <TodoTeamTasks rawtasks={selectTasks} />
+              <PreviousProjectsSnippet
+                projects={selectProjects}
+                title="Team Projects"
+              />
+              <TeamTasks rawtasks={selectTasks} showTeam={false} />
             </div>
           </div>
         </section>

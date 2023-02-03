@@ -127,6 +127,23 @@ export const selectLatestTask = (state) => state.tasks[state.tasks.length - 1];
 export const selectTaskById = (state, id) =>
   state.tasks.find((task) => task.id === id);
 
+export const selectTasksByStatus = (state) => {
+  const tasks = [...selectAllTasks(state)].reverse();
+
+  const isTaskComplete = (task) => {
+    const subTasks = task.subTasks;
+    const zeroSubTasks = subTasks.length === 0;
+    return zeroSubTasks
+      ? zeroSubTasks && task.isComplete
+      : subTasks.every((subTask) => subTask.isComplete);
+  };
+
+  return {
+    previousWork: tasks.filter((task) => isTaskComplete(task)),
+    toDoTasks: tasks.filter((task) => !isTaskComplete(task)),
+  };
+};
+
 export const selectSubTaskById = (state, taskId, subTaskId) => {
   const task = selectTaskById(state, taskId);
   return task ? task.subTasks.find((subTask) => subTask.id === subTaskId) : {};
@@ -157,6 +174,9 @@ export const selectOneTask = (state, taskId) => {
 
 export const selectTasksByTeam = (state, teamId) =>
   state.tasks.filter((task) => task.teamId === teamId);
+
+export const selectTeamTasks = (state) =>
+  state.tasks.filter((task) => task?.teamId !== undefined);
 
 export const { addTask, editTask, deleteTask } = tasksSlice.actions;
 export default tasksSlice.reducer;

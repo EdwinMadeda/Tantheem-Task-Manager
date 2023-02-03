@@ -192,6 +192,25 @@ export const selectDeliverableById = (state, projectId, deliverableId) => {
     : {};
 };
 
+export const selectProjectsByStatus = (state) => {
+  const projects = [...selectAllProjects(state)].reverse();
+
+  const isProjectComplete = (project) => {
+    const deliverables = project.deliverables;
+    const zeroDeliverables = deliverables.length === 0;
+    return zeroDeliverables
+      ? zeroDeliverables && project.status === STATUS.COMPLETE
+      : deliverables.every(
+          (deliverable) => deliverable.status === STATUS.COMPLETE
+        );
+  };
+
+  return {
+    previousProjects: projects.filter((project) => isProjectComplete(project)),
+    toDoProjects: projects.filter((project) => !isProjectComplete(project)),
+  };
+};
+
 export const selectOneProject = (state, projectId) => {
   const selectProject = selectProjectById(state, projectId);
   let toDo = [],

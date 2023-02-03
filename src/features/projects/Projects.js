@@ -1,12 +1,14 @@
 import { useSelector } from "react-redux";
-import { selectAllProjects } from "./projectsSlice";
+import { selectProjectsByStatus } from "./projectsSlice";
 import AddBtn from "../../reusableComponents/AddBtn";
 import PreviousProjectsSnippet from "./PreviousProjectsSnippet";
 import ToDoProjectsSnippet from "./ToDoProjectsSnippet";
 import "./Projects.css";
 
 const Projects = () => {
-  const projects = useSelector(selectAllProjects);
+  const { previousProjects, toDoProjects } = useSelector(
+    selectProjectsByStatus
+  );
 
   return (
     <section className="Project main">
@@ -16,8 +18,8 @@ const Projects = () => {
         </div>
       </div>
       <div className="Project__Container bottom">
-        <PreviousProjectsSnippet projects={projects} />
-        <ToDoProjectsSnippet rawProjects={projects} />
+        <PreviousProjectsSnippet projects={previousProjects} />
+        <ToDoProjectsSnippet rawProjects={toDoProjects} />
       </div>
     </section>
   );

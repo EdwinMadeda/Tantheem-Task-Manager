@@ -1,14 +1,14 @@
 import TeamsSnippet from "./TeamsSnippet";
-import ToDoTeamTasks from "./ToDoTeamTasks";
+import TeamTasks from "./TeamTasks";
 import AddBtn from "../../reusableComponents/AddBtn";
 import { useSelector } from "react-redux";
 import { selectAllTeams } from "./teamsSlice";
-import { selectAllTasks } from "../tasks/taskSlice";
+import { selectTeamTasks } from "../tasks/taskSlice";
 import "./teams.css";
 
 const Teams = () => {
   const teams = useSelector(selectAllTeams);
-  const teamTasks = useSelector(selectAllTasks);
+  const teamTasks = useSelector(selectTeamTasks);
 
   return (
     <section className="Teams main">
@@ -23,7 +23,7 @@ const Teams = () => {
       </div>
 
       <div className="Teams__Container bottom">
-        <ToDoTeamTasks rawtasks={teamTasks} />
+        <TeamTasks rawtasks={teamTasks} />
       </div>
     </section>
   );

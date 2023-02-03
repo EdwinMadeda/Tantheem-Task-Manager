@@ -4,7 +4,7 @@ import { selectOneProject } from "./projectsSlice";
 import CustomLink from "../../reusableComponents/CustomLink";
 import NoItemsMsg from "../../reusableComponents/NoItemsMsg";
 
-const PreviousProjectsSnippet = ({ projects }) => {
+const PreviousProjectsSnippet = ({ projects, title = "Previous Projects" }) => {
   const DraftProgressBar = ({ projectId }) => {
     const { completeDeliverables, totalDeliverables } = useSelector((state) =>
       selectOneProject(state, projectId)
@@ -20,7 +20,7 @@ const PreviousProjectsSnippet = ({ projects }) => {
 
   return (
     <div className={`PreviousProjects Projects__Snippet`}>
-      <p className="Projects__Snippet-title">previous Projects</p>
+      <p className="Projects__Snippet-title">{title}</p>
 
       {projects.length > 0 ? (
         <ul className="Projects__Snippet-items">

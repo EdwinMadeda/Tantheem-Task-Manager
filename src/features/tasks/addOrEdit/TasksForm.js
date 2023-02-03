@@ -7,6 +7,7 @@ import format from "date-fns/format";
 import Form, {
   InputText,
   InputTextArea,
+  InputSelect,
   InputBell,
   InputRadio,
   InputDate,
@@ -16,7 +17,6 @@ import Form, {
 const initialState = {
   name: "",
   description: "",
-  teamId: undefined,
   startDate: "", //format(new Date(), "yyyy-MM-dd"),
   endDate: "",
   reminder: false,
@@ -86,6 +86,14 @@ const TasksForm = ({
           onChange={(inputVal) => setValue({ description: inputVal })}
           disabled={disabled}
         />
+
+        {/* <InputSelect
+          label="Group Into"
+          id="group-into"
+          value={state.startDate}
+          onChange={(inputVal) => setValue({ startDate: inputVal })}
+          disabled={disabled}
+        /> */}
 
         <InputDate
           label="Start date"

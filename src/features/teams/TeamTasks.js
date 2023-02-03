@@ -9,23 +9,26 @@ import useOrderBy from "../../customHooks/useOrderBy";
 import { ordinal } from "../../constants";
 
 import { selectTeamById } from "./teamsSlice";
+
 import OrderByBtnsWrapper from "../../reusableComponents/OrderByBtnsWrapper";
-import CheckBox from "../../reusableComponents/CheckBox";
 import ViewMoreBtn from "../../reusableComponents/ViewMoreBtn";
 import NoItemsMsg from "../../reusableComponents/NoItemsMsg";
 
-const TodoTeamTasks = ({ rawtasks = [] }) => {
+const TodoTeamTasks = ({ rawtasks = [], showTeam = true }) => {
   const viewMore = useSelector(selectViewMoreTeamsToDo);
   const dispatch = useDispatch();
   const setViewMore = (viewMore) => dispatch(setViewMoreTeamsToDo(viewMore));
-
   const TeamsTaskTeam = ({ teamId }) => {
     const selectTeam = useSelector((state) => selectTeamById(state, teamId));
 
     return (
-      <span className="TeamsTask__Team">
-        {selectTeam?.name && `By ${selectTeam?.name}`}
-      </span>
+      <>
+        {selectTeam && showTeam && (
+          <span className="TeamsTask__Team">
+            {selectTeam?.name && `By ${selectTeam?.name}`}
+          </span>
+        )}
+      </>
     );
   };
 
@@ -38,15 +41,13 @@ const TodoTeamTasks = ({ rawtasks = [] }) => {
     onOrderByAlphabet,
   } = useOrderBy(rawtasks, [], []);
 
-  console.log(rawtasks);
-
   return (
     <div
       className={`ToDoTeamTasks TeamTasks__Snippet ${
         viewMore ? "viewMore" : ""
       }`}
     >
-      <p className="TeamTasks__Snippet-title">TO DO Tasks</p>
+      <p className="TeamTasks__Snippet-title">Team Tasks</p>
       {tasks[order()].length > 0 ? (
         <>
           <div className="TeamTasks__OrderByBtns">
@@ -65,7 +66,6 @@ const TodoTeamTasks = ({ rawtasks = [] }) => {
                 className="TeamTasks__Snippet-item Snippet__Type2-Item"
                 key={task.id}
               >
-                <CheckBox checked={task.isComplete} />
                 <div className="TeamTasks__Data">
                   <CustomLink
                     className="TeamsTasks__Name"
@@ -77,9 +77,7 @@ const TodoTeamTasks = ({ rawtasks = [] }) => {
                   <span className="TeamTasks__Priority">{`${ordinal(
                     task.priority
                   )} Priority`}</span>
-                  {task?.teamId !== undefined && (
-                    <TeamsTaskTeam teamId={task.teamId} />
-                  )}
+                  <TeamsTaskTeam teamId={task.teamId} />
                 </div>
               </li>
             ))}

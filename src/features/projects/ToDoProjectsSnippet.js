@@ -39,13 +39,15 @@ const ToDoProjectsSnippet = ({ rawProjects }) => {
                 <div className="Projects__Data">
                   <span className="Projects__Name">
                     <CustomLink to={`/myprojects/${project.id}`}>
-                      {`${project.name.substring(0, 10)}...`}
+                      {`${project.name.substring(0, 20)}...`}
                     </CustomLink>
                   </span>
                   <span>{"Due Today"}</span>
-                  <span className="Projects__Priority">{`${ordinal(
-                    project.priority
-                  )} Priority`}</span>
+                  {Boolean(project?.priority) && (
+                    <span className="Projects__Priority">{`${ordinal(
+                      project.priority
+                    )} Priority`}</span>
+                  )}
                 </div>
               </li>
             ))}

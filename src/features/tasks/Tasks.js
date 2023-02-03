@@ -1,28 +1,14 @@
 import { useSelector, useDispatch } from "react-redux";
-import { selectAllTasks, editTask } from "./taskSlice";
+import { editTask, selectTasksByStatus } from "./taskSlice";
 import AddBtn from "../../reusableComponents/AddBtn";
 import girlPhoto from "../../assets/images/girl_photo.png";
 import PreviousWorkSnippet from "./PreviousWorkSnippet";
 import ToDoSnippet from "./ToDoSnippet";
-import { orderByDate } from "../../customHooks/useOrderBy";
 
 import "./Tasks.css";
 
 const Tasks = () => {
-  const rawTasks = useSelector(selectAllTasks);
-  //const tasks = orderByDate(rawTasks, "endDate").asc;
-  const tasks = [...rawTasks].reverse();
-
-  const isTaskComplete = (task) => {
-    const subTasks = task.subTasks;
-    const zeroSubTasks = subTasks.length === 0;
-    return zeroSubTasks
-      ? zeroSubTasks && task.isComplete
-      : subTasks.every((subTask) => subTask.isComplete);
-  };
-
-  const previousWork = tasks.filter((task) => isTaskComplete(task));
-  const toDoTasks = tasks.filter((task) => !isTaskComplete(task));
+  const { previousWork, toDoTasks } = useSelector(selectTasksByStatus);
 
   const dispatch = useDispatch();
 

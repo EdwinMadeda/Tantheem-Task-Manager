@@ -97,6 +97,27 @@ export const InputDate = ({
   );
 };
 
+export const InputSelect = ({
+  label,
+  id,
+  value,
+  onChange,
+  disabled = false,
+}) => {
+  return (
+    <div className="form-control-check">
+      <label htmlFor={id}>{label}</label>
+      <select id={id}>
+        <option>1</option>
+        <option>1</option>
+        <option>1</option>
+        <option>1</option>
+        <option>1</option>
+      </select>
+    </div>
+  );
+};
+
 export const InputCheckBox = ({ label, value, onChange, disabled = false }) => {
   return (
     <div className="form-control-check">

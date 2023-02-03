@@ -7,10 +7,10 @@ const MemberShareBtns = ({ members }) => {
         <FaUsers className="icon" />
         <p>Members</p>
       </button>
-      <button className="ShareBtn SinglePage__MemberShare__Btn">
+      {/* <button className="ShareBtn SinglePage__MemberShare__Btn">
         <FaShare className="icon" />
         <p>Share</p>
-      </button>
+      </button> */}
     </div>
   );
 };
