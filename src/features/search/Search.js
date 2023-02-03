@@ -11,9 +11,9 @@ import "./Search.css";
 const Search = () => {
   const searchText = useSelector(selectSearchText).toLowerCase();
 
-  const tasks = searchItems(useSelector(selectAllTasks), searchText);
-  const projects = searchItems(useSelector(selectAllProjects), searchText);
-  const teams = searchItems(useSelector(selectAllTeams), searchText);
+  // const tasks = searchItems(useSelector(selectAllTasks), searchText);
+  // const projects = searchItems(useSelector(selectAllProjects), searchText);
+  // const teams = searchItems(useSelector(selectAllTeams), searchText);
 
   const initialItems = [
     {

@@ -2,12 +2,10 @@ import { PRIORITY } from "../../../constants";
 import { useEffect, useReducer } from "react";
 import { useNavigate } from "react-router";
 import { useState } from "react";
-import format from "date-fns/format";
 
 import Form, {
   InputText,
   InputTextArea,
-  InputSelect,
   InputBell,
   InputRadio,
   InputDate,
@@ -28,7 +26,7 @@ const init = () => initialState;
 const reducer = (state, action) => {
   switch (action.type) {
     case "init":
-      init();
+      return init();
     case "setValue":
       return { ...state, ...action.payload };
     default:

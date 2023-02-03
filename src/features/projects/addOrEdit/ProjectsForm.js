@@ -10,7 +10,7 @@ import Form, {
   InputDate,
   InputSubmit,
 } from "../../../reusableComponents/Form";
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 const initialState = {
   name: "",
@@ -28,7 +28,7 @@ const init = () => initialState;
 const reducer = (state, action) => {
   switch (action.type) {
     case "init":
-      init();
+      return init();
     case "setProjectValue":
       return { ...state, ...action.payload };
     default:

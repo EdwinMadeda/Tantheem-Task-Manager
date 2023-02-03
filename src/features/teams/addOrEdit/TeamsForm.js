@@ -18,7 +18,7 @@ const init = () => initialState;
 const reducer = (state, action) => {
   switch (action.type) {
     case "init":
-      init();
+      return init();
     case "setValue":
       return { ...state, ...action.payload };
     default:

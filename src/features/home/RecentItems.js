@@ -6,11 +6,11 @@ import CustomLink from "../../reusableComponents/CustomLink";
 const RecentItem = (props) => {
   const { item, pathname } = props;
 
-  const dateLabel = Boolean(item.endDate) ? "Due date" : "Created At";
-  const date = format(
-    new Date(item?.endDate ?? item.createdAt),
-    "'Due date: ' MM/dd/yyyy"
-  );
+  // const dateLabel = Boolean(item.endDate) ? "Due date" : "Created At";
+  // const date = format(
+  //   new Date(item?.endDate ?? item.createdAt),
+  //   "'Due date: ' MM/dd/yyyy"
+  // );
 
   return (
     <div className="Recent__Item">

@@ -1,4 +1,4 @@
-import { FaUsers, FaShare } from "react-icons/fa";
+import { FaUsers } from "react-icons/fa";
 
 const MemberShareBtns = ({ members }) => {
   return (
