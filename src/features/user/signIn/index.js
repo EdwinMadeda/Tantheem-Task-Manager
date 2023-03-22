@@ -7,11 +7,10 @@ import CustomLink from '../../../reusableComponents/CustomLink';
 import { InputSubmit, InputText } from '../../../reusableComponents/Form';
 import HelperText from '../../../reusableComponents/HelperText';
 import LoadingSpinner from '../../../reusableComponents/LoadingSpinner';
-// import { selectUser, signIn } from '../userSlice';
+import { selectUser, signIn } from '../userSlice';
 
 const SignIn = () => {
-  //   const user = useSelector(selectUser);
-  const user = {};
+  const user = useSelector(selectUser);
   const [signInStatus, setSignInStatus] = useState('idle');
 
   const {
@@ -29,14 +28,15 @@ const SignIn = () => {
   const [formResponse, setFormResponse] = useState(false);
 
   const submit = async ({ nameOrEmail, password }) => {
-    // setSignInStatus('pending');
-    // try {
-    //   await dispatch(signIn({ nameOrEmail, password })).unwrap();
-    //   setFormResponse({ msg: 'Login Successful', type: 'success' });
-    //   setTimeout(() => navigate('/'), 1000);
-    // } catch (err) {
-    //   setFormResponse({ msg: err, type: 'error' });
-    // }
+    setSignInStatus('pending');
+
+    try {
+      await dispatch(signIn({ nameOrEmail, password })).unwrap();
+      setFormResponse({ msg: 'Login Successful', type: 'success' });
+      setTimeout(() => navigate('/'), 1000);
+    } catch (err) {
+      setFormResponse({ msg: err, type: 'error' });
+    }
   };
 
   return (

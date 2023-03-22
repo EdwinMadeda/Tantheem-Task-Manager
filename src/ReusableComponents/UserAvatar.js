@@ -8,6 +8,7 @@ const UserAvatar = ({
   height = 36,
   style,
   onClick,
+  title = '',
 }) => {
   return (
     <img
@@ -18,6 +19,7 @@ const UserAvatar = ({
       width={height}
       style={style}
       onClick={onClick}
+      title={title}
     />
   );
 };
@@ -55,6 +57,7 @@ export const AvatarSelector = (props) => {
         exportAsSquare={true}
         exportQuality={1}
         backgroundColor="#fff"
+        mimeTypes="image/jpeg,image/png,image/gif,image/svg,image/tiff"
         {...props}
       />
     </div>

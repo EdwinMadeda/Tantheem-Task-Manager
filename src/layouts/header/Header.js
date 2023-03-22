@@ -15,6 +15,7 @@ import UserAvatar from '../../reusableComponents/UserAvatar';
 import Modal from '../../reusableComponents/Modal';
 import { FaUserAlt } from 'react-icons/fa';
 import { IoLogOut } from 'react-icons/io5';
+import { selectUser, signOut } from '../../features/user/userSlice';
 
 const initialState = {
   Links: [
@@ -95,6 +96,8 @@ const Header = () => {
     const payload = isToggleSearch ? !state.searchInputVisible : false;
     dispatch({ type: 'setSearchInputVisible', payload });
   };
+
+  const user = useSelector(selectUser);
 
   const AppLinks = () => {
     return state.Links.map((link) => {
@@ -199,7 +202,9 @@ const Header = () => {
                     <IoLogOut className="icon" /> Signout
                   </>
                 ),
-                onClick: () => {},
+                onClick: () => {
+                  reduxDispatch(signOut());
+                },
               },
             ].map((entry, index) => {
               return {
@@ -209,7 +214,7 @@ const Header = () => {
             })}
             className="User-avatar__Container"
           >
-            <UserAvatar />
+            <UserAvatar title={user.name} />
           </Modal>
         </div>
       </div>

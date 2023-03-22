@@ -56,8 +56,6 @@ const TasksForm = ({
   const onSubmit = (e) => {
     e.preventDefault();
 
-    console.log(state);
-
     try {
       reduxDispatch(state);
     } catch (error) {

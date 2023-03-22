@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 // import { signUp } from '../userSlice';
 import LoadingSpinner from '../../../reusableComponents/LoadingSpinner';
 import { useNavigate } from 'react-router';
+import { signUp } from '../userSlice.js';
 
 const SignUp = () => {
   const {
@@ -22,26 +23,26 @@ const SignUp = () => {
   const [formResponse, setFormResponse] = useState(false);
 
   const submit = async ({ name, email, password, confirmPassword }) => {
-    // if (password !== confirmPassword) {
-    //   setFormResponse({ msg: "Passwords don't match", type: 'error' });
-    //   return;
-    // }
-    // setSignUpStatus('pending');
-    // try {
-    //   await dispatch(
-    //     signUp({
-    //       name,
-    //       email,
-    //       password,
-    //     })
-    //   ).unwrap();
-    //   setFormResponse({ msg: 'Sign Up Successful', type: 'success' });
-    //   setTimeout(() => navigate('/signin'), 2000);
-    // } catch (err) {
-    //   setFormResponse({ msg: err, type: 'error' });
-    // } finally {
-    //   setSignUpStatus('idle');
-    // }
+    if (password !== confirmPassword) {
+      setFormResponse({ msg: "Passwords don't match", type: 'error' });
+      return;
+    }
+    setSignUpStatus('pending');
+    try {
+      await dispatch(
+        signUp({
+          name,
+          email,
+          password,
+        })
+      ).unwrap();
+      setFormResponse({ msg: 'Sign Up Successful', type: 'success' });
+      setTimeout(() => navigate('/signin'), 2000);
+    } catch (err) {
+      setFormResponse({ msg: err, type: 'error' });
+    } finally {
+      setSignUpStatus('idle');
+    }
   };
 
   return (

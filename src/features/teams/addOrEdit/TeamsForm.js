@@ -1,25 +1,25 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
-import { useReducer } from "react";
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
+import { useReducer } from 'react';
 
 import Form, {
   InputText,
   InputTextArea,
   InputSubmit,
-} from "../../../reusableComponents/Form";
+} from '../../../reusableComponents/Form';
 
 const initialState = {
-  name: "",
-  description: "",
+  name: '',
+  description: '',
 };
 
 const init = () => initialState;
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "init":
+    case 'init':
       return init();
-    case "setValue":
+    case 'setValue':
       return { ...state, ...action.payload };
     default:
       return state;
@@ -35,7 +35,7 @@ const TeamsForm = ({
 }) => {
   const [state, dispatch] = useReducer(reducer, initialState, init);
   const setValue = (payload) => {
-    dispatch({ type: "setValue", payload });
+    dispatch({ type: 'setValue', payload });
   };
 
   useEffect(() => {
@@ -47,8 +47,6 @@ const TeamsForm = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    console.log(state);
 
     try {
       reduxDispatch(state);

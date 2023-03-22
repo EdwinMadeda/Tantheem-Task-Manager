@@ -1,15 +1,11 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import Form, { InputSubmit } from '../../../reusableComponents/Form';
-import { selectUser } from '../userSlice';
 import UserAvatar, {
   AvatarSelector,
 } from '../../../reusableComponents/UserAvatar';
 import { BsUpload } from 'react-icons/bs';
 
 const Avatar = () => {
-  const user = useSelector(selectUser);
-
   const [helperResponse, setHelperResponse] = useState(null);
   const [preview, setPreview] = useState(null);
   const onClose = () => {
@@ -28,7 +24,7 @@ const Avatar = () => {
   };
 
   const onFileLoad = (file) => {
-    console.log(file);
+    // console.log(file);
   };
 
   const onSubmit = (e) => {
@@ -48,6 +44,7 @@ const Avatar = () => {
           onBeforeFileLoad={onBeforeFileLoad}
           onFileLoad={onFileLoad}
           label="Choose an image to upload"
+          onImageLoad={(file) => console.log(file)}
         />
         <div className="UserAvatar__Wrappper">
           <UserAvatar src={preview} width={200} height={200} />
