@@ -1,7 +1,7 @@
-import { PRIORITY } from "../../../constants";
-import { useEffect, useReducer } from "react";
-import { useNavigate } from "react-router";
-import { useState } from "react";
+import { PRIORITY } from '../../../constants';
+import { useEffect, useReducer } from 'react';
+import { useNavigate } from 'react-router';
+import { useState } from 'react';
 
 import Form, {
   InputText,
@@ -10,13 +10,13 @@ import Form, {
   InputRadio,
   InputDate,
   InputSubmit,
-} from "../../../reusableComponents/Form";
+} from '../../../reusableComponents/Form';
 
 const initialState = {
-  name: "",
-  description: "",
-  startDate: "", //format(new Date(), "yyyy-MM-dd"),
-  endDate: "",
+  name: '',
+  description: '',
+  startDate: '', //format(new Date(), "yyyy-MM-dd"),
+  endDate: '',
   reminder: false,
   isComplete: false,
   priority: PRIORITY.HIGH,
@@ -25,9 +25,9 @@ const initialState = {
 const init = () => initialState;
 const reducer = (state, action) => {
   switch (action.type) {
-    case "init":
+    case 'init':
       return init();
-    case "setValue":
+    case 'setValue':
       return { ...state, ...action.payload };
     default:
       return state;
@@ -43,7 +43,7 @@ const TasksForm = ({
 }) => {
   const [state, dispatch] = useReducer(reducer, initialState, init);
   const setValue = (payload) => {
-    dispatch({ type: "setValue", payload });
+    dispatch({ type: 'setValue', payload });
   };
 
   useEffect(() => {
@@ -120,9 +120,9 @@ const TasksForm = ({
           label="Priority"
           id="priority"
           options={[
-            { name: "Low", value: PRIORITY.LOW },
-            { name: "Medium", value: PRIORITY.MEDIUM },
-            { name: "High", value: PRIORITY.HIGH },
+            { name: 'Low', value: PRIORITY.LOW },
+            { name: 'Medium', value: PRIORITY.MEDIUM },
+            { name: 'High', value: PRIORITY.HIGH },
           ]}
           disabled={disabled}
         />

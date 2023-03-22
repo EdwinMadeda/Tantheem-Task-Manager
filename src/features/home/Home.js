@@ -1,16 +1,16 @@
-import { useSelector } from "react-redux";
-import { selectAllTasks } from "../tasks/taskSlice";
-import { selectAllProjects } from "../projects/projectsSlice";
-import { selectAllTeams } from "../teams/teamsSlice";
+import { useSelector } from 'react-redux';
+import { selectAllTasks } from '../tasks/taskSlice';
+import { selectAllProjects } from '../projects/projectsSlice';
+import { selectAllTeams } from '../teams/teamsSlice';
 
-import useOrderBy from "../../customHooks/useOrderBy";
+import useOrderBy from '../../customHooks/useOrderBy';
 
-import studentImg from "../../assets/images/student_photo.png";
-import AddBtn from "../../reusableComponents/AddBtn";
-import OrderByBtnsWrapper from "../../reusableComponents/OrderByBtnsWrapper";
+import studentImg from '../../assets/images/student_photo.png';
+import AddBtn from '../../reusableComponents/AddBtn';
+import OrderByBtnsWrapper from '../../reusableComponents/OrderByBtnsWrapper';
 
-import RecentItems from "./RecentItems";
-import "./Home.css";
+import RecentItems from './RecentItems';
+import './Home.css';
 
 const Home = () => {
   const rawTasks = useSelector(selectAllTasks);

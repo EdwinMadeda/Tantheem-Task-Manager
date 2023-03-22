@@ -1,18 +1,18 @@
-import { useParams } from "react-router";
-import { useSelector, useDispatch } from "react-redux";
-import { selectOneTask, editTask, deleteTask } from "./taskSlice";
-import ProgressBar from "../../reusableComponents/ProgressBar";
-import BackBtn from "../../reusableComponents/BackBtn";
-import SubTasks from "./SubTasks";
+import { useParams } from 'react-router';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectOneTask, editTask, deleteTask } from './taskSlice';
+import ProgressBar from '../../reusableComponents/ProgressBar';
+import BackBtn from '../../reusableComponents/BackBtn';
+import SubTasks from './SubTasks';
 
-import { STATUS } from "./taskSlice";
+import { STATUS } from './taskSlice';
 
-import Bell from "../../reusableComponents/Bell";
-import EditBtn from "../../reusableComponents/EditBtn";
-import DeleteBtn from "../../reusableComponents/DeleteBtn";
+import Bell from '../../reusableComponents/Bell';
+import EditBtn from '../../reusableComponents/EditBtn';
+import DeleteBtn from '../../reusableComponents/DeleteBtn';
 
-import "../../SinglePage.css";
-import "./SingleTask.css";
+import '../../SinglePage.css';
+import './SingleTask.css';
 
 const SingleTask = () => {
   const { taskId } = useParams();
@@ -54,7 +54,7 @@ const SingleTask = () => {
                   className="SinglePage__Ctrl-Btn"
                   status={selectTask.reminder}
                   onClick={onSetReminder}
-                  title={`Reminder ${selectTask.reminder ? "ON" : "OFF"}`}
+                  title={`Reminder ${selectTask.reminder ? 'ON' : 'OFF'}`}
                 />
                 <EditBtn
                   className="SinglePage__Ctrl-Btn"

@@ -1,0 +1,55 @@
+.User-avatar__Wrapper {
+  display: inline-block;
+  position: relative;
+  margin: 5px;
+}
+
+.Toggle-AvatarEditBtn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.Profile__Form.User-Avatar {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    'Form__TopContainer Form__TopContainer'
+    'HelperText HelperText'
+    'Avatar-Selector UserAvatar__Wrappper';
+  grid-row-gap: 15px;
+  grid-column-gap: 30px;
+  overflow: hidden;
+}
+
+.Profile__Form .Form__TopContainer {
+  grid-area: Form__TopContainer;
+}
+
+.Profile__Form .UserAvatar__Wrappper {
+  grid-area: UserAvatar__Wrappper;
+  display: flex;
+  margin: 20px 10px;
+}
+
+.Profile__Form .Avatar-Selector {
+  grid-area: Avatar-Selector;
+}
+
+.Profile__Form .helperText {
+  grid-area: HelperText;
+}
+
+.form-control .btn {
+  grid-area: UploadBtn;
+}
+
+@media only screen and (max-width: 850px) {
+  .Profile__Form.User-Avatar {
+    grid-template-areas:
+      'Form__TopContainer Form__TopContainer'
+      'HelperText HelperText'
+      'Avatar-Selector Avatar-Selector'
+      'UserAvatar__Wrappper UserAvatar__Wrappper';
+  }
+}

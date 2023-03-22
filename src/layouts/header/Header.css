@@ -20,6 +20,18 @@
   }
 }
 
+.User-avatar__Container {
+  margin-left: 15px;
+  width: 36px;
+  height: 36px;
+}
+
+.User-avatar__Container .modal__Content {
+  top: calc(100% + 10px);
+  right: -70%;
+  min-width: 120px;
+}
+
 .App-header {
   display: flex;
   justify-content: space-between;
@@ -45,7 +57,7 @@
   height: 10px;
   position: relative;
   cursor: pointer;
-  transition: all .5s ease;
+  transition: all 0.5s ease;
   display: none;
   z-index: 1;
 }
@@ -111,7 +123,7 @@ nav {
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  transition: all .5s ease;
+  transition: all 0.5s ease;
   border-radius: 10px;
 }
 
@@ -155,7 +167,7 @@ nav {
 }
 
 .App-search__icon:active {
-  transform: scale(.88);
+  transform: scale(0.88);
 }
 
 .App-headerInnerWrapper {
@@ -232,7 +244,6 @@ nav {
   .App-search__icon.hidden {
     display: block;
   }
-
 }
 
 @media only screen and (max-width: 700px) {
@@ -269,7 +280,7 @@ nav {
     flex-direction: column;
     justify-content: flex-start;
     transform: translateY(-300%);
-    transition: all .5s ease;
+    transition: all 0.5s ease;
     opacity: 0;
   }
 
@@ -328,8 +339,4 @@ nav {
     padding: 10px 20px;
     line-height: 40px;
   }
-
-
-
-
 }

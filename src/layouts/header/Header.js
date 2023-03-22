@@ -1,53 +1,57 @@
-import { useState, useReducer, useRef } from "react";
-import { useNavigate, useLocation } from "react-router";
-import { useSelector, useDispatch } from "react-redux";
-import { input, selectSearchText } from "../../features/search/searchSlice";
+import { useState, useReducer, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router';
+import { useSelector, useDispatch } from 'react-redux';
+import { input, selectSearchText } from '../../features/search/searchSlice';
 
-import useTargetAction from "../../customHooks/useTargetAction";
-import { BsSearch } from "react-icons/bs";
-import { GrClose } from "react-icons/gr";
-import Bell from "../../reusableComponents/Bell";
-import logo from "../../assets/images/logo.svg";
-import AppLink from "./AppLink";
-import "./Header.css";
-import CustomLink from "../../reusableComponents/CustomLink";
+import useTargetAction from '../../customHooks/useTargetAction';
+import { BsSearch } from 'react-icons/bs';
+import { GrClose } from 'react-icons/gr';
+import Bell from '../../reusableComponents/Bell';
+
+import AppLink from './AppLink';
+import './Header.css';
+
+import UserAvatar from '../../reusableComponents/UserAvatar';
+import Modal from '../../reusableComponents/Modal';
+import { FaUserAlt } from 'react-icons/fa';
+import { IoLogOut } from 'react-icons/io5';
 
 const initialState = {
   Links: [
     {
       id: 0,
-      label: "Home",
-      path: "/",
+      label: 'Home',
+      path: '/',
       isActive: false,
     },
     {
       id: 1,
-      label: "My Tasks",
-      path: "/mytasks",
+      label: 'My Tasks',
+      path: '/mytasks',
       isActive: false,
     },
     {
       id: 2,
-      label: "My Projects",
-      path: "/myprojects",
+      label: 'My Projects',
+      path: '/myprojects',
       isActive: false,
     },
     {
       id: 3,
-      label: "Calender",
-      path: "/calender",
+      label: 'Calender',
+      path: '/calender',
       isActive: false,
     },
     {
       id: 4,
-      label: "Teams",
-      path: "/teams",
+      label: 'Teams',
+      path: '/teams',
       isActive: false,
     },
   ],
   isMobile: false,
   searchInputVisible: false,
-  currPath: "/",
+  currPath: '/',
 };
 
 const activeLinks = (targetId = 0) => {
@@ -62,15 +66,15 @@ const init = () => {
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "setActive":
+    case 'setActive':
       return { ...state, Links: activeLinks(action.payload) };
-    case "setIsMobile":
+    case 'setIsMobile':
       return { ...state, isMobile: action.payload };
-    case "setSearchInputVisible":
+    case 'setSearchInputVisible':
       return { ...state, searchInputVisible: action.payload };
-    case "setCurrPath":
+    case 'setCurrPath':
       return { ...state, currPath: action.payload };
-    case "init":
+    case 'init':
       return init();
     default:
       return state;
@@ -89,7 +93,7 @@ const Header = () => {
   const toggleSearchInput = () => {
     const isToggleSearch = window.innerWidth > 680 && window.innerWidth < 1010;
     const payload = isToggleSearch ? !state.searchInputVisible : false;
-    dispatch({ type: "setSearchInputVisible", payload });
+    dispatch({ type: 'setSearchInputVisible', payload });
   };
 
   const AppLinks = () => {
@@ -105,13 +109,13 @@ const Header = () => {
     });
   };
 
-  useTargetAction(setIsMobile, ref, "click");
+  useTargetAction(setIsMobile, ref, 'click');
 
   return (
     <header className="App-header" ref={ref}>
       <div className="App-header__Container">
         <div
-          className={`App-humbergerMenu ${state.isMobile ? "active" : ""}`}
+          className={`App-humbergerMenu ${state.isMobile ? 'active' : ''}`}
           onClick={() => setIsMobile(!isMobile)}
         >
           <span></span>
@@ -119,7 +123,7 @@ const Header = () => {
           <span></span>
         </div>
 
-        <div className={`App-navWrapper ${isMobile ? "active" : ""}`}>
+        <div className={`App-navWrapper ${isMobile ? 'active' : ''}`}>
           <nav>
             <ul className="App-links__container">
               <AppLinks />
@@ -128,7 +132,7 @@ const Header = () => {
           <form className="App-search__form">
             <label
               className={`App-search__input-Wrapper ${
-                state.searchInputVisible ? "show" : ""
+                state.searchInputVisible ? 'show' : ''
               }`}
               htmlFor="searchApp"
             >
@@ -142,14 +146,14 @@ const Header = () => {
                   const searchText = e.target.value;
                   reduxDispatch(input(searchText));
 
-                  if (searchText !== "" && location.pathname !== "/search") {
-                    navigate("/search");
+                  if (searchText !== '' && location.pathname !== '/search') {
+                    navigate('/search');
                     dispatch({
-                      type: "setCurrPath",
+                      type: 'setCurrPath',
                       payload: location.pathname,
                     });
                   }
-                  if (searchText === "" && location.pathname === "/search")
+                  if (searchText === '' && location.pathname === '/search')
                     navigate(state.currPath);
                 }}
               />
@@ -177,9 +181,36 @@ const Header = () => {
             <Bell className="App-notifications__bellIcon" onClick={() => {}} />
           </div>
 
-          <CustomLink to={"/"}>
-            <img className="App-logo" src={logo} alt="Logo" />
-          </CustomLink>
+          <Modal
+            options={[
+              {
+                item: (
+                  <>
+                    <FaUserAlt className="icon" /> Profile
+                  </>
+                ),
+                onClick: () => {
+                  navigate('/profile');
+                },
+              },
+              {
+                item: (
+                  <>
+                    <IoLogOut className="icon" /> Signout
+                  </>
+                ),
+                onClick: () => {},
+              },
+            ].map((entry, index) => {
+              return {
+                id: index,
+                ...entry,
+              };
+            })}
+            className="User-avatar__Container"
+          >
+            <UserAvatar />
+          </Modal>
         </div>
       </div>
     </header>

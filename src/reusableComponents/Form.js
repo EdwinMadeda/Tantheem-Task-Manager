@@ -1,12 +1,14 @@
-import CheckBox from "./CheckBox";
-import Bell from "./Bell";
-import BackBtn from "./BackBtn";
+import CheckBox from './CheckBox';
+import Bell from './Bell';
+import BackBtn from './BackBtn';
+import HelperText from './HelperText';
+import useTargetAction from '../customHooks/useTargetAction';
 
 const Form = (props) => {
   const formTitles = {
-    View: "View",
-    Edit: "Edit ",
-    Add: "Add New ",
+    View: 'View',
+    Edit: 'Edit ',
+    Add: 'Add New ',
   };
 
   return (
@@ -18,10 +20,16 @@ const Form = (props) => {
         <BackBtn />
         <h2 className="form-title">
           <p className="form-title__Text">
-            {(formTitles[props.mode] ?? "") + props.title}
+            {(formTitles[props.mode] ?? '') + props.title}
           </p>
         </h2>
       </div>
+      {props.helperResponse && (
+        <HelperText
+          {...props.helperResponse}
+          style={{ margin: '8px', justifyContent: 'center' }}
+        />
+      )}
       {props.children}
     </form>
   );
@@ -29,70 +37,76 @@ const Form = (props) => {
 
 export const InputText = ({
   label,
-  id,
-  placeholder = "",
-  value,
-  onChange,
+  name,
+  type = 'text',
+  errors = {},
+  register = () => ({}),
+  rules,
   disabled = false,
 }) => {
   return (
     <div className="form-control">
-      <label htmlFor={id}>{label}</label>
+      <HelperText msg={errors[name]?.message || false} />
       <input
-        type="text"
-        id={id}
-        name={id}
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
+        type={type}
+        id={name}
+        name={name}
+        className={`${Boolean(errors[name]) ? 'error' : ''}`}
+        {...register(name, rules)}
         disabled={disabled}
       />
+      <label htmlFor={name}>{label}</label>
     </div>
   );
 };
 
 export const InputTextArea = ({
   label,
-  id,
-  value,
-  onChange,
+  name,
+  errors = {},
+  register = () => ({}),
+  rules,
   disabled = false,
+  value,
 }) => {
   return (
     <div className="form-control">
-      <label htmlFor={id}>{label}</label>
+      <HelperText msg={errors[name]?.message || false} />
       <textarea
-        name={id}
-        id={id}
+        name={name}
+        id={name}
         cols="30"
         rows="5"
+        {...register(name, rules)}
         defaultValue={value}
-        onChange={(e) => onChange(e.target.value)}
         disabled={disabled}
+        className={`${Boolean(errors[name]) ? 'error' : ''}`}
       />
+      <label htmlFor={name}>{label}</label>
     </div>
   );
 };
 
 export const InputDate = ({
   label,
-  id,
-  placeholder = "",
-  value,
-  onChange,
+  name,
+  errors = {},
+  register = () => ({}),
+  rules,
   disabled = false,
 }) => {
   return (
     <div className="form-control">
-      <label htmlFor="add_dueDate">{label}</label>
+      <HelperText msg={errors[name]?.message || false} />
       <input
         type="date"
-        id={id}
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
+        id={name}
+        name={name}
+        className={`${Boolean(errors[name]) ? 'error' : ''}`}
         disabled={disabled}
+        {...register(name, rules)}
       />
+      <label htmlFor={name}>{label}</label>
     </div>
   );
 };
@@ -121,12 +135,12 @@ export const InputSelect = ({
 export const InputCheckBox = ({ label, value, onChange, disabled = false }) => {
   return (
     <div className="form-control-check">
-      <label htmlFor="add_reminder">{label}</label>
       <CheckBox
         checked={value}
         onClick={(inputVal) => onChange(inputVal)}
         disabled={disabled}
       />
+      <label htmlFor="add_reminder">{label}</label>
     </div>
   );
 };
@@ -140,7 +154,7 @@ export const InputBell = ({ label, value, onChange, disabled = false }) => {
         onClick={(inputVal) => onChange(inputVal)}
         disabled={disabled}
       />
-      <p style={{ marginLeft: "6px" }}>{value ? "ON" : "OFF"}</p>
+      <p style={{ marginLeft: '6px' }}>{value ? 'ON' : 'OFF'}</p>
     </div>
   );
 };
@@ -177,26 +191,26 @@ export const InputRadio = ({
 
   return (
     <div className=" form-control">
-      <p className="label__title">{label}</p>
       <div className="radioBtns__wrapper">
         {options.map((option, index) => (
           <RadioContainer key={index} option={option} />
         ))}
       </div>
+      <p className="label__title">{label}</p>
     </div>
   );
 };
 
-export const InputSubmit = ({ label, onClick, disabled = false }) => {
+export const InputSubmit = ({ label, onClick, disabled = false, Icon }) => {
   return (
     <div className="form-control submit-btn__Wrapper">
       {!disabled && (
-        <input
-          className="btn submit-btn"
-          type="button"
-          value={label}
-          onClick={onClick}
-        />
+        <>
+          <button className="btn submit-btn" type="button" onClick={onClick}>
+            {Icon}
+            {label}
+          </button>
+        </>
       )}
     </div>
   );

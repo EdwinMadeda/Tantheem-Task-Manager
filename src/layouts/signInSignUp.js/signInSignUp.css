@@ -1,0 +1,144 @@
+body {
+  background: #fff;
+}
+.SignInSignUp {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 30px;
+  height: calc(100vh - 40px);
+  position: relative;
+  text-align: initial;
+}
+
+.SignInSignUp__Container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+}
+
+.SignInSignUp__Form {
+  display: block;
+  width: 100%;
+  padding: 30px;
+}
+
+.SignInSignUp__Form input {
+  max-width: 400px;
+}
+
+.submit-btn {
+  width: fit-content !important;
+}
+
+.SignInSignUp__Indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 70vh;
+  z-index: 4;
+}
+
+.SignInSignUp__Indicator_Icon {
+  color: var(--primary__Color);
+  font-size: 40px;
+}
+
+.SignInSignUp__Indicator::after {
+  position: absolute;
+  content: '';
+  width: 3px;
+  top: 40px;
+  left: 0;
+  height: 100%;
+  background: var(--primary__Color);
+}
+
+.SignInSignUp__Intro {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+.SignInSignUp__Intro_AppName {
+  font-size: 50px;
+  color: var(--primary__Color);
+  text-align: center;
+  padding: 1.5rem 1rem 1rem;
+}
+
+.SignInSignUp__Intro__Contents {
+  padding: 20px;
+  max-width: 400px;
+}
+
+.SignInSignUp__Intro__Contents li {
+  margin-bottom: 10px;
+}
+
+.SignInSignUp__Intro__Contents h2 {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0.8rem;
+  font-size: 20px;
+}
+
+.SignInSignUp__Intro__Contents h2 span {
+  border-radius: 50%;
+  width: 7px;
+  height: 7px;
+  background: #333;
+  display: block;
+  margin-right: 10px;
+}
+
+.SignInSignUp__Intro__Contents p {
+  padding-left: 30px;
+}
+
+@media only screen and (max-width: 1000px) {
+  .SignInSignUp {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+      'SignInSignUp__Form__Wrapper '
+      'SignInSignUp__Indicator '
+      'SignInSignUp__Intro__Wrapper';
+  }
+
+  .SignInSignUp__Form__Wrapper {
+    grid-area: SignInSignUp__Form__Wrapper;
+  }
+
+  .SignInSignUp__Intro__Wrapper {
+    grid-area: SignInSignUp__Intro__Wrapper;
+  }
+
+  .SignInSignUp__Indicator {
+    width: 80vw;
+    height: unset;
+    position: relative;
+    grid-area: SignInSignUp__Indicator;
+    text-align: right;
+  }
+
+  .SignInSignUp__Indicator_Icon {
+    color: var(--primary__Color);
+    font-size: 25px;
+  }
+
+  .SignInSignUp__Indicator::after {
+    position: absolute;
+    content: '';
+    width: 100%;
+    top: 22px;
+    left: -20px;
+    height: 3px;
+    background: var(--primary__Color);
+  }
+}
