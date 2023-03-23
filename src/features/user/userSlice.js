@@ -14,6 +14,7 @@ const initialState = {
     signIn: 'idle',
     signUp: 'idle',
     uploadUserAvatar: 'idle',
+    editProfile: 'idle',
   },
   error: {
     signIn: null,
@@ -46,10 +47,12 @@ const userSlice = createSlice({
         state.status.signUp = 'succeeded';
         state.info = action.payload;
       })
+
       .addCase(signUp.rejected, (state, action) => {
         state.status.signUp = 'failed';
         state.error = action.payload;
       })
+
       .addCase(signIn.pending, (state, action) => {
         state.status.signIn = 'pending';
       })
@@ -62,6 +65,7 @@ const userSlice = createSlice({
         state.status.signIn = 'failed';
         state.error = action.payload;
       })
+
       .addCase(uploadUserAvatar.pending, (state, action) => {
         state.status.uploadUserAvatar = 'pending';
         state.info = { ...state.info, avatar: action.meta.arg };
@@ -75,8 +79,19 @@ const userSlice = createSlice({
         state.status.uploadUserAvatar = 'failed';
         state.error.uploadUserAvatar = action.payload;
         state.info = jsCookie.get('user');
+      })
 
-        return state;
+      .addCase(editProfile.pending, (state, action) => {
+        state.status.editProfile = 'pending';
+      })
+      .addCase(editProfile.fulfilled, (state, action) => {
+        state.status.editProfile = 'succeeded';
+        state.info = { ...state.info, ...action.payload };
+        jsCookie.set('user', state.info);
+      })
+      .addCase(editProfile.rejected, (state, action) => {
+        state.status.editProfile = 'failed';
+        state.error.editProfile = action.payload;
       });
   },
 });
@@ -211,6 +226,31 @@ export const uploadUserAvatar = createAsyncThunk(
 
     if (response && response?.type === 'success') return response.data;
     return rejectWithValue('Upload failed');
+  }
+);
+
+export const editProfile = createAsyncThunk(
+  'user/editProfile',
+  async (profileData, { getState, rejectWithValue }) => {
+    const { _id } = getState().user.info;
+    try {
+      await axios.post(
+        SANITY_URL,
+        {
+          mutations: [{ patch: { id: _id, set: { ...profileData } } }],
+        },
+        {
+          headers: {
+            'Content-Type': 'Application/json',
+            Authorization: `Bearer ${SANITY_AUTH_TOKEN}`,
+          },
+        }
+      );
+
+      return profileData;
+    } catch (err) {
+      if (err.isNetworkError) return rejectWithValue('Network Error!');
+    }
   }
 );
 

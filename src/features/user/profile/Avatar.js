@@ -12,7 +12,6 @@ const Avatar = () => {
   const {
     info: userInfo,
     status: { uploadUserAvatar: uploadStatus },
-    cacheUserImg,
   } = useSelector(selectUser);
   const [helperResponse, setHelperResponse] = useState(null);
   const [preview, setPreview] = useState(null);
