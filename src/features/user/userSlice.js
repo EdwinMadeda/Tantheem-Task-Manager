@@ -3,15 +3,24 @@ import bcrypt from 'bcryptjs-react';
 import sanityClient, {
   SANITY_URL,
   SANITY_AUTH_TOKEN,
+  urlFor,
 } from '../../utils/sanityClient';
 import axios from 'axios';
-// import { createReadStream } from 'fs';
-// import { basename } from 'path';
+import jsCookie from '../../utils/jsCookie';
 
 const initialState = {
-  info: {},
-  status: 'idle',
-  error: null,
+  info: jsCookie.get('user'),
+  status: {
+    signIn: 'idle',
+    signUp: 'idle',
+    uploadUserAvatar: 'idle',
+  },
+  error: {
+    signIn: null,
+    signUp: null,
+    uploadUserAvatar: null,
+  },
+  cacheUserImg: null,
 };
 
 const userSlice = createSlice({
@@ -20,28 +29,54 @@ const userSlice = createSlice({
     ...initialState,
   },
   reducers: {
-    signOut: (state, action) => {
+    signOut(state, action) {
       state.info = {};
+    },
+    setCacheUserImg(state, action) {
+      state.cacheUserImg = action.payload;
     },
   },
   extraReducers(builder) {
     builder
+      .addCase(signUp.pending, (state, action) => {
+        state.status.signUp = 'pending';
+        state.info = action.payload;
+      })
       .addCase(signUp.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status.signUp = 'succeeded';
         state.info = action.payload;
       })
       .addCase(signUp.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status.signUp = 'failed';
         state.error = action.payload;
       })
-
+      .addCase(signIn.pending, (state, action) => {
+        state.status.signIn = 'pending';
+      })
       .addCase(signIn.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status.signIn = 'succeeded';
         state.info = action.payload;
+        jsCookie.set('user', action.payload);
       })
       .addCase(signIn.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status.signIn = 'failed';
         state.error = action.payload;
+      })
+      .addCase(uploadUserAvatar.pending, (state, action) => {
+        state.status.uploadUserAvatar = 'pending';
+        state.info = { ...state.info, avatar: action.meta.arg };
+      })
+      .addCase(uploadUserAvatar.fulfilled, (state, action) => {
+        state.status.uploadUserAvatar = 'succeeded';
+        state.info = { ...state.info, avatar: action.payload };
+        jsCookie.set('user', state.info);
+      })
+      .addCase(uploadUserAvatar.rejected, (state, action) => {
+        state.status.uploadUserAvatar = 'failed';
+        state.error.uploadUserAvatar = action.payload;
+        state.info = jsCookie.get('user');
+
+        return state;
       });
   },
 });
@@ -105,7 +140,14 @@ export const signIn = createAsyncThunk(
       if (!result) return rejectWithValue('No user');
 
       if (result && bcrypt.compareSync(user.password, result.password)) {
-        return { _id: result._id, name: result.name, email: result.email };
+        return {
+          _id: result._id,
+          name: result.name,
+          email: result.email,
+          avatar: Boolean(result?.userAvatar)
+            ? urlFor(result.userAvatar)
+            : null,
+        };
       }
 
       return rejectWithValue('Wrong name, email or password');
@@ -117,18 +159,62 @@ export const signIn = createAsyncThunk(
 
 export const uploadUserAvatar = createAsyncThunk(
   'user/uploadUserAvatar',
-  (croppedImg, { rejectWithValue }) => {
-    try {
-      // sanityClient.assets.upload('image', createReadStream(croppedImg), {
-      //   filename: basename(croppedImg),
-      // });
-    } catch (err) {
-      if (err.isNetworkError) return rejectWithValue('Network Error!');
-    }
+  async (previewImg, { getState, rejectWithValue, fulfillWithValue }) => {
+    const { user } = getState();
+
+    const { documentId } = await sanityClient.fetch(
+      `*[_type == "users" && _id == $userId][0]{"documentId" : _id}`,
+      { userId: user.info._id }
+    );
+
+    if (!documentId) return rejectWithValue('Upload failed');
+
+    const blob = await (await fetch(previewImg)).blob();
+    const file = new File([blob], 'file.jpg', {
+      type: 'image/jpeg',
+      lastModified: new Date(),
+    });
+
+    let response = null;
+
+    await sanityClient.assets
+      .upload('image', file, {
+        contentType: file.type,
+        filename: file.name,
+      })
+      .then((imageAsset) => {
+        return sanityClient
+          .patch(documentId)
+          .set({
+            userAvatar: {
+              _type: 'image',
+              asset: {
+                _type: 'reference',
+                _ref: imageAsset._id,
+              },
+            },
+          })
+          .commit();
+      })
+      .then(async () => {
+        const { userAvatar } = await sanityClient.fetch(
+          `*[_type == "users" && _id == $userId][0]{userAvatar}`,
+          { userId: user.info._id }
+        );
+
+        response = { data: urlFor(userAvatar), type: 'success' };
+      })
+      .catch((error) => {
+        response = { data: error, type: 'error' };
+        console.log(error);
+      });
+
+    if (response && response?.type === 'success') return response.data;
+    return rejectWithValue('Upload failed');
   }
 );
 
-export const selectUser = (state) => state.user.info;
+export const selectUser = (state) => state.user;
 
-export const { signOut } = userSlice.actions;
+export const { signOut, setCacheUserImg } = userSlice.actions;
 export default userSlice.reducer;

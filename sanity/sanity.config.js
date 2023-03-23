@@ -7,7 +7,7 @@ export default defineConfig({
   name: 'default',
   title: 'Tantheem ToDo App',
 
-  projectId: 'comp0x9y',
+  projectId: 'j8emq587',
   dataset: 'production',
 
   plugins: [deskTool(), visionTool()],

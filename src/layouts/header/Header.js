@@ -97,7 +97,7 @@ const Header = () => {
     dispatch({ type: 'setSearchInputVisible', payload });
   };
 
-  const user = useSelector(selectUser);
+  const { info: userInfo } = useSelector(selectUser) ?? {};
 
   const AppLinks = () => {
     return state.Links.map((link) => {
@@ -214,7 +214,7 @@ const Header = () => {
             })}
             className="User-avatar__Container"
           >
-            <UserAvatar title={user.name} />
+            <UserAvatar title={userInfo?.name} src={userInfo?.avatar} />
           </Modal>
         </div>
       </div>

@@ -2,7 +2,6 @@ import CheckBox from './CheckBox';
 import Bell from './Bell';
 import BackBtn from './BackBtn';
 import HelperText from './HelperText';
-import useTargetAction from '../customHooks/useTargetAction';
 
 const Form = (props) => {
   const formTitles = {

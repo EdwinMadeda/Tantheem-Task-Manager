@@ -5,12 +5,12 @@ import { selectUser } from '../features/user/userSlice';
 import Header from './header/Header';
 
 const Layout = () => {
-  const user = useSelector(selectUser);
+  const { info: userInfo } = useSelector(selectUser);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user?._id) navigate('/signin');
-  }, [navigate, user]);
+    if (!userInfo?._id) navigate('/signin');
+  }, [navigate, userInfo]);
 
   return (
     <>

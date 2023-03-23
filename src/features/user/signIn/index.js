@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -10,8 +10,7 @@ import LoadingSpinner from '../../../reusableComponents/LoadingSpinner';
 import { selectUser, signIn } from '../userSlice';
 
 const SignIn = () => {
-  const user = useSelector(selectUser);
-  const [signInStatus, setSignInStatus] = useState('idle');
+  const { info: userInfo, status: signInStatus } = useSelector(selectUser);
 
   const {
     register,
@@ -19,7 +18,7 @@ const SignIn = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      nameOrEmail: user?.email ?? '',
+      nameOrEmail: userInfo?.email ?? '',
     },
   });
 
@@ -28,16 +27,23 @@ const SignIn = () => {
   const [formResponse, setFormResponse] = useState(false);
 
   const submit = async ({ nameOrEmail, password }) => {
-    setSignInStatus('pending');
-
     try {
       await dispatch(signIn({ nameOrEmail, password })).unwrap();
-      setFormResponse({ msg: 'Login Successful', type: 'success' });
+      setFormResponse({ msg: 'Sign In Successful', type: 'success' });
       setTimeout(() => navigate('/'), 1000);
     } catch (err) {
       setFormResponse({ msg: err, type: 'error' });
     }
   };
+
+  useEffect(() => {
+    if (signInStatus === 'pending') {
+      setFormResponse({
+        msg: 'SignIn in progress. Please wait!',
+        type: 'inProgress',
+      });
+    }
+  }, [signInStatus]);
 
   return (
     <>

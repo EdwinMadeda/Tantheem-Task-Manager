@@ -4,13 +4,15 @@ import SignInSignUp from '../../../layouts/signInSignUp.js';
 import CustomLink from '../../../reusableComponents/CustomLink';
 import { InputSubmit, InputText } from '../../../reusableComponents/Form';
 import HelperText from '../../../reusableComponents/HelperText';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // import { signUp } from '../userSlice';
 import LoadingSpinner from '../../../reusableComponents/LoadingSpinner';
 import { useNavigate } from 'react-router';
-import { signUp } from '../userSlice.js';
+import { selectUser, signUp } from '../userSlice.js';
 
 const SignUp = () => {
+  const { status: signUpStatus } = useSelector(selectUser);
+
   const {
     register,
     handleSubmit,
@@ -19,7 +21,6 @@ const SignUp = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [signUpStatus, setSignUpStatus] = useState('idle');
   const [formResponse, setFormResponse] = useState(false);
 
   const submit = async ({ name, email, password, confirmPassword }) => {
@@ -27,7 +28,7 @@ const SignUp = () => {
       setFormResponse({ msg: "Passwords don't match", type: 'error' });
       return;
     }
-    setSignUpStatus('pending');
+
     try {
       await dispatch(
         signUp({
@@ -40,8 +41,6 @@ const SignUp = () => {
       setTimeout(() => navigate('/signin'), 2000);
     } catch (err) {
       setFormResponse({ msg: err, type: 'error' });
-    } finally {
-      setSignUpStatus('idle');
     }
   };
 

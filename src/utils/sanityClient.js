@@ -1,7 +1,7 @@
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
 
-export const projectId = 'comp0x9y';
+export const projectId = 'j8emq587';
 export const dataset = 'production';
 export const SANITY_URL = `https://${projectId}.api.sanity.io/v1/data/mutate/${dataset}?returnIds=true`;
 export const SANITY_IMG_UPLOAD_URL = `https://${projectId}.api.sanity.io/v1/assets/images/${dataset}`;
@@ -11,9 +11,11 @@ const sanityClient = createClient({
   projectId,
   dataset,
   useCdn: false,
-  apiVersion: '2023-03-19',
+  apiVersion: '2023-03-22',
+  token: SANITY_AUTH_TOKEN,
+  ignoreBrowserTokenWarning: true,
 });
 
-const build = imageUrlBuilder(sanityClient);
-export const urlFor = (source) => build.image(source);
+const builder = imageUrlBuilder(sanityClient);
+export const urlFor = (source) => builder.image(source).url();
 export default sanityClient;

@@ -8,7 +8,7 @@ import './profile.css';
 import { Link } from 'react-router-dom';
 
 const Profile = () => {
-  const user = useSelector(selectUser);
+  const { info: userInfo, status: userStatus } = useSelector(selectUser);
 
   const {
     register,
@@ -16,7 +16,7 @@ const Profile = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      ...user,
+      ...userInfo,
     },
   });
 
@@ -29,7 +29,10 @@ const Profile = () => {
       <Form className="Profile__Form User-Info" title="Profile">
         <div className="User-avatar__Wrapper">
           <Link to="/profile/avatar">
-            <UserAvatar style={{ height: '200px', width: '200px' }} />
+            <UserAvatar
+              style={{ height: '200px', width: '200px' }}
+              src={userInfo?.avatar ?? null}
+            />
           </Link>
           <EditBtn
             className="SinglePage__Ctrl-Btn Toggle-AvatarEditBtn"

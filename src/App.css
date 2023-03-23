@@ -650,8 +650,20 @@ form.placeholder-hidden textarea::placeholder {
   color: green;
 }
 
+.helperText.inProgress {
+  color: coral;
+}
+
 .helperText .infoIcon {
   margin-right: 6px;
+}
+
+.helperText .closeIcon {
+  margin-left: 8px;
+  cursor: pointer;
+}
+.helperText .closeIcon:active {
+  transform: scale(0.88);
 }
 
 .loadingSpinner {
@@ -667,6 +679,7 @@ form.placeholder-hidden textarea::placeholder {
 .User-avatar {
   border-radius: 50%;
   cursor: pointer;
+  border: 1.5px solid #333;
 }
 
 .Avatar-Selector div div {

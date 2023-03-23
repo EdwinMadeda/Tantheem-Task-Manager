@@ -19,7 +19,7 @@ const UserAvatar = ({
       width={height}
       style={style}
       onClick={onClick}
-      title={title}
+      title={title ?? 'avatar'}
     />
   );
 };
