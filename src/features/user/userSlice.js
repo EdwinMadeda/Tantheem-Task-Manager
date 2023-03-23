@@ -102,7 +102,7 @@ export const signUp = createAsyncThunk(
     const createMutations = [
       {
         create: {
-          _type: 'users',
+          _type: 'user',
           name: user.name,
           email: user.email,
           password: bcrypt.hashSync(user.password),
@@ -112,7 +112,7 @@ export const signUp = createAsyncThunk(
 
     try {
       const userExists = await sanityClient.fetch(
-        `*[_type == "users" && email == $email][0]`,
+        `*[_type == "user" && email == $email][0]`,
         { email: user.email }
       );
 
@@ -148,7 +148,7 @@ export const signIn = createAsyncThunk(
   async (user, { rejectWithValue }) => {
     try {
       const result = await sanityClient.fetch(
-        `*[_type == "users" && (name == $name || email == $email)][0]`,
+        `*[_type == "user" && (name == $name || email == $email)][0]`,
         { name: user.nameOrEmail, email: user.nameOrEmail }
       );
 
@@ -178,7 +178,7 @@ export const uploadUserAvatar = createAsyncThunk(
     const { user } = getState();
 
     const { documentId } = await sanityClient.fetch(
-      `*[_type == "users" && _id == $userId][0]{"documentId" : _id}`,
+      `*[_type == "user" && _id == $userId][0]{"documentId" : _id}`,
       { userId: user.info._id }
     );
 
@@ -213,7 +213,7 @@ export const uploadUserAvatar = createAsyncThunk(
       })
       .then(async () => {
         const { userAvatar } = await sanityClient.fetch(
-          `*[_type == "users" && _id == $userId][0]{userAvatar}`,
+          `*[_type == "user" && _id == $userId][0]{userAvatar}`,
           { userId: user.info._id }
         );
 
