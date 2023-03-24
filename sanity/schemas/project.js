@@ -13,40 +13,22 @@ export default defineType({
     defineField({
       name: 'description',
       title: 'Description',
-      type: 'string',
+      type: 'text',
     }),
+
     defineField({
-      name: 'assignedTo',
-      title: 'Assigned To',
-      type: 'string',
-      initialValue: 'user',
-      options: {
-        list: [
-          {title: 'USER', value: 'user'},
-          {title: 'TEAM', value: 'team'},
-        ],
-      },
-    }),
-    defineField({
-      name: 'user',
-      title: 'User',
+      name: 'managedBy',
+      title: 'Managed By',
       type: 'reference',
-      to: [{type: 'user'}],
+      to: [
+        {title: 'User', type: 'user'},
+        {title: 'Team', type: 'team'},
+      ],
       options: {
         disableNew: true,
       },
-      hidden: ({document}) => document.assignedTo !== 'user',
     }),
-    defineField({
-      name: 'team',
-      title: 'Team',
-      type: 'reference',
-      to: [{type: 'team'}],
-      options: {
-        disableNew: true,
-      },
-      hidden: ({document}) => document.assignedTo !== 'team',
-    }),
+
     defineField({
       name: 'status',
       title: 'Status',
@@ -83,17 +65,11 @@ export default defineType({
       title: 'Start Date',
       type: 'datetime',
     }),
-
     defineField({
       name: 'deliverables',
       title: 'Deliverables',
       type: 'array',
-      of: [
-        {
-          title: 'Deliverable',
-          type: 'deliverable',
-        },
-      ],
+      of: [{type: 'reference', to: {type: 'deliverable', title: 'Deliverable'}}],
     }),
     defineField({
       name: 'createdAt',

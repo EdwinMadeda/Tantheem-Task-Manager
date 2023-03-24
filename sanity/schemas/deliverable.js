@@ -13,7 +13,7 @@ export default defineType({
     defineField({
       name: 'description',
       title: 'Description',
-      type: 'string',
+      type: 'text',
     }),
 
     defineField({
@@ -49,21 +49,7 @@ export default defineType({
     }),
     defineField({
       name: 'endDate',
-      title: 'Start Date',
-      type: 'datetime',
-    }),
-    defineField({
-      name: 'team',
-      title: 'Team',
-      type: 'reference',
-      to: [{type: 'team'}],
-      options: {
-        disableNew: true,
-      },
-    }),
-    defineField({
-      name: 'createdAt',
-      title: 'Start Date',
+      title: 'End Date',
       type: 'datetime',
     }),
   ],

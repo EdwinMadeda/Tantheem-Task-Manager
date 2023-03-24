@@ -13,40 +13,35 @@ export default defineType({
     defineField({
       name: 'description',
       title: 'Description',
-      type: 'string',
+      type: 'text',
     }),
     defineField({
-      name: 'assignedTo',
-      title: 'Assigned To',
-      type: 'string',
-      initialValue: 'user',
-      options: {
-        list: [
-          {title: 'USER', value: 'user'},
-          {title: 'TEAM', value: 'team'},
-        ],
-      },
-    }),
-    defineField({
-      name: 'user',
-      title: 'User',
+      name: 'belongsTo',
+      title: 'Belongs To',
       type: 'reference',
-      to: [{type: 'user'}],
+      to: [
+        {title: 'User', type: 'user'},
+        {title: 'Team', type: 'team'},
+      ],
       options: {
         disableNew: true,
       },
-      hidden: ({document}) => document.assignedTo !== 'user',
     }),
+
     defineField({
-      name: 'team',
-      title: 'Team',
+      name: 'groupedInto',
+      title: 'Grouped Into',
       type: 'reference',
-      to: [{type: 'team'}],
+      to: [
+        {title: 'Project', type: 'project'},
+        {title: 'Deliverable', type: 'deliverable'},
+      ],
       options: {
         disableNew: true,
       },
-      hidden: ({document}) => document.assignedTo !== 'team',
+      weak: true,
     }),
+
     defineField({
       name: 'startDate',
       title: 'Start Date',
@@ -54,7 +49,7 @@ export default defineType({
     }),
     defineField({
       name: 'endDate',
-      title: 'Start Date',
+      title: 'End Date',
       type: 'datetime',
     }),
     defineField({
@@ -86,12 +81,7 @@ export default defineType({
       name: 'subTasks',
       title: 'Sub Tasks',
       type: 'array',
-      of: [
-        {
-          title: 'Sub Task',
-          type: 'subTask',
-        },
-      ],
+      of: [{type: 'reference', to: {type: 'subTask', title: 'SubTask'}}],
     }),
     defineField({
       name: 'createdAt',

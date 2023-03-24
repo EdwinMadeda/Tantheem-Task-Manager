@@ -13,29 +13,30 @@ export default defineType({
     defineField({
       name: 'description',
       title: 'Description',
-      type: 'string',
+      type: 'text',
     }),
+    defineField({
+      name: 'createdBy',
+      title: 'Created By',
+      type: 'reference',
+      to: [{title: 'User', type: 'user'}],
+      options: {
+        disableNew: true,
+      },
+    }),
+
     defineField({
       name: 'members',
       title: 'Members',
       type: 'array',
-      of: [
-        {
-          title: 'Member',
-          type: 'user',
-        },
-      ],
+      of: [{type: 'reference', to: {type: 'user', title: 'User'}}],
     }),
+
     defineField({
       name: 'tasks',
       title: 'Tasks',
       type: 'array',
-      of: [
-        {
-          title: 'Task',
-          type: 'task',
-        },
-      ],
+      of: [{type: 'reference', to: {type: 'task', title: 'Task'}}],
     }),
     defineField({
       name: 'createdAt',
