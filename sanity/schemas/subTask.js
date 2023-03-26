@@ -16,15 +16,6 @@ export default defineType({
       type: 'string',
     }),
     defineField({
-      name: 'team',
-      title: 'Team',
-      type: 'reference',
-      to: [{type: 'team'}],
-      options: {
-        disableNew: true,
-      },
-    }),
-    defineField({
       name: 'startDate',
       title: 'Start Date',
       type: 'datetime',

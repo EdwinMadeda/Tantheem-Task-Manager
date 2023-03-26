@@ -16,13 +16,11 @@ export default defineType({
       type: 'text',
     }),
     defineField({
-      name: 'createdBy',
-      title: 'Created By',
-      type: 'reference',
-      to: [{title: 'User', type: 'user'}],
-      options: {
-        disableNew: true,
-      },
+      name: 'ledBy',
+      title: 'Led By',
+      description: 'Team Leader',
+      type: 'array',
+      of: [{type: 'reference', to: {title: 'User', type: 'user'}}],
     }),
 
     defineField({
@@ -32,12 +30,6 @@ export default defineType({
       of: [{type: 'reference', to: {type: 'user', title: 'User'}}],
     }),
 
-    defineField({
-      name: 'tasks',
-      title: 'Tasks',
-      type: 'array',
-      of: [{type: 'reference', to: {type: 'task', title: 'Task'}}],
-    }),
     defineField({
       name: 'createdAt',
       title: 'Start Date',

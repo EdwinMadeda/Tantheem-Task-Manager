@@ -1,8 +1,8 @@
-import CustomLink from "../../reusableComponents/CustomLink";
-import OrderByBtnsWrapper from "../../reusableComponents/OrderByBtnsWrapper";
-import useOrderBy from "../../customHooks/useOrderBy";
-import { ordinal } from "../../constants";
-import NoItemsMsg from "../../reusableComponents/NoItemsMsg";
+import CustomLink from '../../reusableComponents/CustomLink';
+import OrderByBtnsWrapper from '../../reusableComponents/OrderByBtnsWrapper';
+import useOrderBy from '../../customHooks/useOrderBy';
+import { ordinal } from '../../utils/constants';
+import NoItemsMsg from '../../reusableComponents/NoItemsMsg';
 
 const ToDoProjectsSnippet = ({ rawProjects }) => {
   const {
@@ -19,7 +19,7 @@ const ToDoProjectsSnippet = ({ rawProjects }) => {
       <p className="Projects__Snippet-title">TO DO</p>
       {rawProjects.length > 0 ? (
         <>
-          {" "}
+          {' '}
           <div className="Projects__OrderByBtns">
             <OrderByBtnsWrapper
               onDateClick={onOrderByDate}
@@ -42,7 +42,7 @@ const ToDoProjectsSnippet = ({ rawProjects }) => {
                       {`${project.name.substring(0, 20)}...`}
                     </CustomLink>
                   </span>
-                  <span>{"Due Today"}</span>
+                  <span>{'Due Today'}</span>
                   {Boolean(project?.priority) && (
                     <span className="Projects__Priority">{`${ordinal(
                       project.priority

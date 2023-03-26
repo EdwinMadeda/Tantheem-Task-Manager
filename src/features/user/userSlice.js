@@ -21,7 +21,6 @@ const initialState = {
     signUp: null,
     uploadUserAvatar: null,
   },
-  cacheUserImg: null,
 };
 
 const userSlice = createSlice({
@@ -31,10 +30,11 @@ const userSlice = createSlice({
   },
   reducers: {
     signOut(state, action) {
-      state.info = {};
-    },
-    setCacheUserImg(state, action) {
-      state.cacheUserImg = action.payload;
+      const info = [],
+        { status, error } = initialState;
+      state.info = info;
+      state.status = status;
+      state.error = error;
     },
   },
   extraReducers(builder) {
@@ -174,7 +174,7 @@ export const signIn = createAsyncThunk(
 
 export const uploadUserAvatar = createAsyncThunk(
   'user/uploadUserAvatar',
-  async (previewImg, { getState, rejectWithValue, fulfillWithValue }) => {
+  async (previewImg, { getState, rejectWithValue }) => {
     const { user } = getState();
 
     const { documentId } = await sanityClient.fetch(
@@ -254,7 +254,18 @@ export const editProfile = createAsyncThunk(
   }
 );
 
+export const signOut = createAsyncThunk(
+  'user/signOut',
+  async (_, { dispatch }) => {
+    dispatch({ type: 'user/signOut' });
+    dispatch({ type: 'tasks/reset' });
+    dispatch({ type: 'projects/reset' });
+    dispatch({ type: 'teams/reset' });
+    dispatch({ type: 'searchText/reset' });
+    dispatch({ type: 'viewMore/reset' });
+  }
+);
+
 export const selectUser = (state) => state.user;
 
-export const { signOut, setCacheUserImg } = userSlice.actions;
 export default userSlice.reducer;

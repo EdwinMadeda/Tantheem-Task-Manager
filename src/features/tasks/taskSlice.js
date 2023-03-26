@@ -1,110 +1,25 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { PRIORITY } from "../../constants";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PRIORITY } from '../../utils/constants';
+import sanityClient from '../../utils/sanityClient';
 
 export const STATUS = Object.freeze({
-  IN_PROGRESS: "In Progress",
-  COMPLETE: "Complete",
-  TO_DO: "To Do",
+  IN_PROGRESS: 'In Progress',
+  COMPLETE: 'Complete',
+  TO_DO: 'To Do',
 });
 
-const initialState = [
-  {
-    id: 0,
-    name: "Anterview Questions",
-    description: "",
-    // team : 'UX Team',
-    teamId: 0,
-    startDate: "",
-    endDate: "2022-03-24",
-    reminder: false,
-    isComplete: true,
-    priority: PRIORITY.HIGH,
-    subTasks: [],
+const initialState = {
+  info: [],
+  status: {
+    fetchTasks: 'idle',
   },
-  {
-    id: 1,
-    name: "Business Research",
-    description: "",
-    // team : 'UX Team',
-    teamId: 0,
-    startDate: "",
-    endDate: "2022-03-23",
-    reminder: false,
-    isComplete: false,
-    priority: PRIORITY.MEDIUM,
-    subTasks: [],
+  error: {
+    fetchTasks: null,
   },
-  {
-    id: 2,
-    name: "Homework - 11th week",
-    description: "",
-    startDate: "",
-    endDate: "2022-03-27",
-    reminder: false,
-    isComplete: false,
-    priority: PRIORITY.LOW,
-    subTasks: [],
-  },
-  {
-    id: 3,
-    name: "Designing the system",
-    description:
-      " Involves defining elements of a system like modules, architecture, components and their interfaces and data for a system based on the specified requirements",
-    // team : 'UI Team',
-    teamId: 1,
-    startDate: "",
-    endDate: "2022-03-20",
-    reminder: false,
-    isComplete: false,
-    priority: PRIORITY.MEDIUM,
-    subTasks: [
-      {
-        id: 0,
-        name: "Sketching",
-        description: "",
-        startDate: "",
-        endDate: "",
-        reminder: false,
-        isComplete: true,
-        priority: PRIORITY.HIGH,
-      },
-      {
-        id: 2,
-        name: "Creating Mockups",
-        description: "",
-        startDate: "",
-        endDate: "",
-        reminder: false,
-        isComplete: false,
-        priority: PRIORITY.HIGH,
-      },
-      {
-        id: 3,
-        name: "Final Design",
-        description: "",
-        startDate: "",
-        endDate: "",
-        reminder: false,
-        isComplete: false,
-        priority: PRIORITY.HIGH,
-      },
-    ],
-  },
-  {
-    id: 5,
-    name: "Homework - 12th week",
-    description: "",
-    startDate: "",
-    endDate: "2022-03-15",
-    reminder: false,
-    isComplete: false,
-    priority: PRIORITY.LOW,
-    subTasks: [],
-  },
-];
+};
 
 const tasksSlice = createSlice({
-  name: "tasks",
+  name: 'tasks',
   initialState,
   reducers: {
     addTask(state, action) {
@@ -119,13 +34,121 @@ const tasksSlice = createSlice({
     deleteTask(state, action) {
       return state.filter((task) => task.id !== action.payload);
     },
+    reset(state, action) {
+      const info = [],
+        { status, error } = initialState;
+      state.info = info;
+      state.status = status;
+      state.error = error;
+    },
+  },
+  extraReducers(builder) {
+    builder
+
+      .addCase(fetchTasks.pending, (state, action) => {
+        state.status.fetchTasks = 'pending';
+      })
+      .addCase(fetchTasks.fulfilled, (state, action) => {
+        state.status.fetchTasks = 'succeeded';
+        state.info = [...action.payload];
+      })
+      .addCase(fetchTasks.rejected, (state, action) => {
+        state.status.fetchTasks = 'failed';
+      });
   },
 });
 
-export const selectAllTasks = (state) => state.tasks;
-export const selectLatestTask = (state) => state.tasks[state.tasks.length - 1];
-export const selectTaskById = (state, id) =>
-  state.tasks.find((task) => task.id === id);
+export const fetchTasks = createAsyncThunk(
+  'tasks/fetchTasks',
+  async (_, { getState, rejectWithValue }) => {
+    const { _id: userId } = getState().user.info;
+
+    try {
+      const { tasks } = await sanityClient.fetch(
+        `*[_type == "user" && _id == $userId][0]{
+        "tasks" : *[_type == "task" && references(^._id)]{
+          ...,
+          assignees[]->{_id, name, email,userAvatar},
+            owners[]->{_id, name, email,userAvatar},
+            team->{_id}
+        }
+      }`,
+        {
+          userId,
+        }
+      );
+
+      const { teams } = await sanityClient.fetch(
+        ` *[_type == "user" && _id == $userId][0]{
+        "teams" : *[_type == "team" && references(^._id)]{
+         "tasks" : *[_type == "task" && references(^._id)]{
+          ...,
+          assignees[]->{_id, name, email,userAvatar},
+            owners[]->{_id, name, email,userAvatar},
+            team->{_id}
+        }
+        }
+        }`,
+        { userId }
+      );
+
+      const teamTasks = teams.filter((team) => team.tasks.length !== 0);
+
+      let result = [];
+      teamTasks.forEach((item) => {
+        const myTasks = item.tasks.map((task) => ({
+          ...task,
+          type: 'team',
+        }));
+        result = [...result, ...myTasks];
+      });
+
+      return refactorfetchedTasks(
+        tasks
+          .filter((task) => !result.find((item) => task._id === item._id))
+          .concat(result)
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
+const refactorfetchedTasks = (tasks) => {
+  const setResult = (task) => {
+    return {
+      id: task._id,
+      name: task.name,
+      description: task?.description ?? '',
+      startDate: task?.startDate ?? null,
+      endDate: task?.endDate ?? null,
+      reminder: task?.reminder ?? false,
+      isComplete: task?.isComplete ?? false,
+      priority: task?.priority ?? PRIORITY.LOW,
+      createdAt: task._createdAt,
+      updatedAt: task._updatedAt,
+    };
+  };
+
+  return tasks.map((task) => {
+    return {
+      ...setResult(task),
+      teamId: task?.team?._id ?? null,
+      subTasks: (task?.subTasks ?? []).map((subTask) => setResult(subTask)),
+      owners: task?.owners ?? [],
+      assignees: task?.assignees ?? [],
+      followers: task?.followers ?? [],
+      type: !Boolean(task?.type) ? 'self' : task.type,
+    };
+  });
+};
+
+export const selectAllTasks = (state) => state.tasks.info;
+export const selectLatestTask = (state) =>
+  state.tasks.info[state.tasks.info.length - 1];
+export const selectTaskById = (state, id) => {
+  return state.tasks.info.find((task) => task.id === id);
+};
 
 export const selectTasksByStatus = (state) => {
   const tasks = [...selectAllTasks(state)].reverse();
@@ -151,6 +174,7 @@ export const selectSubTaskById = (state, taskId, subTaskId) => {
 
 export const selectOneTask = (state, taskId) => {
   const selectTask = selectTaskById(state, taskId);
+
   let toDo = [],
     complete = [],
     completeSubTasks = 0,
@@ -173,10 +197,14 @@ export const selectOneTask = (state, taskId) => {
 };
 
 export const selectTasksByTeam = (state, teamId) =>
-  state.tasks.filter((task) => task.teamId === teamId);
+  state.tasks.info.filter((task) => task.teamId === teamId);
 
-export const selectTeamTasks = (state) =>
-  state.tasks.filter((task) => task?.teamId !== undefined);
+export const selectTeamTasks = (state) => {
+  const {
+    tasks: { info },
+  } = state;
+  return info.filter((task) => task.type === 'team');
+};
 
 export const { addTask, editTask, deleteTask } = tasksSlice.actions;
 export default tasksSlice.reducer;

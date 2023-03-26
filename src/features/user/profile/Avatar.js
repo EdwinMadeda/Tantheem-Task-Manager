@@ -5,7 +5,7 @@ import UserAvatar, {
 } from '../../../reusableComponents/UserAvatar';
 import { BsUpload } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUser, setCacheUserImg, uploadUserAvatar } from '../userSlice';
+import { selectUser, uploadUserAvatar } from '../userSlice';
 import LoadingSpinner from '../../../reusableComponents/LoadingSpinner';
 
 const Avatar = () => {
@@ -20,7 +20,6 @@ const Avatar = () => {
 
   const onClose = () => {
     setPreview(null);
-    dispatch(setCacheUserImg(null));
   };
 
   const onCrop = async (pv) => {
@@ -34,9 +33,7 @@ const Avatar = () => {
     }
   };
 
-  const onFileLoad = (file) => {
-    dispatch(setCacheUserImg(URL.createObjectURL(file)));
-  };
+  const onFileLoad = (file) => {};
 
   const onSubmit = async (e) => {
     e.preventDefault();

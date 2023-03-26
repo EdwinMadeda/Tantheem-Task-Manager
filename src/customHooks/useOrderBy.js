@@ -1,4 +1,4 @@
-import { useReducer, useState } from "react";
+import { useReducer, useState } from 'react';
 
 export const orderByDate = (items, criteria) => {
   return {
@@ -32,27 +32,27 @@ const useOrderBy = (rawTasks = [], rawProjects = [], rawTeams = []) => {
 
   const reducer = (state, action) => {
     switch (action.type) {
-      case "orderByDate":
+      case 'orderByDate':
         return {
           ...state,
-          tasks: orderByDate(rawTasks, "endDate"),
-          projects: orderByDate(rawProjects, "endDate"),
-          teams: orderByDate(rawTeams, "createdAt"),
+          tasks: orderByDate(rawTasks, 'endDate'),
+          projects: orderByDate(rawProjects, 'endDate'),
+          teams: orderByDate(rawTeams, 'createdAt'),
         };
 
-      case "orderByPriority":
+      case 'orderByPriority':
         return {
           ...state,
           tasks: orderByPriority(rawTasks),
           projects: orderByPriority(rawProjects),
         };
 
-      case "orderByAlphabet":
+      case 'orderByAlphabet':
         return {
           ...state,
-          tasks: orderByAlphabet(rawTasks, "name"),
-          projects: orderByAlphabet(rawProjects, "name"),
-          teams: orderByAlphabet(rawTeams, "name"),
+          tasks: orderByAlphabet(rawTasks, 'name'),
+          projects: orderByAlphabet(rawProjects, 'name'),
+          teams: orderByAlphabet(rawTeams, 'name'),
         };
 
       default:
@@ -61,13 +61,13 @@ const useOrderBy = (rawTasks = [], rawProjects = [], rawTeams = []) => {
   };
 
   const [state, dispatch] = useReducer(reducer, {
-    tasks: orderByDate(rawTasks, "endDate"),
-    projects: orderByDate(rawProjects, "endDate"),
-    teams: orderByDate(rawTeams, "createdAt"),
+    tasks: orderByDate(rawTasks, 'endDate'),
+    projects: orderByDate(rawProjects, 'endDate'),
+    teams: orderByDate(rawTeams, 'createdAt'),
   });
 
   const [isAsc, setIsAsc] = useState(false);
-  const order = () => (isAsc ? "asc" : "desc");
+  const order = () => (isAsc ? 'asc' : 'desc');
 
   return {
     tasks: state.tasks,
@@ -75,9 +75,9 @@ const useOrderBy = (rawTasks = [], rawProjects = [], rawTeams = []) => {
     teams: state.teams,
     setIsAsc,
     order,
-    onOrderByDate: () => dispatch({ type: "orderByDate" }),
-    onOrderByPriority: () => dispatch({ type: "orderByPriority" }),
-    onOrderByAlphabet: () => dispatch({ type: "orderByAlphabet" }),
+    onOrderByDate: () => dispatch({ type: 'orderByDate' }),
+    onOrderByPriority: () => dispatch({ type: 'orderByPriority' }),
+    onOrderByAlphabet: () => dispatch({ type: 'orderByAlphabet' }),
   };
 };
 

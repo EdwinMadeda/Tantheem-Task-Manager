@@ -1,12 +1,12 @@
 .SinglePage__Ctrl-Btns .icon {
-    color: #333;
-    background: #fff;
-    padding: 4px;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
+  color: #333;
+  background: #fff;
+  padding: 4px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
 }
 
 .SinglePage__Ctrl-Btns .bellIcon {
-    margin-right: -20px;
+  margin-right: -20px;
 }

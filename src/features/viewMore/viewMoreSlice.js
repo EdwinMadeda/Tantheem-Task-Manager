@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   TasksPreviousWork: false,
@@ -7,7 +7,7 @@ const initialState = {
 };
 
 const viewMoreSlice = createSlice({
-  name: "viewMore",
+  name: 'viewMore',
   initialState,
   reducers: {
     setViewMoreTasksToDo(state, action) {
@@ -18,6 +18,12 @@ const viewMoreSlice = createSlice({
     },
     setViewMoreTeamsToDo(state, action) {
       state.TeamsToDo = action.payload;
+    },
+    reset(state, action) {
+      const { TasksPreviousWork, TasksToDo, TeamsToDo } = initialState;
+      state.TasksPreviousWork = TasksPreviousWork;
+      state.TasksToDo = TasksToDo;
+      state.TeamsToDo = TeamsToDo;
     },
   },
 });

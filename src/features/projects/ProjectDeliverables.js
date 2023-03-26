@@ -1,8 +1,8 @@
-import AddBtn from "../../reusableComponents/AddBtn";
-import CustomLink from "../../reusableComponents/CustomLink";
-import DotsMenu from "../../reusableComponents/DotsMenu";
-import EditBtn from "../../reusableComponents/EditBtn";
-import { STATUS } from "./projectsSlice";
+import AddBtn from '../../reusableComponents/AddBtn';
+import CustomLink from '../../reusableComponents/CustomLink';
+import DotsMenu from '../../reusableComponents/DotsMenu';
+import EditBtn from '../../reusableComponents/EditBtn';
+import { STATUS } from './projectsSlice';
 
 const ProjectDeliverables = ({
   deliverables,
@@ -30,28 +30,30 @@ const ProjectDeliverables = ({
       <div className="ProjectDeliverables SinglePage__Sub-item__Snippet">
         {status !== STATUS.COMPLETE && (
           <AddBtn
-            label={"Add Deliverable"}
+            label={'Add Deliverable'}
             path={`/myprojects/${projectId}/add`}
             state={{ status }}
           />
         )}
 
         <ul className="SinglePage__Sub-item__Items">
-          {deliverables.map((deliverable) => (
-            <li className="SinglePage__Sub-item__Item" key={deliverable.id}>
-              <DotsMenu options={options} targetId={deliverable.id} />
-              <CustomLink
-                className="SinglePage__Sub-item__ItemName"
-                to={`/myprojects/${projectId}/${deliverable.id}`}
-                state={{ status }}
-              >
-                {deliverable.name}
-              </CustomLink>
-              <EditBtn
-                path={`/myprojects/${projectId}/edit/${deliverable.id}`}
-              />
-            </li>
-          ))}
+          {deliverables.map((deliverable) => {
+            return (
+              <li className="SinglePage__Sub-item__Item" key={deliverable.id}>
+                <DotsMenu options={options} targetId={deliverable.id} />
+                <CustomLink
+                  className="SinglePage__Sub-item__ItemName"
+                  to={`/myprojects/${projectId}/${deliverable.id}`}
+                  state={{ status }}
+                >
+                  {deliverable.name}
+                </CustomLink>
+                <EditBtn
+                  path={`/myprojects/${projectId}/edit/${deliverable.id}`}
+                />
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>

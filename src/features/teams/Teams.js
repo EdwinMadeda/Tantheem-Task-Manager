@@ -1,10 +1,10 @@
-import TeamsSnippet from "./TeamsSnippet";
-import TeamTasks from "./TeamTasks";
-import AddBtn from "../../reusableComponents/AddBtn";
-import { useSelector } from "react-redux";
-import { selectAllTeams } from "./teamsSlice";
-import { selectTeamTasks } from "../tasks/taskSlice";
-import "./teams.css";
+import TeamsSnippet from './TeamsSnippet';
+import TeamTasks from './TeamTasks';
+import AddBtn from '../../reusableComponents/AddBtn';
+import { useSelector } from 'react-redux';
+import { selectAllTeams } from './teamsSlice';
+import { selectTeamTasks } from '../tasks/taskSlice';
+import './teams.css';
 
 const Teams = () => {
   const teams = useSelector(selectAllTeams);

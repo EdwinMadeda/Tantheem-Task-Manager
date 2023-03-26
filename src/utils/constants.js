@@ -5,19 +5,19 @@ export const PRIORITY = Object.freeze({
 });
 
 export const ordinal = (num) => {
-  let ord = "th";
-  if (num % 10 === 1 && num % 100 !== 11) ord = "st";
-  else if (num % 10 === 2 && num % 100 !== 12) ord = "nd";
-  else if (num % 10 === 3 && num % 100 !== 13) ord = "rd";
+  let ord = 'th';
+  if (num % 10 === 1 && num % 100 !== 11) ord = 'st';
+  else if (num % 10 === 2 && num % 100 !== 12) ord = 'nd';
+  else if (num % 10 === 3 && num % 100 !== 13) ord = 'rd';
 
   return num + ord;
 };
 
 export const searchItems = (items, searchText) => {
-  if (searchText !== "") {
+  if (searchText !== '') {
     return items.filter((obj) => {
       let values =
-        Object.values(obj).filter((val) => typeof val === "object")[0] ??
+        Object.values(obj).filter((val) => typeof val === 'object')[0] ??
         [].map((val) => val.name + val.description);
 
       const text =

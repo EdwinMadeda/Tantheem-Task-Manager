@@ -1,16 +1,16 @@
-import { useParams } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteProject, editProject, selectOneProject } from "./projectsSlice";
-import { STATUS } from "./projectsSlice";
-import ProjectDeliverables from "./ProjectDeliverables";
-import ProgressBar from "../../reusableComponents/ProgressBar";
-import BackBtn from "../../reusableComponents/BackBtn";
-import MemberShareBtns from "../../reusableComponents/MemberShareBtns";
-import EditBtn from "../../reusableComponents/EditBtn";
-import DeleteBtn from "../../reusableComponents/DeleteBtn";
+import { useParams } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteProject, editProject, selectOneProject } from './projectsSlice';
+import { STATUS } from './projectsSlice';
+import ProjectDeliverables from './ProjectDeliverables';
+import ProgressBar from '../../reusableComponents/ProgressBar';
+import BackBtn from '../../reusableComponents/BackBtn';
+import MemberShareBtns from '../../reusableComponents/MemberShareBtns';
+import EditBtn from '../../reusableComponents/EditBtn';
+import DeleteBtn from '../../reusableComponents/DeleteBtn';
 
-import "./SingleProject.css";
-import "../../SinglePage.css";
+import './SingleProject.css';
+import '../../SinglePage.css';
 
 const SingleProject = () => {
   const { projectId } = useParams();
@@ -19,7 +19,7 @@ const SingleProject = () => {
     deliverables,
     completeDeliverables,
     totalDeliverables,
-  } = useSelector((state) => selectOneProject(state, Number(projectId)));
+  } = useSelector((state) => selectOneProject(state, projectId));
   const dispatch = useDispatch();
 
   const setStatus = (status, deliverableId) => {

@@ -1,7 +1,8 @@
-import format from "date-fns/format";
-import CarouselSlider from "../../reusableComponents/CarouselSlider";
-import ToActionBtn from "../../reusableComponents/ToActionBtn";
-import CustomLink from "../../reusableComponents/CustomLink";
+import format from 'date-fns/format';
+import CarouselSlider from '../../reusableComponents/CarouselSlider';
+import ToActionBtn from '../../reusableComponents/ToActionBtn';
+import CustomLink from '../../reusableComponents/CustomLink';
+import { Link } from 'react-router-dom';
 
 const RecentItem = (props) => {
   const { item, pathname } = props;
@@ -16,18 +17,16 @@ const RecentItem = (props) => {
     <div className="Recent__Item">
       <div className="Content">
         <p>
-          <CustomLink className="Title" to={pathname + "/" + item.id}>
-            {item.name.substring(0, 18) + "..."}
+          <CustomLink className="Title" to={pathname + '/' + item.id}>
+            {item.name.substring(0, 18) + '...'}
           </CustomLink>
+
           <span className="Duedate">
-            {format(
-              new Date(item?.endDate ?? item.createdAt),
-              `'${item?.endDate ? "Due date" : "Created At"}: ' MM/dd/yyyy`
-            )}
+            {format(new Date(item.createdAt), `'Created At: ' MM/dd/yyyy`)}
           </span>
         </p>
         <p className="Description">
-          {item?.description.substring(0, 150) + "..." ?? ""}
+          {item?.description.substring(0, 150) + '...' ?? ''}
         </p>
       </div>
     </div>

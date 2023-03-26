@@ -1,11 +1,11 @@
-import { useSelector, useDispatch } from "react-redux";
-import { editTask, selectTasksByStatus } from "./taskSlice";
-import AddBtn from "../../reusableComponents/AddBtn";
-import girlPhoto from "../../assets/images/girl_photo.png";
-import PreviousWorkSnippet from "./PreviousWorkSnippet";
-import ToDoSnippet from "./ToDoSnippet";
+import { useSelector, useDispatch } from 'react-redux';
+import { editTask, selectTasksByStatus } from './taskSlice';
+import AddBtn from '../../reusableComponents/AddBtn';
+import girlPhoto from '../../assets/images/girl_photo.png';
+import PreviousWorkSnippet from './PreviousWorkSnippet';
+import ToDoSnippet from './ToDoSnippet';
 
-import "./Tasks.css";
+import './Tasks.css';
 
 const Tasks = () => {
   const { previousWork, toDoTasks } = useSelector(selectTasksByStatus);
@@ -27,7 +27,7 @@ const Tasks = () => {
         <p className="Task__helloMsg">Hello,</p>
 
         <div className="Task__AddBtn-Container AddBtn-Container">
-          <AddBtn label="New Task" path={"/mytasks/add"} />
+          <AddBtn label="New Task" path={'/mytasks/add'} />
         </div>
 
         <div className="Task__img">

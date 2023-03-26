@@ -18,7 +18,7 @@ const SingleTask = () => {
   const { taskId } = useParams();
 
   const { selectTask, subTasks, completeSubTasks, totalSubTasks } = useSelector(
-    (state) => selectOneTask(state, Number(taskId))
+    (state) => selectOneTask(state, taskId)
   );
 
   const dispatch = useDispatch();

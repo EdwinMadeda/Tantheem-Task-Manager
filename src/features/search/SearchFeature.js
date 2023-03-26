@@ -1,16 +1,16 @@
-import React from "react";
-import CustomLink from "../../reusableComponents/CustomLink";
+import React from 'react';
+import CustomLink from '../../reusableComponents/CustomLink';
 
-import { useSelector } from "react-redux";
-import { selectSearchText } from "./searchSlice";
-import { searchItems } from "../../constants";
+import { useSelector } from 'react-redux';
+import { selectSearchText } from './searchSlice';
+import { searchItems } from '../../utils/constants';
 
 const SearchFeature = ({
   label,
   contents,
   path,
-  subName = "",
-  subLabel = "",
+  subName = '',
+  subLabel = '',
 }) => {
   const searchText = useSelector(selectSearchText);
   const sub = searchItems(contents[0]?.[subName] ?? [], searchText);

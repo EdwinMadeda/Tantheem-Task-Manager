@@ -1,7 +1,7 @@
-import { PRIORITY } from '../../../constants';
 import { useEffect, useReducer } from 'react';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
+import { PRIORITY } from '../../../utils/constants';
 
 import Form, {
   InputText,

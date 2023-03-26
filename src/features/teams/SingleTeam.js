@@ -1,23 +1,23 @@
-import { useParams } from "react-router";
-import { useSelector } from "react-redux";
-import { selectTeamById, deleteTeam } from "./teamsSlice";
-import { selectProjectsByTeam } from "../projects/projectsSlice";
-import { selectTasksByTeam } from "../tasks/taskSlice";
-import BackBtn from "../../reusableComponents/BackBtn";
-import MemberShareBtns from "../../reusableComponents/MemberShareBtns";
-import team_bgImage from "../../assets/images/team_bgImage.jpg";
-import PreviousProjectsSnippet from "../projects/PreviousProjectsSnippet";
-import TeamTasks from "./TeamTasks";
+import { useParams } from 'react-router';
+import { useSelector } from 'react-redux';
+import { selectTeamById, deleteTeam } from './teamsSlice';
+import { selectProjectsByTeam } from '../projects/projectsSlice';
+import { selectTasksByTeam } from '../tasks/taskSlice';
+import BackBtn from '../../reusableComponents/BackBtn';
+import MemberShareBtns from '../../reusableComponents/MemberShareBtns';
+import team_bgImage from '../../assets/images/team_bgImage.jpg';
+import PreviousProjectsSnippet from '../projects/PreviousProjectsSnippet';
+import TeamTasks from './TeamTasks';
 
-import EditBtn from "../../reusableComponents/EditBtn";
-import DeleteBtn from "../../reusableComponents/DeleteBtn";
+import EditBtn from '../../reusableComponents/EditBtn';
+import DeleteBtn from '../../reusableComponents/DeleteBtn';
 
-import "../../SinglePage.css";
-import "./SingleTeam.css";
+import '../../SinglePage.css';
+import './SingleTeam.css';
 
 const SingleTeam = () => {
   const { teamId } = useParams();
-  const teamIdNo = Number(teamId);
+  const teamIdNo = teamId;
 
   const selectTeam = useSelector((state) => selectTeamById(state, teamIdNo));
   const selectProjects = useSelector((state) =>

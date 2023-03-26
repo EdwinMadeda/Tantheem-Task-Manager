@@ -1,23 +1,23 @@
-import { useParams } from "react-router";
-import { useSelector } from "react-redux";
-import { selectProjectById, editProject } from "./projectsSlice";
-import BackBtn from "../../reusableComponents/BackBtn";
-import EditBtn from "../../reusableComponents/EditBtn";
-import DeleteBtn from "../../reusableComponents/DeleteBtn";
+import { useParams } from 'react-router';
+import { useSelector } from 'react-redux';
+import { selectProjectById, editProject } from './projectsSlice';
+import BackBtn from '../../reusableComponents/BackBtn';
+import EditBtn from '../../reusableComponents/EditBtn';
+import DeleteBtn from '../../reusableComponents/DeleteBtn';
 
-import "./SingleProject.css";
-import "../../SinglePage.css";
-import CustomLink from "../../reusableComponents/CustomLink";
+import './SingleProject.css';
+import '../../SinglePage.css';
+import CustomLink from '../../reusableComponents/CustomLink';
 
 const SingleDeliverable = () => {
   const { projectId, deliverableId } = useParams();
 
   const selectProject = useSelector((state) =>
-    selectProjectById(state, Number(projectId))
+    selectProjectById(state, projectId)
   );
 
   const selectDeliverable = selectProject.deliverables.find(
-    (deliverable) => deliverable.id === Number(deliverableId)
+    (deliverable) => deliverable.id === deliverableId
   );
 
   const onDeleteValues = () => {

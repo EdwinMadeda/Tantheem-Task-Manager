@@ -19,11 +19,16 @@ export default defineType({
     defineField({
       name: 'managedBy',
       title: 'Managed By',
+      type: 'array',
+      of: [{type: 'reference', to: {type: 'user', title: 'User'}}],
+      initialValue: [],
+    }),
+
+    defineField({
+      name: 'team',
+      title: 'Team',
       type: 'reference',
-      to: [
-        {title: 'User', type: 'user'},
-        {title: 'Team', type: 'team'},
-      ],
+      to: [{title: 'Team', type: 'team'}],
       options: {
         disableNew: true,
       },
@@ -45,15 +50,15 @@ export default defineType({
     defineField({
       name: 'priority',
       title: 'Priority',
-      type: 'string',
-      initialValue: 'low',
+      type: 'number',
       options: {
         list: [
-          {title: 'HIGH', value: 'high'},
-          {title: 'MEDIUM', value: 'medium'},
-          {title: 'LOW', value: 'low'},
+          {title: 'HIGH', value: 1},
+          {title: 'MEDIUM', value: 2},
+          {title: 'LOW', value: 3},
         ],
       },
+      initialValue: 3,
     }),
     defineField({
       name: 'startDate',
@@ -62,7 +67,7 @@ export default defineType({
     }),
     defineField({
       name: 'endDate',
-      title: 'Start Date',
+      title: 'End Date',
       type: 'datetime',
     }),
     defineField({
@@ -70,11 +75,6 @@ export default defineType({
       title: 'Deliverables',
       type: 'array',
       of: [{type: 'reference', to: {type: 'deliverable', title: 'Deliverable'}}],
-    }),
-    defineField({
-      name: 'createdAt',
-      title: 'Start Date',
-      type: 'datetime',
     }),
   ],
 })

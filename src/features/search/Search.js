@@ -1,12 +1,12 @@
-import { useSelector } from "react-redux";
-import { selectAllProjects } from "../projects/projectsSlice";
-import { selectAllTasks } from "../tasks/taskSlice";
-import { selectAllTeams } from "../teams/teamsSlice";
-import SearchFeature from "./SearchFeature";
-import { selectSearchText } from "./searchSlice";
-import { searchItems } from "../../constants";
+import { useSelector } from 'react-redux';
+import { selectAllProjects } from '../projects/projectsSlice';
+import { selectAllTasks } from '../tasks/taskSlice';
+import { selectAllTeams } from '../teams/teamsSlice';
+import SearchFeature from './SearchFeature';
+import { selectSearchText } from './searchSlice';
+import { searchItems } from '../../utils/constants';
 
-import "./Search.css";
+import './Search.css';
 
 const Search = () => {
   const searchText = useSelector(selectSearchText).toLowerCase();
@@ -17,24 +17,24 @@ const Search = () => {
 
   const initialItems = [
     {
-      label: "Tasks",
-      path: "/mytasks",
-      subName: "subTasks",
-      subLabel: "Sub Tasks",
+      label: 'Tasks',
+      path: '/mytasks',
+      subName: 'subTasks',
+      subLabel: 'Sub Tasks',
       contents: searchItems(useSelector(selectAllTasks), searchText),
     },
     {
-      label: "Projects",
-      path: "/myprojects",
-      subName: "deliverables",
-      subLabel: "Sub Tasks",
+      label: 'Projects',
+      path: '/myprojects',
+      subName: 'deliverables',
+      subLabel: 'Sub Tasks',
       contents: searchItems(useSelector(selectAllProjects), searchText),
     },
     {
-      label: "Teams",
-      path: "/teams",
-      subName: "",
-      subLabel: "",
+      label: 'Teams',
+      path: '/teams',
+      subName: '',
+      subLabel: '',
       contents: searchItems(useSelector(selectAllTeams), searchText),
     },
   ];

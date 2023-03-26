@@ -1,6 +1,6 @@
-import { useEffect, useReducer, useState } from "react";
-import { STATUS } from "../projectsSlice";
-import { PRIORITY } from "../../../constants";
+import { useEffect, useReducer, useState } from 'react';
+import { STATUS } from '../projectsSlice';
+import { PRIORITY } from '../../../utils/constants';
 
 import Form, {
   InputText,
@@ -9,17 +9,17 @@ import Form, {
   InputRadio,
   InputDate,
   InputSubmit,
-} from "../../../reusableComponents/Form";
-import { useNavigate } from "react-router";
+} from '../../../reusableComponents/Form';
+import { useNavigate } from 'react-router';
 
 const initialState = {
-  name: "",
-  description: "",
+  name: '',
+  description: '',
   status: STATUS.TO_DO,
   priority: undefined,
   teamId: undefined,
-  startDate: "",
-  endDate: "",
+  startDate: '',
+  endDate: '',
   deliverables: [],
 };
 
@@ -27,9 +27,9 @@ const init = () => initialState;
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "init":
+    case 'init':
       return init();
-    case "setProjectValue":
+    case 'setProjectValue':
       return { ...state, ...action.payload };
     default:
       return state;
@@ -45,7 +45,7 @@ const ProjectsForm = ({
 }) => {
   const [state, dispatch] = useReducer(reducer, initialState, init);
   const setProjectValue = (payload) => {
-    dispatch({ type: "setProjectValue", payload });
+    dispatch({ type: 'setProjectValue', payload });
   };
   const [error, setError] = useState(false);
   const navigate = useNavigate();
@@ -111,9 +111,9 @@ const ProjectsForm = ({
           label="Priority"
           id="priority"
           options={[
-            { name: "Low", value: PRIORITY.LOW },
-            { name: "Medium", value: PRIORITY.MEDIUM },
-            { name: "High", value: PRIORITY.HIGH },
+            { name: 'Low', value: PRIORITY.LOW },
+            { name: 'Medium', value: PRIORITY.MEDIUM },
+            { name: 'High', value: PRIORITY.HIGH },
           ]}
           disabled={disabled}
         />
