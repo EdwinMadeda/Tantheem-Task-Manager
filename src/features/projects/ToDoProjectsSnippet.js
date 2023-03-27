@@ -1,7 +1,7 @@
 import CustomLink from '../../reusableComponents/CustomLink';
 import OrderByBtnsWrapper from '../../reusableComponents/OrderByBtnsWrapper';
 import useOrderBy from '../../customHooks/useOrderBy';
-import { ordinal } from '../../utils/constants';
+import { ordinal, trimStr } from '../../utils/constants';
 import NoItemsMsg from '../../reusableComponents/NoItemsMsg';
 
 const ToDoProjectsSnippet = ({ rawProjects }) => {
@@ -39,7 +39,7 @@ const ToDoProjectsSnippet = ({ rawProjects }) => {
                 <div className="Projects__Data">
                   <span className="Projects__Name">
                     <CustomLink to={`/myprojects/${project.id}`}>
-                      {`${project.name.substring(0, 20)}...`}
+                      {`${trimStr(project.name, 20)}`}
                     </CustomLink>
                   </span>
                   <span>{'Due Today'}</span>

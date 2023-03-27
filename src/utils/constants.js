@@ -28,3 +28,6 @@ export const searchItems = (items, searchText) => {
   }
   return [];
 };
+
+export const trimStr = (str, limit) =>
+  (str?.length ?? 0) < limit ? str : str.substring(0, limit) + '...';

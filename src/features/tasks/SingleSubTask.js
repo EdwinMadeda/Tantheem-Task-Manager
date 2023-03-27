@@ -1,24 +1,22 @@
-import { useParams } from "react-router";
-import { useSelector, useDispatch } from "react-redux";
-import { selectTaskById, editTask } from "./taskSlice";
-import BackBtn from "../../reusableComponents/BackBtn";
+import { useParams } from 'react-router';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectTaskById, editTask } from './taskSlice';
+import BackBtn from '../../reusableComponents/BackBtn';
 
-import Bell from "../../reusableComponents/Bell";
-import EditBtn from "../../reusableComponents/EditBtn";
-import DeleteBtn from "../../reusableComponents/DeleteBtn";
-import CustomLink from "../../reusableComponents/CustomLink";
+import Bell from '../../reusableComponents/Bell';
+import EditBtn from '../../reusableComponents/EditBtn';
+import DeleteBtn from '../../reusableComponents/DeleteBtn';
+import CustomLink from '../../reusableComponents/CustomLink';
 
-import "../../SinglePage.css";
-import "./SingleTask.css";
+import '../../SinglePage.css';
+import './SingleTask.css';
 
 const SingleSubTask = () => {
   const { taskId, subTaskId } = useParams();
 
-  const selectTask = useSelector((state) =>
-    selectTaskById(state, Number(taskId))
-  );
+  const selectTask = useSelector((state) => selectTaskById(state, taskId));
   const selectSubTask = selectTask.subTasks.find(
-    (subTask) => subTask.id === Number(subTaskId)
+    (subTask) => subTask.id === subTaskId
   );
 
   const dispatch = useDispatch();
@@ -58,7 +56,7 @@ const SingleSubTask = () => {
                   className="SinglePage__Ctrl-Btn"
                   status={selectSubTask.reminder}
                   onClick={onSetReminder}
-                  title={`Reminder ${selectSubTask.reminder ? "ON" : "OFF"}`}
+                  title={`Reminder ${selectSubTask.reminder ? 'ON' : 'OFF'}`}
                 />
                 <EditBtn
                   className="SinglePage__Ctrl-Btn"

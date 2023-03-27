@@ -1,4 +1,4 @@
-import { nanoid } from "@reduxjs/toolkit";
+import { nanoid } from '@reduxjs/toolkit';
 
 const CheckBox = ({ checked, onChange = false }) => {
   const id = nanoid();

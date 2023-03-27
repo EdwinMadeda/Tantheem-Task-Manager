@@ -1,13 +1,14 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from 'react-redux';
 import {
   selectViewMorePreviousWork,
   setViewMorePreviousWork,
-} from "../viewMore/viewMoreSlice";
+} from '../viewMore/viewMoreSlice';
 
-import CheckBox from "../../reusableComponents/CheckBox";
-import ViewMoreBtn from "../../reusableComponents/ViewMoreBtn";
-import CustomLink from "../../reusableComponents/CustomLink";
-import NoItems from "../../reusableComponents/NoItemsMsg";
+import CheckBox from '../../reusableComponents/CheckBox';
+import ViewMoreBtn from '../../reusableComponents/ViewMoreBtn';
+import CustomLink from '../../reusableComponents/CustomLink';
+import NoItems from '../../reusableComponents/NoItemsMsg';
+import { trimStr } from '../../utils/constants';
 
 const PreviousWorkSnippet = ({ tasks, setIsTaskComplete }) => {
   const viewMore = useSelector(selectViewMorePreviousWork);
@@ -18,7 +19,7 @@ const PreviousWorkSnippet = ({ tasks, setIsTaskComplete }) => {
 
   return (
     <div
-      className={`PreviousWork Tasks__Snippet ${viewMore ? "viewMore" : ""}`}
+      className={`PreviousWork Tasks__Snippet ${viewMore ? 'viewMore' : ''}`}
     >
       <p className="Tasks__Snippet-title">previous Work</p>
       {tasks.length > 0 ? (
@@ -39,7 +40,7 @@ const PreviousWorkSnippet = ({ tasks, setIsTaskComplete }) => {
                   to={`/mytasks/${task.id}`}
                   className="Task__ItemName Snippet__Type1-ItemName"
                 >
-                  {task.name.substring(0, 20)}...
+                  {trimStr(task.name, 20)}
                 </CustomLink>
               </li>
             ))}

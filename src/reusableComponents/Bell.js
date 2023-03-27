@@ -1,12 +1,12 @@
-import { BsBell, BsBellFill, BsBellSlash } from "react-icons/bs";
-import { useState, useRef } from "react";
-import useTargetAction from "../customHooks/useTargetAction";
+import { BsBell, BsBellFill, BsBellSlash } from 'react-icons/bs';
+import { useState, useRef } from 'react';
+import useTargetAction from '../customHooks/useTargetAction';
 
 const Bell = ({
   className,
   status = false,
   onClick,
-  title = "",
+  title = '',
   disabled = false,
 }) => {
   const [isHover, setIsHover] = useState(false);
@@ -14,10 +14,10 @@ const Bell = ({
   const ref = useRef(null);
   const onBellClick = () => {
     onClick(!status);
-    ref.current.classList[status ? "add" : "remove"]("animate");
+    ref.current.classList[status ? 'add' : 'remove']('animate');
   };
 
-  useTargetAction(setIsHover, ref, "mouseover");
+  useTargetAction(setIsHover, ref, 'mouseover');
 
   return (
     <div

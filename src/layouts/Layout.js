@@ -8,22 +8,33 @@ import { selectUser } from '../features/user/userSlice';
 import Header from './header/Header';
 
 const Layout = () => {
-  const { info: userInfo } = useSelector(selectUser);
-  const navigate = useNavigate();
+  const {
+    info: { _id },
+  } = useSelector(selectUser);
+
+  const isSignedIn = Boolean(_id);
+
   const dispatch = useDispatch();
-  const fetchVals = useCallback(() => {
-    if (!userInfo?._id) {
-      navigate('/signin');
-      return;
-    }
+  const fetchData = useCallback(() => {
     dispatch(fetchTasks());
     dispatch(fetchProjects());
     dispatch(fetchTeams());
-  }, [dispatch, navigate, userInfo?._id]);
+  }, [dispatch]);
+  const navigate = useNavigate();
+  const redirectUser = useCallback(
+    (URL) => {
+      navigate(URL);
+    },
+    [navigate]
+  );
 
   useEffect(() => {
-    fetchVals();
-  }, [fetchVals]);
+    if (isSignedIn) fetchData();
+  }, [isSignedIn, fetchData]);
+
+  useEffect(() => {
+    if (!isSignedIn) redirectUser('/signin');
+  }, [isSignedIn, redirectUser]);
 
   return (
     <>

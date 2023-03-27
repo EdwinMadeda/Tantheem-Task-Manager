@@ -6,7 +6,7 @@ import {
 } from '../viewMore/viewMoreSlice';
 
 import useOrderBy from '../../customHooks/useOrderBy';
-import { ordinal } from '../../utils/constants';
+import { ordinal, trimStr } from '../../utils/constants';
 
 import { selectTeamById } from './teamsSlice';
 
@@ -72,7 +72,7 @@ const TodoTeamTasks = ({ rawtasks = [], showTeam = true }) => {
                       className="TeamsTasks__Name"
                       to={`/mytasks/${task.id}`}
                     >
-                      {`${task.name.substring(0, 20)}...`}
+                      {`${trimStr(task.name, 20)}`}
                     </CustomLink>
                     <span className="TeamsTasks__DueDate">{'Due Today'}</span>
                     <span className="TeamTasks__Priority">{`${ordinal(

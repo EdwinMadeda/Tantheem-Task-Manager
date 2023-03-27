@@ -1,14 +1,15 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from 'react-redux';
 import {
   selectViewMoreTasksToDo,
   setViewMoreTasksToDo,
-} from "../viewMore/viewMoreSlice";
+} from '../viewMore/viewMoreSlice';
 
-import Bell from "../../reusableComponents/Bell";
-import CheckBox from "../../reusableComponents/CheckBox";
-import ViewMoreBtn from "../../reusableComponents/ViewMoreBtn";
-import CustomLink from "../../reusableComponents/CustomLink";
-import NoItems from "../../reusableComponents/NoItemsMsg";
+import Bell from '../../reusableComponents/Bell';
+import CheckBox from '../../reusableComponents/CheckBox';
+import ViewMoreBtn from '../../reusableComponents/ViewMoreBtn';
+import CustomLink from '../../reusableComponents/CustomLink';
+import NoItems from '../../reusableComponents/NoItemsMsg';
+import { trimStr } from '../../utils/constants';
 
 const ToDoSnippet = ({ tasks, setIsTaskComplete, onSetReminder }) => {
   const viewMore = useSelector(selectViewMoreTasksToDo);
@@ -18,7 +19,7 @@ const ToDoSnippet = ({ tasks, setIsTaskComplete, onSetReminder }) => {
   const hasSubTasks = (task) => task.subTasks.length !== 0;
 
   return (
-    <div className={`ToDo Tasks__Snippet ${viewMore ? "viewMore" : ""}`}>
+    <div className={`ToDo Tasks__Snippet ${viewMore ? 'viewMore' : ''}`}>
       <p className="Tasks__Snippet-title">TO DO</p>
       {tasks.length > 0 ? (
         <>
@@ -36,9 +37,9 @@ const ToDoSnippet = ({ tasks, setIsTaskComplete, onSetReminder }) => {
                 )}
                 <div className="Task__Data">
                   <CustomLink to={`/mytasks/${task.id}`} className="Task__Name">
-                    {task.name.substring(0, 20)}...
+                    {trimStr(task.name, 20)}
                   </CustomLink>
-                  <span>{"Due Today"}</span>
+                  <span>{'Due Today'}</span>
                   {task?.team && <span>By {task.team}</span>}
                 </div>
                 <Bell

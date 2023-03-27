@@ -1,6 +1,10 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, nanoid } from '@reduxjs/toolkit';
+import axios from 'axios';
 import { PRIORITY } from '../../utils/constants';
-import sanityClient from '../../utils/sanityClient';
+import sanityClient, {
+  SANITY_AUTH_TOKEN,
+  SANITY_URL,
+} from '../../utils/sanityClient';
 
 export const STATUS = Object.freeze({
   IN_PROGRESS: 'In Progress',
@@ -23,12 +27,12 @@ const tasksSlice = createSlice({
   initialState,
   reducers: {
     addTask(state, action) {
-      const id = state.length + 1;
-      state.push({ id, ...action.payload, subTasks: [] });
+      const id = `${state.info.length + 1}`;
+      state.info.push({ id, ...action.payload, subTasks: [] });
     },
     editTask(state, action) {
-      return state.map((task) =>
-        task.id === action.payload.id ? action.payload : task
+      state.info = state.info.map((task) =>
+        task.id === action.payload.id ? { ...task, ...action.payload } : task
       );
     },
     deleteTask(state, action) {
@@ -44,7 +48,6 @@ const tasksSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-
       .addCase(fetchTasks.pending, (state, action) => {
         state.status.fetchTasks = 'pending';
       })
@@ -54,9 +57,140 @@ const tasksSlice = createSlice({
       })
       .addCase(fetchTasks.rejected, (state, action) => {
         state.status.fetchTasks = 'failed';
+      })
+
+      .addCase(addTask.fulfilled, (state, action) => {
+        state.status.addTask = 'succeeded';
+        state.info = state.info.concat(action.payload);
+      })
+
+      .addCase(editTask.fulfilled, (state, action) => {
+        state.status.addTask = 'succeeded';
+        state.info = state.info.map((task) =>
+          task.id === action.payload.id ? action.payload : task
+        );
+      })
+
+      .addCase(deleteTask.fulfilled, (state, action) => {
+        state.status.deleteTask = 'succeeded';
+        state.info = state.info.filter((task) => task.id !== action.payload);
       });
   },
 });
+
+export const addTask = createAsyncThunk(
+  'tasks/addTask',
+  async (task, { getState, rejectWithValue }) => {
+    const {
+      user: {
+        info: { _id: userId },
+      },
+    } = getState();
+
+    const _key = nanoid();
+
+    const createMutations = [
+      {
+        create: {
+          _type: 'task',
+          ...task,
+          owners: [{ _ref: userId, _type: 'reference', _key }],
+        },
+      },
+    ];
+
+    const response = await axios.post(
+      SANITY_URL,
+      { mutations: createMutations },
+      {
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${SANITY_AUTH_TOKEN}`,
+        },
+      }
+    );
+
+    const newTaskId = response?.data?.results?.[0]?.id;
+    if (newTaskId) {
+      const newTask = await sanityClient.fetch(
+        `*[_type == "task" && _id == $newTaskId][0]`,
+        { newTaskId }
+      );
+
+      return refactorfetchedTasks([newTask]);
+    } else return rejectWithValue('Sign Up failed!');
+  }
+);
+
+export const editTask = createAsyncThunk(
+  'tasks/editTask',
+  async (task, { getState, rejectWithValue }) => {
+    const { id, name, description, startDate, endDate, reminder, priority } =
+      task;
+    try {
+      await axios.post(
+        SANITY_URL,
+        {
+          mutations: [
+            {
+              patch: {
+                id,
+                set: {
+                  name,
+                  description,
+                  startDate,
+                  endDate,
+                  reminder,
+                  priority,
+                },
+              },
+            },
+          ],
+        },
+        {
+          headers: {
+            'Content-Type': 'Application/json',
+            Authorization: `Bearer ${SANITY_AUTH_TOKEN}`,
+          },
+        }
+      );
+
+      return task;
+    } catch (err) {
+      if (err.isNetworkError) return rejectWithValue('Network Error!');
+    }
+  }
+);
+
+export const deleteTask = createAsyncThunk(
+  'tasks/deleteTask',
+  async (taskId, { rejectWithValue }) => {
+    try {
+      await axios.post(
+        SANITY_URL,
+        {
+          mutations: [
+            {
+              delete: {
+                id: taskId,
+              },
+            },
+          ],
+        },
+        {
+          headers: {
+            'Content-Type': 'Application/json',
+            Authorization: `Bearer ${SANITY_AUTH_TOKEN}`,
+          },
+        }
+      );
+
+      return taskId;
+    } catch (err) {
+      if (err.isNetworkError) return rejectWithValue('Network Error!');
+    }
+  }
+);
 
 export const fetchTasks = createAsyncThunk(
   'tasks/fetchTasks',
@@ -206,5 +340,4 @@ export const selectTeamTasks = (state) => {
   return info.filter((task) => task.type === 'team');
 };
 
-export const { addTask, editTask, deleteTask } = tasksSlice.actions;
 export default tasksSlice.reducer;

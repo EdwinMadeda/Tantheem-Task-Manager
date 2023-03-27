@@ -1,7 +1,7 @@
-import CheckBox from './CheckBox';
 import Bell from './Bell';
 import BackBtn from './BackBtn';
 import HelperText from './HelperText';
+import CheckBox from './CheckBox';
 
 const Form = (props) => {
   const formTitles = {
@@ -134,12 +134,12 @@ export const InputSelect = ({
 export const InputCheckBox = ({ label, value, onChange, disabled = false }) => {
   return (
     <div className="form-control-check">
+      <label htmlFor="add_reminder">{label}</label>
       <CheckBox
         checked={value}
         onClick={(inputVal) => onChange(inputVal)}
         disabled={disabled}
       />
-      <label htmlFor="add_reminder">{label}</label>
     </div>
   );
 };
@@ -160,7 +160,7 @@ export const InputBell = ({ label, value, onChange, disabled = false }) => {
 
 export const InputRadio = ({
   label,
-  id,
+  name,
   options = [],
   defaultValue,
   onChange,
@@ -169,14 +169,14 @@ export const InputRadio = ({
   const RadioContainer = ({ option }) => {
     return (
       <div className="radio__container">
-        <label htmlFor={id + option?.name} className="checkBox__label">
+        <label htmlFor={`${name}${option?.name}`} className="checkBox__label">
           <input
             type="radio"
-            name={id}
-            id={id + option?.name}
+            name={name}
+            id={`${name}${option?.name}`}
             value={option.value}
-            defaultChecked={defaultValue === option.value}
-            onChange={(e) => onChange(e.target.value)}
+            defaultChecked={Number(defaultValue) === option.value}
+            onChange={(e) => onChange(Number(e.target.value))}
             disabled={disabled}
           />
 

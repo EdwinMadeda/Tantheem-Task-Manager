@@ -1,24 +1,20 @@
-import { useParams } from "react-router";
-import { useSelector, useDispatch } from "react-redux";
-import { selectTaskById, editTask } from "../taskSlice";
-import TasksForm from "./TasksForm";
+import { useParams } from 'react-router';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectTaskById, editTask } from '../taskSlice';
+import TasksForm from './TasksForm';
 
 const EditTask = () => {
   const { taskId } = useParams();
-  const selectTask = useSelector((state) =>
-    selectTaskById(state, Number(taskId))
-  );
+  const selectTask = useSelector((state) => selectTaskById(state, taskId));
 
   const dispatch = useDispatch();
 
-  const reduxDispatch = (values) => {
-    return dispatch(editTask(values)).unwrap();
-  };
+  const reduxDispatch = (values) => dispatch(editTask(values));
 
   return (
     <TasksForm
-      formTitle={"Edit Task"}
-      submitLabel={"Edit Task"}
+      formTitle={'Edit Task'}
+      submitLabel={'Edit Task'}
       defaultValues={selectTask}
       disabled={false}
       reduxDispatch={reduxDispatch}

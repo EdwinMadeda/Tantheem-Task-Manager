@@ -1,13 +1,13 @@
-import { useParams } from "react-router";
-import { useSelector, useDispatch } from "react-redux";
-import { editProject, selectProjectById } from "../projectsSlice";
-import ProjectsForm from "./ProjectsForm";
+import { useParams } from 'react-router';
+import { useSelector, useDispatch } from 'react-redux';
+import { editProject, selectProjectById } from '../projectsSlice';
+import ProjectsForm from './ProjectsForm';
 
 const EditProject = () => {
   const { projectId } = useParams();
 
   const selectProject = useSelector((state) =>
-    selectProjectById(state, Number(projectId))
+    selectProjectById(state, projectId)
   );
 
   const dispatch = useDispatch();
@@ -18,8 +18,8 @@ const EditProject = () => {
 
   return (
     <ProjectsForm
-      formTitle={"Edit Project"}
-      submitLabel={"Edit Project"}
+      formTitle={'Edit Project'}
+      submitLabel={'Edit Project'}
       defaultValues={selectProject}
       disabled={false}
       reduxDispatch={reduxDispatch}

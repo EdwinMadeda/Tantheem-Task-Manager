@@ -1,12 +1,12 @@
-import { useParams, useLocation } from "react-router";
-import { useSelector, useDispatch } from "react-redux";
-import { selectProjectById, editProject } from "../projectsSlice";
-import ProjectsForm from "./ProjectsForm";
+import { useParams, useLocation } from 'react-router';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectProjectById, editProject } from '../projectsSlice';
+import ProjectsForm from './ProjectsForm';
 
 const AddDeliverable = () => {
   const { projectId } = useParams();
   const selectProject = useSelector((state) =>
-    selectProjectById(state, Number(projectId))
+    selectProjectById(state, projectId)
   );
 
   const dispatch = useDispatch();
@@ -25,8 +25,8 @@ const AddDeliverable = () => {
   };
   return (
     <ProjectsForm
-      formTitle={"Add Deliverable"}
-      submitLabel={"Save Deliverable"}
+      formTitle={'Add Deliverable'}
+      submitLabel={'Save Deliverable'}
       defaultValues={state}
       disabled={false}
       reduxDispatch={reduxDispatch}

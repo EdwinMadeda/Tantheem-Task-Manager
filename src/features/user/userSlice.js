@@ -263,6 +263,8 @@ export const signOut = createAsyncThunk(
     dispatch({ type: 'teams/reset' });
     dispatch({ type: 'searchText/reset' });
     dispatch({ type: 'viewMore/reset' });
+    jsCookie.remove('user');
+    localStorage.clear();
   }
 );
 
