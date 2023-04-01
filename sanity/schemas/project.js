@@ -47,19 +47,7 @@ export default defineType({
         ],
       },
     }),
-    defineField({
-      name: 'priority',
-      title: 'Priority',
-      type: 'number',
-      options: {
-        list: [
-          {title: 'HIGH', value: 1},
-          {title: 'MEDIUM', value: 2},
-          {title: 'LOW', value: 3},
-        ],
-      },
-      initialValue: 3,
-    }),
+
     defineField({
       name: 'startDate',
       title: 'Start Date',
@@ -74,7 +62,7 @@ export default defineType({
       name: 'deliverables',
       title: 'Deliverables',
       type: 'array',
-      of: [{type: 'reference', to: {type: 'deliverable', title: 'Deliverable'}}],
+      of: [{type: 'reference', to: {type: 'deliverable', title: 'Deliverables'}}],
     }),
   ],
 })

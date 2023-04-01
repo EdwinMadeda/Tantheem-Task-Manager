@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router';
+import useRedirectUser from '../customHooks/useRedirectUser';
 import { fetchProjects } from '../features/projects/projectsSlice';
 import { fetchTasks } from '../features/tasks/taskSlice';
 import { fetchTeams } from '../features/teams/teamsSlice';
@@ -20,21 +21,11 @@ const Layout = () => {
     dispatch(fetchProjects());
     dispatch(fetchTeams());
   }, [dispatch]);
-  const navigate = useNavigate();
-  const redirectUser = useCallback(
-    (URL) => {
-      navigate(URL);
-    },
-    [navigate]
-  );
+  useRedirectUser(!isSignedIn, '/signin');
 
   useEffect(() => {
     if (isSignedIn) fetchData();
   }, [isSignedIn, fetchData]);
-
-  useEffect(() => {
-    if (!isSignedIn) redirectUser('/signin');
-  }, [isSignedIn, redirectUser]);
 
   return (
     <>

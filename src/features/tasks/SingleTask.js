@@ -1,6 +1,6 @@
 import { useParams } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectOneTask, editTask, deleteTask } from './taskSlice';
+import { selectOneTask, editTask, deleteTask, editSubTask } from './taskSlice';
 import ProgressBar from '../../reusableComponents/ProgressBar';
 import BackBtn from '../../reusableComponents/BackBtn';
 import SubTasks from './SubTasks';
@@ -24,15 +24,17 @@ const SingleTask = () => {
   const dispatch = useDispatch();
 
   const onSetReminder = (status) => {
-    dispatch(editTask({ ...selectTask, reminder: status }));
+    dispatch(editTask({ taskId, values: { reminder: status } }));
   };
 
   const setIsComplete = (status, subTaskId) => {
-    const newSubTasks = selectTask.subTasks.map((subTask) =>
-      subTask.id === subTaskId ? { ...subTask, isComplete: status } : subTask
+    dispatch(
+      editSubTask({
+        taskId,
+        subTaskId,
+        values: { isComplete: status },
+      })
     );
-
-    dispatch(editTask({ ...selectTask, subTasks: newSubTasks }));
   };
 
   return (
@@ -76,23 +78,25 @@ const SingleTask = () => {
             </div>
           </div>
 
-          <div className="SinglePage__Container bottom">
-            <SubTasks
-              subTasks={subTasks.toDo}
-              taskId={taskId}
-              status={STATUS.TO_DO}
-              setIsComplete={setIsComplete}
-            />
-
-            {subTasks.complete.length > 0 && (
+          {Boolean(subTasks) && (
+            <div className="SinglePage__Container bottom">
               <SubTasks
-                subTasks={subTasks.complete}
+                subTasks={subTasks.toDo}
                 taskId={taskId}
-                status={STATUS.COMPLETE}
+                status={STATUS.TO_DO}
                 setIsComplete={setIsComplete}
               />
-            )}
-          </div>
+
+              {subTasks.complete.length > 0 && (
+                <SubTasks
+                  subTasks={subTasks.complete}
+                  taskId={taskId}
+                  status={STATUS.COMPLETE}
+                  setIsComplete={setIsComplete}
+                />
+              )}
+            </div>
+          )}
         </section>
       )}
     </>

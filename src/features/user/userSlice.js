@@ -1,11 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import bcrypt from 'bcryptjs-react';
-import sanityClient, {
-  SANITY_URL,
-  SANITY_AUTH_TOKEN,
-  urlFor,
-} from '../../utils/sanityClient';
-import axios from 'axios';
+import sanityClient, { urlFor, sanityPost } from '../../utils/sanityClient';
 import jsCookie from '../../utils/jsCookie';
 
 const initialState = {
@@ -118,16 +113,7 @@ export const signUp = createAsyncThunk(
 
       if (userExists) return rejectWithValue('Email Already Exists');
       else {
-        const response = await axios.post(
-          SANITY_URL,
-          { mutations: createMutations },
-          {
-            headers: {
-              'Content-type': 'application/json',
-              Authorization: `Bearer ${SANITY_AUTH_TOKEN}`,
-            },
-          }
-        );
+        const response = await sanityPost(createMutations);
 
         if (response?.data?.results?.[0]?.id) {
           return {
@@ -234,18 +220,7 @@ export const editProfile = createAsyncThunk(
   async (profileData, { getState, rejectWithValue }) => {
     const { _id } = getState().user.info;
     try {
-      await axios.post(
-        SANITY_URL,
-        {
-          mutations: [{ patch: { id: _id, set: { ...profileData } } }],
-        },
-        {
-          headers: {
-            'Content-Type': 'Application/json',
-            Authorization: `Bearer ${SANITY_AUTH_TOKEN}`,
-          },
-        }
-      );
+      await sanityPost([{ patch: { id: _id, set: { ...profileData } } }]);
 
       return profileData;
     } catch (err) {

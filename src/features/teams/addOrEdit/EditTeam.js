@@ -10,13 +10,13 @@ const EditTeam = () => {
 
   const dispatch = useDispatch();
 
-  const reduxDispatch = (values) => {
-    return dispatch(editTeam(values)).unwrap();
-  };
+  const reduxDispatch = (values) =>
+    dispatch(editTeam({ teamId, values })).unwrap();
 
   return (
     <TeamsForm
       formTitle={'Edit Team'}
+      formAction="editTeam"
       submitLabel={'Edit Team'}
       defaultValues={selectTeam}
       disabled={false}

@@ -1,10 +1,12 @@
-import { createAsyncThunk, createSlice, nanoid } from '@reduxjs/toolkit';
-import axios from 'axios';
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice,
+  nanoid,
+} from '@reduxjs/toolkit';
 import { PRIORITY } from '../../utils/constants';
-import sanityClient, {
-  SANITY_AUTH_TOKEN,
-  SANITY_URL,
-} from '../../utils/sanityClient';
+import sanityClient, { sanityPost } from '../../utils/sanityClient';
+import subTasks from './SubTasks';
 
 export const STATUS = Object.freeze({
   IN_PROGRESS: 'In Progress',
@@ -16,6 +18,11 @@ const initialState = {
   info: [],
   status: {
     fetchTasks: 'idle',
+    addTask: 'idle',
+    editTask: 'idle',
+    deleteTask: 'idle',
+    addSubTask: 'idle',
+    editSubTask: 'idle',
   },
   error: {
     fetchTasks: null,
@@ -26,18 +33,6 @@ const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
-    addTask(state, action) {
-      const id = `${state.info.length + 1}`;
-      state.info.push({ id, ...action.payload, subTasks: [] });
-    },
-    editTask(state, action) {
-      state.info = state.info.map((task) =>
-        task.id === action.payload.id ? { ...task, ...action.payload } : task
-      );
-    },
-    deleteTask(state, action) {
-      return state.filter((task) => task.id !== action.payload);
-    },
     reset(state, action) {
       const info = [],
         { status, error } = initialState;
@@ -59,21 +54,90 @@ const tasksSlice = createSlice({
         state.status.fetchTasks = 'failed';
       })
 
+      .addCase(addTask.pending, (state, action) => {
+        state.status.addTask = 'pending';
+      })
       .addCase(addTask.fulfilled, (state, action) => {
         state.status.addTask = 'succeeded';
         state.info = state.info.concat(action.payload);
       })
+      .addCase(addTask.rejected, (state, action) => {
+        state.status.addTask = 'failed';
+        state.error.addTask = action.payload;
+      })
 
+      .addCase(editTask.pending, (state, action) => {
+        state.status.editTask = 'pending';
+      })
       .addCase(editTask.fulfilled, (state, action) => {
-        state.status.addTask = 'succeeded';
+        const { taskId, values } = action.payload;
         state.info = state.info.map((task) =>
-          task.id === action.payload.id ? action.payload : task
+          task.id === taskId ? { ...task, ...values } : task
         );
+        state.status.editTask = 'succeeded';
+      })
+      .addCase(editTask.rejected, (state, action) => {
+        state.status.editTask = 'failed';
+        state.error.editTask = action.payload;
       })
 
       .addCase(deleteTask.fulfilled, (state, action) => {
         state.status.deleteTask = 'succeeded';
         state.info = state.info.filter((task) => task.id !== action.payload);
+      })
+
+      .addCase(addSubTask.pending, (state, action) => {
+        state.status.addSubTask = 'pending';
+      })
+      .addCase(addSubTask.fulfilled, (state, action) => {
+        const { taskId, newSubTask } = action.payload;
+        state.info = state.info.map((task) =>
+          task.id === taskId
+            ? { ...task, subTasks: [...task.subTasks, newSubTask] }
+            : task
+        );
+        state.status.addSubTask = 'succeeded';
+      })
+      .addCase(addSubTask.rejected, (state, action) => {
+        state.status.addSubTask = 'failed';
+        state.error.addTask = action.payload;
+      })
+
+      .addCase(editSubTask.pending, (state, action) => {
+        state.status.editSubTask = 'pending';
+      })
+      .addCase(editSubTask.fulfilled, (state, action) => {
+        const { taskId, subTaskId, values } = action.payload;
+        state.info = state.info.map((task) =>
+          task.id === taskId
+            ? {
+                ...task,
+                subTasks: task.subTasks.map((subTask) =>
+                  subTask.id === subTaskId ? { ...subTask, ...values } : subTask
+                ),
+              }
+            : task
+        );
+        state.status.editSubTask = 'succeeded';
+      })
+      .addCase(editSubTask.rejected, (state, action) => {
+        state.status.editSubTask = 'failed';
+        state.error.editSubTask = action.payload;
+      })
+
+      .addCase(deleteSubTask.fulfilled, (state, action) => {
+        const { taskId, subTaskId } = action.payload;
+        state.info = state.info.map((task) =>
+          task.id === taskId
+            ? {
+                ...task,
+                subTasks: task.subTasks.filter(
+                  (subTask) => subTask.id !== subTaskId
+                ),
+              }
+            : task
+        );
+        state.status.deleteTask = 'succeeded';
       });
   },
 });
@@ -81,81 +145,55 @@ const tasksSlice = createSlice({
 export const addTask = createAsyncThunk(
   'tasks/addTask',
   async (task, { getState, rejectWithValue }) => {
-    const {
-      user: {
-        info: { _id: userId },
-      },
-    } = getState();
-
-    const _key = nanoid();
-
     const createMutations = [
       {
         create: {
           _type: 'task',
           ...task,
-          owners: [{ _ref: userId, _type: 'reference', _key }],
+          owners: [
+            {
+              _ref: getState().user.info._id,
+              _type: 'reference',
+              _key: nanoid(),
+            },
+          ],
         },
       },
     ];
 
-    const response = await axios.post(
-      SANITY_URL,
-      { mutations: createMutations },
-      {
-        headers: {
-          'Content-type': 'application/json',
-          Authorization: `Bearer ${SANITY_AUTH_TOKEN}`,
-        },
-      }
-    );
+    const response = await sanityPost(createMutations);
 
     const newTaskId = response?.data?.results?.[0]?.id;
+
     if (newTaskId) {
       const newTask = await sanityClient.fetch(
         `*[_type == "task" && _id == $newTaskId][0]`,
-        { newTaskId }
+        {
+          newTaskId,
+        }
       );
 
       return refactorfetchedTasks([newTask]);
-    } else return rejectWithValue('Sign Up failed!');
+    } else return rejectWithValue('Operation failed!');
   }
 );
 
 export const editTask = createAsyncThunk(
   'tasks/editTask',
-  async (task, { getState, rejectWithValue }) => {
-    const { id, name, description, startDate, endDate, reminder, priority } =
-      task;
+  async ({ taskId, values }, { getState, rejectWithValue }) => {
     try {
-      await axios.post(
-        SANITY_URL,
+      await sanityPost([
         {
-          mutations: [
-            {
-              patch: {
-                id,
-                set: {
-                  name,
-                  description,
-                  startDate,
-                  endDate,
-                  reminder,
-                  priority,
-                },
-              },
+          patch: {
+            id: taskId,
+            set: {
+              ...values,
             },
-          ],
-        },
-        {
-          headers: {
-            'Content-Type': 'Application/json',
-            Authorization: `Bearer ${SANITY_AUTH_TOKEN}`,
           },
-        }
-      );
+        },
+      ]);
 
-      return task;
+      return { taskId, values };
     } catch (err) {
       if (err.isNetworkError) return rejectWithValue('Network Error!');
     }
@@ -164,26 +202,27 @@ export const editTask = createAsyncThunk(
 
 export const deleteTask = createAsyncThunk(
   'tasks/deleteTask',
-  async (taskId, { rejectWithValue }) => {
+  async (taskId, { getState, rejectWithValue }) => {
+    const {
+      tasks: { info },
+    } = getState();
+    const subTasks = (info.find((item) => item.id === taskId) ?? [])?.subTasks;
+
+    const subTaskDeleteMutations = subTasks.map((subTask) => ({
+      delete: {
+        id: subTask.id,
+      },
+    }));
+
     try {
-      await axios.post(
-        SANITY_URL,
+      await sanityPost([
         {
-          mutations: [
-            {
-              delete: {
-                id: taskId,
-              },
-            },
-          ],
-        },
-        {
-          headers: {
-            'Content-Type': 'Application/json',
-            Authorization: `Bearer ${SANITY_AUTH_TOKEN}`,
+          delete: {
+            id: taskId,
           },
-        }
-      );
+        },
+        ...subTaskDeleteMutations,
+      ]);
 
       return taskId;
     } catch (err) {
@@ -192,6 +231,99 @@ export const deleteTask = createAsyncThunk(
   }
 );
 
+export const addSubTask = createAsyncThunk(
+  'tasks/addSubTask',
+  async ({ taskId, newSubTask }, { getState, rejectWithValue }) => {
+    const refs = await getRefs(taskId);
+
+    try {
+      const { data } = await sanityPost([
+        {
+          create: {
+            _type: 'subTask',
+            ...newSubTask,
+          },
+        },
+      ]);
+
+      const { id } = data?.results?.[0];
+      if (id) {
+        await sanityPost([
+          {
+            patch: {
+              id: taskId,
+              set: {
+                subTasks: [
+                  ...(refs?.subTasks ?? []),
+                  { _key: nanoid(), _ref: id, _type: 'reference' },
+                ],
+              },
+            },
+          },
+        ]);
+
+        return { taskId, newSubTask: { id, ...newSubTask } };
+      } else rejectWithValue('Add Subtask failed');
+    } catch (err) {
+      if (err.isNetworkError) return rejectWithValue('Network Error!');
+    }
+  }
+);
+
+export const editSubTask = createAsyncThunk(
+  'tasks/editSubTask',
+  async ({ taskId, subTaskId, values }, { getState, rejectWithValue }) => {
+    try {
+      await sanityPost([
+        {
+          patch: {
+            id: subTaskId,
+            set: {
+              ...values,
+            },
+          },
+        },
+      ]);
+      return { taskId, subTaskId, values };
+    } catch (err) {
+      if (err.isNetworkError) return rejectWithValue('Network Error!');
+    }
+  }
+);
+
+export const deleteSubTask = createAsyncThunk(
+  'tasks/deleteSubTask',
+  async ({ taskId, subTaskId }, { getState, rejectWithValue }) => {
+    try {
+      const refs = await getRefs(taskId);
+
+      await sanityPost([
+        {
+          patch: {
+            id: taskId,
+            set: {
+              subTasks: [
+                ...refs.subTasks.filter((item) => !(item._ref === subTaskId)),
+              ],
+            },
+          },
+        },
+      ]);
+
+      await sanityPost([
+        {
+          delete: {
+            id: subTaskId,
+          },
+        },
+      ]);
+
+      return { taskId, subTaskId };
+    } catch (err) {
+      if (err.isNetworkError) return rejectWithValue('Network Error!');
+    }
+  }
+);
 export const fetchTasks = createAsyncThunk(
   'tasks/fetchTasks',
   async (_, { getState, rejectWithValue }) => {
@@ -204,7 +336,8 @@ export const fetchTasks = createAsyncThunk(
           ...,
           assignees[]->{_id, name, email,userAvatar},
             owners[]->{_id, name, email,userAvatar},
-            team->{_id}
+            team->{_id},
+            subTasks[]->
         }
       }`,
         {
@@ -219,7 +352,8 @@ export const fetchTasks = createAsyncThunk(
           ...,
           assignees[]->{_id, name, email,userAvatar},
             owners[]->{_id, name, email,userAvatar},
-            team->{_id}
+            team->{_id},
+            subTasks[]->
         }
         }
         }`,
@@ -258,7 +392,7 @@ const refactorfetchedTasks = (tasks) => {
       endDate: task?.endDate ?? null,
       reminder: task?.reminder ?? false,
       isComplete: task?.isComplete ?? false,
-      priority: task?.priority ?? PRIORITY.LOW,
+      priority: task?.priority ? Number(task?.priority) : PRIORITY.LOW,
       createdAt: task._createdAt,
       updatedAt: task._updatedAt,
     };
@@ -268,7 +402,9 @@ const refactorfetchedTasks = (tasks) => {
     return {
       ...setResult(task),
       teamId: task?.team?._id ?? null,
-      subTasks: (task?.subTasks ?? []).map((subTask) => setResult(subTask)),
+      subTasks: (task?.subTasks ?? [])
+        .map((subTask) => setResult(subTask))
+        .filter((item) => item !== null),
       owners: task?.owners ?? [],
       assignees: task?.assignees ?? [],
       followers: task?.followers ?? [],
@@ -277,15 +413,30 @@ const refactorfetchedTasks = (tasks) => {
   });
 };
 
-export const selectAllTasks = (state) => state.tasks.info;
-export const selectLatestTask = (state) =>
-  state.tasks.info[state.tasks.info.length - 1];
-export const selectTaskById = (state, id) => {
-  return state.tasks.info.find((task) => task.id === id);
+const getRefs = (taskId) => {
+  return sanityClient.fetch(
+    `*[_type == "task" && _id == $taskId][0]{
+      owners,
+      assignees,
+      subTasks
+  }`,
+    { taskId }
+  );
 };
 
-export const selectTasksByStatus = (state) => {
-  const tasks = [...selectAllTasks(state)].reverse();
+export const selectAllTasks = (state) => state.tasks.info;
+export const selectLatestTask = (state) => {
+  const tasks = selectAllTasks(state);
+  return tasks[tasks.length - 1];
+};
+
+export const selectTaskById = (state, id) => {
+  const tasks = selectAllTasks(state);
+  return tasks.find((task) => task.id === id);
+};
+
+export const selectTasksByStatus = createSelector(selectAllTasks, (mytasks) => {
+  const tasks = [...mytasks].reverse();
 
   const isTaskComplete = (task) => {
     const subTasks = task.subTasks;
@@ -299,16 +450,16 @@ export const selectTasksByStatus = (state) => {
     previousWork: tasks.filter((task) => isTaskComplete(task)),
     toDoTasks: tasks.filter((task) => !isTaskComplete(task)),
   };
-};
+});
 
-export const selectSubTaskById = (state, taskId, subTaskId) => {
-  const task = selectTaskById(state, taskId);
-  return task ? task.subTasks.find((subTask) => subTask.id === subTaskId) : {};
-};
+export const selectSubTaskById = createSelector(
+  selectTaskById,
+  (_, subTaskId) => subTaskId,
+  (task, subTaskId) =>
+    task ? task.subTasks.find((subTask) => subTask.id === subTaskId) : {}
+);
 
-export const selectOneTask = (state, taskId) => {
-  const selectTask = selectTaskById(state, taskId);
-
+export const selectOneTask = createSelector(selectTaskById, (selectTask) => {
   let toDo = [],
     complete = [],
     completeSubTasks = 0,
@@ -328,16 +479,18 @@ export const selectOneTask = (state, taskId) => {
     completeSubTasks,
     totalSubTasks,
   };
-};
+});
 
-export const selectTasksByTeam = (state, teamId) =>
-  state.tasks.info.filter((task) => task.teamId === teamId);
+export const selectTasksByTeam = createSelector(
+  selectAllTasks,
+  (_, teamId) => teamId,
+  (tasks, teamId) => tasks.filter((task) => task.teamId === teamId)
+);
 
-export const selectTeamTasks = (state) => {
-  const {
-    tasks: { info },
-  } = state;
-  return info.filter((task) => task.type === 'team');
-};
+export const selectTeamTasks = createSelector(selectAllTasks, (tasks) =>
+  tasks.filter((task) => task.type === 'team')
+);
+
+export const selectTasksStatus = (state) => state.tasks.status;
 
 export default tasksSlice.reducer;

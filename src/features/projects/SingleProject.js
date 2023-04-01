@@ -1,6 +1,10 @@
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteProject, editProject, selectOneProject } from './projectsSlice';
+import {
+  deleteProject,
+  editDeliverable,
+  selectOneProject,
+} from './projectsSlice';
 import { STATUS } from './projectsSlice';
 import ProjectDeliverables from './ProjectDeliverables';
 import ProgressBar from '../../reusableComponents/ProgressBar';
@@ -23,13 +27,7 @@ const SingleProject = () => {
   const dispatch = useDispatch();
 
   const setStatus = (status, deliverableId) => {
-    const newDeliverables = selectProject.deliverables.map((deliverable) =>
-      deliverable.id === deliverableId
-        ? { ...deliverable, status }
-        : deliverable
-    );
-
-    dispatch(editProject({ ...selectProject, deliverables: newDeliverables }));
+    dispatch(editDeliverable({ projectId, deliverableId, values: { status } }));
   };
 
   return (

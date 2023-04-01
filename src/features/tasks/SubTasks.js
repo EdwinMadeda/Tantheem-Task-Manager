@@ -1,8 +1,8 @@
-import AddBtn from "../../reusableComponents/AddBtn";
-import CheckBox from "../../reusableComponents/CheckBox";
-import CustomLink from "../../reusableComponents/CustomLink";
-import EditBtn from "../../reusableComponents/EditBtn";
-import { STATUS } from "./taskSlice";
+import AddBtn from '../../reusableComponents/AddBtn';
+import CheckBox from '../../reusableComponents/CheckBox';
+import CustomLink from '../../reusableComponents/CustomLink';
+import EditBtn from '../../reusableComponents/EditBtn';
+import { STATUS } from './taskSlice';
 
 const subTasks = ({ subTasks, taskId, status, setIsComplete }) => {
   return (
@@ -12,7 +12,7 @@ const subTasks = ({ subTasks, taskId, status, setIsComplete }) => {
       </h3>
       <div className="SubTasks__Snippet SinglePage__Sub-item__Snippet">
         {status === STATUS.TO_DO && (
-          <AddBtn label={"Add SubTask"} path={`/mytasks/${taskId}/add`} />
+          <AddBtn label={'Add SubTask'} path={`/mytasks/${taskId}/add`} />
         )}
         <ul className="SubTask__Items SinglePage__Sub-item__Items">
           {subTasks.map((subTask) => (

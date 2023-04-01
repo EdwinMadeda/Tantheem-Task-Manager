@@ -9,11 +9,13 @@ const EditTask = () => {
 
   const dispatch = useDispatch();
 
-  const reduxDispatch = (values) => dispatch(editTask(values));
+  const reduxDispatch = (values) =>
+    dispatch(editTask({ taskId, values })).unwrap();
 
   return (
     <TasksForm
       formTitle={'Edit Task'}
+      formAction="editTask"
       submitLabel={'Edit Task'}
       defaultValues={selectTask}
       disabled={false}

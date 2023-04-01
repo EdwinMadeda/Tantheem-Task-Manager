@@ -1,11 +1,18 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice,
+  nanoid,
+} from '@reduxjs/toolkit';
 import format from 'date-fns/format';
-import sanityClient from '../../utils/sanityClient';
+import sanityClient, { sanityPost } from '../../utils/sanityClient';
+import { deleteProject } from '../projects/projectsSlice';
+import { deleteTask } from '../tasks/taskSlice';
 
 const initialState = {
   info: [],
-  status: { fetchTeams: 'idle' },
-  error: { fetchTeams: null },
+  status: { fetchTeams: 'idle', addTeam: 'idle' },
+  error: { fetchTeams: null, addTeam: null },
 };
 
 const teamsSlice = createSlice({
@@ -49,9 +56,133 @@ const teamsSlice = createSlice({
       })
       .addCase(fetchTeams.rejected, (state, action) => {
         state.status.fetchTeams = 'failed';
+      })
+
+      .addCase(addTeam.pending, (state, action) => {
+        state.status.addTeam = 'pending';
+      })
+      .addCase(addTeam.fulfilled, (state, action) => {
+        state.status.addTeam = 'succeeded';
+        state.info = state.info.concat(action.payload);
+      })
+      .addCase(addTeam.rejected, (state, action) => {
+        state.status.addTeam = 'failed';
+        state.error.addTeam = action.payload;
+      })
+
+      .addCase(editTeam.pending, (state, action) => {
+        state.status.editTeam = 'pending';
+      })
+      .addCase(editTeam.fulfilled, (state, action) => {
+        const { teamId, values } = action.payload;
+        state.info = state.info.map((team) =>
+          team.id === teamId ? { ...team, ...values } : team
+        );
+        state.status.editTeam = 'succeeded';
+      })
+      .addCase(editTeam.rejected, (state, action) => {
+        state.status.editTeam = 'failed';
+        state.error.editTeam = action.payload;
+      })
+
+      .addCase(deleteTeam.fulfilled, (state, action) => {
+        state.status.deleteTeam = 'succeeded';
+        state.info = state.info.filter((team) => team.id !== action.payload);
       });
   },
 });
+
+export const addTeam = createAsyncThunk(
+  'teams/addTeam',
+  async (team, { getState, rejectWithValue }) => {
+    const createMutations = [
+      {
+        create: {
+          _type: 'team',
+          ...team,
+          ledBy: [
+            {
+              _ref: getState().user.info._id,
+              _type: 'reference',
+              _key: nanoid(),
+            },
+          ],
+        },
+      },
+    ];
+
+    const response = await sanityPost(createMutations);
+
+    const newTeamId = response?.data?.results?.[0]?.id;
+
+    if (newTeamId) {
+      const newTeam = await sanityClient.fetch(
+        `*[_type == "team" && _id == $newTeamId][0]`,
+        {
+          newTeamId,
+        }
+      );
+
+      return refactorfetchedTeams([newTeam]);
+    } else return rejectWithValue('Operation failed!');
+  }
+);
+
+export const editTeam = createAsyncThunk(
+  'teams/editTeam',
+  async ({ teamId, values }, { getState, rejectWithValue }) => {
+    try {
+      await sanityPost([
+        {
+          patch: {
+            id: teamId,
+            set: {
+              ...values,
+            },
+          },
+        },
+      ]);
+
+      return { teamId, values };
+    } catch (err) {
+      if (err.isNetworkError) return rejectWithValue('Network Error!');
+    }
+  }
+);
+
+export const deleteTeam = createAsyncThunk(
+  'teams/deleteTeam',
+  async (teamId, { getState, dispatch, rejectWithValue }) => {
+    const {
+      tasks: { info: taskInfo },
+      projects: { info: projectInfo },
+    } = getState();
+    const teamTasks = taskInfo.filter((task) => task.teamId === teamId) ?? [];
+    const teamProjects =
+      projectInfo.filter((project) => project.teamId === teamId) ?? [];
+
+    try {
+      teamTasks.forEach((task) => {
+        dispatch(deleteTask(task.id));
+      });
+
+      teamProjects.forEach((project) => {
+        dispatch(deleteProject(project.id));
+      });
+
+      await sanityPost([
+        {
+          delete: {
+            id: teamId,
+          },
+        },
+      ]);
+      return teamId;
+    } catch (err) {
+      if (err.isNetworkError) return rejectWithValue('Network Error!');
+    }
+  }
+);
 
 export const fetchTeams = createAsyncThunk(
   'teams/fetchTeams',
@@ -63,7 +194,7 @@ export const fetchTeams = createAsyncThunk(
             "teams" : *[_type == "team" && references(^._id)]{
               ...,
               ledBy[]->{_id, name, email, userAvatar},
-              members[]->{_id},
+              members[]->{_id, name, email, userAvatar},
             }
           }`,
         {
@@ -84,8 +215,8 @@ export const refactorfetchedTeams = (teams) => {
       id: team._id,
       name: team.name,
       description: team?.description ?? '',
-      ledBy: (team?.ledBy ?? []).map((user) => user?._id),
-      memberIDs: (team?.members ?? []).map((member) => member?._id),
+      ledBy: team?.ledBy ?? [],
+      memberIDs: team?.members ?? [],
       createdAt: team._createdAt,
       updatedAt: team._updatedAt,
     };
@@ -97,10 +228,24 @@ export const refactorfetchedTeams = (teams) => {
 };
 
 export const selectAllTeams = (state) => state.teams.info;
-export const selectLatestTeam = (state) =>
-  state.teams.info[state.teams.info.length - 1];
-export const selectTeamById = (state, teamId) =>
-  state.teams.info.find((team) => team.id === teamId);
+export const selectLatestTeam = (state) => {
+  const teams = selectAllTeams(state);
+  return teams[teams.length - 1];
+};
 
-export const { addTeam, editTeam, deleteTeam } = teamsSlice.actions;
+export const selectTeamById = createSelector(
+  selectAllTeams,
+  (_, teamId) => teamId,
+  (teams, teamId) => teams.find((team) => team.id === teamId)
+);
+
+export const selectTeamsByLedBy = createSelector(
+  selectAllTeams,
+  (_, userId) => userId,
+  (teams, userId) =>
+    teams.filter((team) => team.ledBy.find((item) => item._id === userId))
+);
+
+export const selectTeamsStatus = (state) => state.teams.status;
+
 export default teamsSlice.reducer;

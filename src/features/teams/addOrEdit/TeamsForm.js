@@ -7,77 +7,92 @@ import Form, {
   InputTextArea,
   InputSubmit,
 } from '../../../reusableComponents/Form';
-
-const initialState = {
-  name: '',
-  description: '',
-};
-
-const init = () => initialState;
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'init':
-      return init();
-    case 'setValue':
-      return { ...state, ...action.payload };
-    default:
-      return state;
-  }
-};
+import useCacheValues from '../../../customHooks/useCacheValues';
+import { useSelector } from 'react-redux';
+import { selectTeamsStatus } from '../teamsSlice';
+import { useForm } from 'react-hook-form';
+import LoadingSpinner from '../../../reusableComponents/LoadingSpinner';
 
 const TeamsForm = ({
   formTitle,
+  formAction,
   submitLabel,
-  defaultValues = false,
+  defaultValues = {},
   disabled = false,
   reduxDispatch,
 }) => {
-  const [state, dispatch] = useReducer(reducer, initialState, init);
-  const setValue = (payload) => {
-    dispatch({ type: 'setValue', payload });
-  };
+  const { cachedValues, resetCacheValues } = useCacheValues(defaultValues);
 
-  useEffect(() => {
-    Boolean(defaultValues) && setValue(defaultValues);
-  }, [defaultValues]);
-
-  const [error, setError] = useState(false);
   const navigate = useNavigate();
+  const formStatus = useSelector(selectTeamsStatus)[formAction];
+  const [formResponse, setFormResponse] = useState(null);
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: cachedValues,
+  });
 
+  const onSubmit = async (fieldData) => {
     try {
-      reduxDispatch(state);
+      const values = {
+        name: fieldData.name,
+        description: fieldData.description,
+      };
+
+      await reduxDispatch({ ...values });
+      resetCacheValues();
+      navigate(-1);
     } catch (error) {
-      setError(`Could not ${formTitle.toLowerCase()}`);
-    } finally {
-      !error && navigate(-1);
+      setFormResponse({ msg: `${formTitle} failed | ${error}`, type: 'error' });
     }
   };
 
+  useEffect(() => {
+    if (formStatus === 'pending') {
+      setFormResponse({
+        msg: `${formTitle} in Progress. Please wait`,
+        type: 'inProgress',
+      });
+    }
+  }, [formStatus, formTitle]);
   return (
-    <section className="AddOrEditTeam AddNewItem main">
-      <Form className="AddOrEditTeam__Form" title={formTitle}>
-        <InputText
-          label="Name"
-          id="name"
-          value={state.name}
-          onChange={(inputVal) => setValue({ name: inputVal })}
-          disabled={disabled}
-        />
-        <InputTextArea
-          label="Description"
-          id="description"
-          value={state.description}
-          onChange={(inputVal) => setValue({ description: inputVal })}
-          disabled={disabled}
-        />
+    <>
+      {formStatus === 'pending' && <LoadingSpinner />}
+      <section className="AddOrEditTeam AddNewItem main">
+        <Form className="AddOrEditTeam__Form" title={formTitle}>
+          <InputText
+            label="Name"
+            name="name"
+            type="text"
+            errors={errors}
+            register={register}
+            rules={{
+              required: 'This field is required.',
+              minLength: {
+                value: 2,
+                message: "This field shouldn't be less than 2 characters.",
+              },
+            }}
+          />
+          <InputTextArea
+            label="Description"
+            name="description"
+            errors={errors}
+            register={register}
+            rules={{}}
+          />
 
-        <InputSubmit label={submitLabel} onClick={onSubmit} />
-      </Form>
-    </section>
+          <InputSubmit
+            label={submitLabel}
+            onClick={handleSubmit(onSubmit)}
+            disabled={disabled}
+          />
+        </Form>
+      </section>
+    </>
   );
 };
 

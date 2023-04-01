@@ -1,6 +1,6 @@
 import { useParams } from 'react-router';
 import { useSelector } from 'react-redux';
-import { selectProjectById, editProject } from './projectsSlice';
+import { selectProjectById, deleteDeliverable } from './projectsSlice';
 import BackBtn from '../../reusableComponents/BackBtn';
 import EditBtn from '../../reusableComponents/EditBtn';
 import DeleteBtn from '../../reusableComponents/DeleteBtn';
@@ -20,16 +20,9 @@ const SingleDeliverable = () => {
     (deliverable) => deliverable.id === deliverableId
   );
 
-  const onDeleteValues = () => {
-    const newDeliverables = selectProject.deliverables.filter(
-      (deliverable) => deliverable.id !== selectDeliverable.id
-    );
-    return { ...selectProject, deliverables: newDeliverables };
-  };
-
   return (
     <>
-      {Boolean(selectDeliverable) && (
+      {Boolean(selectProject) && Boolean(selectDeliverable) && (
         <section className="SinglePage SingleProject main">
           <div className="SinglePage__Container SinglePage__Container top">
             <BackBtn />
@@ -47,7 +40,7 @@ const SingleDeliverable = () => {
                 />
                 <DeleteBtn
                   className="SinglePage__Ctrl-Btn"
-                  action={editProject(onDeleteValues())}
+                  action={deleteDeliverable({ projectId, deliverableId })}
                 />
               </div>
             </div>

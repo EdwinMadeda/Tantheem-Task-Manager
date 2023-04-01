@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { PRIORITY } from '../../../utils/constants';
 
 import Form, {
@@ -10,8 +10,11 @@ import Form, {
   InputSubmit,
 } from '../../../reusableComponents/Form';
 import { useForm } from 'react-hook-form';
-import { useLocation } from 'react-router';
 import useCacheValues from '../../../customHooks/useCacheValues';
+import { useSelector } from 'react-redux';
+import { selectTasksStatus } from '../taskSlice';
+import { useNavigate } from 'react-router';
+import LoadingSpinner from '../../../reusableComponents/LoadingSpinner';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -24,6 +27,7 @@ const reducer = (state, action) => {
 
 const TasksForm = ({
   formTitle,
+  formAction,
   submitLabel,
   defaultValues = {},
   disabled = false,
@@ -36,6 +40,10 @@ const TasksForm = ({
     priority: cachedValues.priority ?? PRIORITY.LOW,
   });
 
+  const navigate = useNavigate();
+  const formStatus = useSelector(selectTasksStatus)[formAction];
+  const [formResponse, setFormResponse] = useState(null);
+
   const {
     register,
     handleSubmit,
@@ -44,41 +52,62 @@ const TasksForm = ({
     defaultValues: cachedValues,
   });
 
-  const onSubmit = (fieldData) => {
+  const onSubmit = async (fieldData) => {
     try {
-      reduxDispatch({ ...fieldData, reminder, priority }).unwrap();
+      const values = {
+        name: fieldData.name,
+        description: fieldData.description,
+        startDate: fieldData.startDate,
+        endDate: fieldData.endDate,
+        reminder,
+        priority,
+      };
+
+      await reduxDispatch({ ...values });
       resetCacheValues();
+      navigate(-1);
     } catch (error) {
-      console.log(error);
+      setFormResponse({ msg: `${formTitle} failed | ${error}`, type: 'error' });
     }
   };
 
-  return (
-    <section className="AddOrEditTask AddNewItem main">
-      <Form className="AddOrEditTask__Form" title={formTitle}>
-        <InputText
-          label="Name"
-          name="name"
-          type="text"
-          errors={errors}
-          register={register}
-          rules={{
-            required: 'This field is required.',
-            minLength: {
-              value: 2,
-              message: "This field shouldn't be less than 2 characters.",
-            },
-          }}
-        />
-        <InputTextArea
-          label="Description"
-          name="description"
-          errors={errors}
-          register={register}
-          rules={{}}
-        />
+  useEffect(() => {
+    if (formStatus === 'pending') {
+      setFormResponse({
+        msg: `${formTitle} in Progress. Please wait`,
+        type: 'inProgress',
+      });
+    }
+  }, [formStatus, formTitle]);
 
-        {/* <InputSelect
+  return (
+    <>
+      {formStatus === 'pending' && <LoadingSpinner />}
+      <section className="AddOrEditTask AddNewItem main">
+        <Form className="AddOrEditTask__Form" title={formTitle}>
+          <InputText
+            label="Name"
+            name="name"
+            type="text"
+            errors={errors}
+            register={register}
+            rules={{
+              required: 'This field is required.',
+              minLength: {
+                value: 2,
+                message: "This field shouldn't be less than 2 characters.",
+              },
+            }}
+          />
+          <InputTextArea
+            label="Description"
+            name="description"
+            errors={errors}
+            register={register}
+            rules={{}}
+          />
+
+          {/* <InputSelect
           label="Group Into"
           id="group-into"
           value={state.startDate}
@@ -86,53 +115,54 @@ const TasksForm = ({
           disabled={disabled}
         /> */}
 
-        <InputDate
-          label="Start date"
-          name="startDate"
-          errors={errors}
-          register={register}
-          rules={{}}
-        />
+          <InputDate
+            label="Start date"
+            name="startDate"
+            errors={errors}
+            register={register}
+            rules={{}}
+          />
 
-        <InputDate
-          label="End date"
-          name="endDate"
-          errors={errors}
-          register={register}
-          rules={{}}
-        />
+          <InputDate
+            label="End date"
+            name="endDate"
+            errors={errors}
+            register={register}
+            rules={{}}
+          />
 
-        <InputBell
-          label="Set Reminder"
-          value={reminder}
-          onChange={(inputVal) =>
-            dispatch({ type: 'setValue', payload: { reminder: inputVal } })
-          }
-          disabled={disabled}
-        />
+          <InputBell
+            label="Set Reminder"
+            value={reminder}
+            onChange={(inputVal) =>
+              dispatch({ type: 'setValue', payload: { reminder: inputVal } })
+            }
+            disabled={disabled}
+          />
 
-        <InputRadio
-          label="Priority"
-          name="priority"
-          defaultValue={priority}
-          onChange={(inputVal) =>
-            dispatch({ type: 'setValue', payload: { priority: inputVal } })
-          }
-          options={[
-            { name: 'Low', value: PRIORITY.LOW },
-            { name: 'Medium', value: PRIORITY.MEDIUM },
-            { name: 'High', value: PRIORITY.HIGH },
-          ]}
-          disabled={disabled}
-        />
+          <InputRadio
+            label="Priority"
+            name="priority"
+            defaultValue={priority}
+            onChange={(inputVal) =>
+              dispatch({ type: 'setValue', payload: { priority: inputVal } })
+            }
+            options={[
+              { name: 'Low', value: PRIORITY.LOW },
+              { name: 'Medium', value: PRIORITY.MEDIUM },
+              { name: 'High', value: PRIORITY.HIGH },
+            ]}
+            disabled={disabled}
+          />
 
-        <InputSubmit
-          label={submitLabel}
-          onClick={handleSubmit(onSubmit)}
-          disabled={disabled}
-        />
-      </Form>
-    </section>
+          <InputSubmit
+            label={submitLabel}
+            onClick={handleSubmit(onSubmit)}
+            disabled={disabled}
+          />
+        </Form>
+      </section>
+    </>
   );
 };
 

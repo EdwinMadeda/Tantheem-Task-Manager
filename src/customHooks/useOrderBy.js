@@ -30,6 +30,12 @@ const useOrderBy = (rawTasks = [], rawProjects = [], rawTeams = []) => {
   rawProjects = Object.freeze(rawProjects);
   rawTeams = Object.freeze(rawTeams);
 
+  const initialState = {
+    tasks: orderByDate(rawTasks, 'endDate'),
+    projects: orderByDate(rawProjects, 'endDate'),
+    teams: orderByDate(rawTeams, 'createdAt'),
+  };
+
   const reducer = (state, action) => {
     switch (action.type) {
       case 'orderByDate':
@@ -55,24 +61,23 @@ const useOrderBy = (rawTasks = [], rawProjects = [], rawTeams = []) => {
           teams: orderByAlphabet(rawTeams, 'name'),
         };
 
+      case 'init':
+        return initialState;
+
       default:
         return state;
     }
   };
 
-  const [state, dispatch] = useReducer(reducer, {
-    tasks: orderByDate(rawTasks, 'endDate'),
-    projects: orderByDate(rawProjects, 'endDate'),
-    teams: orderByDate(rawTeams, 'createdAt'),
-  });
+  const [{ tasks, projects, teams }, dispatch] = useReducer(reducer, {});
 
   const [isAsc, setIsAsc] = useState(false);
   const order = () => (isAsc ? 'asc' : 'desc');
 
   return {
-    tasks: state.tasks,
-    projects: state.projects,
-    teams: state.teams,
+    tasks: tasks ?? initialState.tasks,
+    projects: projects ?? initialState.projects,
+    teams: teams ?? initialState.teams,
     setIsAsc,
     order,
     onOrderByDate: () => dispatch({ type: 'orderByDate' }),

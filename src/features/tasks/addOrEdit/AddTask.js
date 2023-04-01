@@ -5,9 +5,11 @@ import TasksForm from './TasksForm';
 const AddTask = () => {
   const dispatch = useDispatch();
   const reduxDispatch = (values) => dispatch(addTask(values)).unwrap();
+
   return (
     <TasksForm
       formTitle={'Add Task'}
+      formAction="addTask"
       submitLabel={'Save Task'}
       disabled={false}
       reduxDispatch={reduxDispatch}

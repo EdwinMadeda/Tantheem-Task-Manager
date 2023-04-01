@@ -1,5 +1,6 @@
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
+import axios from 'axios';
 
 export const projectId = 'j8emq587';
 export const dataset = 'production';
@@ -16,6 +17,21 @@ const sanityClient = createClient({
   ignoreBrowserTokenWarning: true,
 });
 
-const builder = imageUrlBuilder(sanityClient);
-export const urlFor = (source) => builder.image(source).url();
+export const sanityPost = (mutations) => {
+  return axios.post(
+    SANITY_URL,
+    { mutations },
+    {
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${SANITY_AUTH_TOKEN}`,
+      },
+    }
+  );
+};
+
+export const urlFor = (source) => {
+  const builder = imageUrlBuilder(sanityClient);
+  builder.image(source).url();
+};
 export default sanityClient;

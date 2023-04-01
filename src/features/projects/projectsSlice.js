@@ -1,6 +1,12 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { PRIORITY } from '../../utils/constants';
-import sanityClient from '../../utils/sanityClient';
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice,
+  current,
+  nanoid,
+} from '@reduxjs/toolkit';
+
+import sanityClient, { projectId, sanityPost } from '../../utils/sanityClient';
 
 export const STATUS = Object.freeze({
   IN_PROGRESS: 'In Progress',
@@ -12,6 +18,12 @@ const initialState = {
   info: [],
   status: {
     fetchProjects: 'idle',
+    addProject: 'idle',
+    editProject: 'idle',
+    deleteProject: 'idle',
+    addDeliverable: 'idle',
+    editDeliverable: 'idle',
+    deleteDeliverable: 'idle',
   },
   error: {
     fetchProjects: null,
@@ -22,18 +34,6 @@ const projectsSlice = createSlice({
   name: 'projects',
   initialState,
   reducers: {
-    addProject(state, action) {
-      const id = state.length + 1;
-      state.push({ id, ...action.payload, deliverables: [] });
-    },
-    editProject(state, action) {
-      return state.map((project) =>
-        project.id === action.payload.id ? action.payload : project
-      );
-    },
-    deleteProject(state, action) {
-      return state.filter((project) => project.id !== action.payload);
-    },
     reset(state, action) {
       const info = [],
         { status, error } = initialState;
@@ -53,9 +53,294 @@ const projectsSlice = createSlice({
       })
       .addCase(fetchProjects.rejected, (state, action) => {
         state.status.fetchProjects = 'failed';
+      })
+
+      .addCase(addProject.pending, (state, action) => {
+        state.status.addProject = 'pending';
+      })
+      .addCase(addProject.fulfilled, (state, action) => {
+        state.status.addProject = 'succeeded';
+        state.info = state.info.concat(action.payload);
+      })
+      .addCase(addProject.rejected, (state, action) => {
+        state.status.addProject = 'failed';
+        state.error.addProject = action.payload;
+      })
+
+      .addCase(editProject.pending, (state, action) => {
+        state.status.editProject = 'pending';
+      })
+      .addCase(editProject.fulfilled, (state, action) => {
+        const { projectId, values } = action.payload;
+        state.info = state.info.map((project) =>
+          project.id === projectId ? { ...project, ...values } : project
+        );
+        state.status.editProject = 'succeeded';
+      })
+      .addCase(editProject.rejected, (state, action) => {
+        state.status.editProject = 'failed';
+        state.error.editProject = action.payload;
+      })
+
+      .addCase(deleteProject.fulfilled, (state, action) => {
+        state.status.deleteProject = 'succeeded';
+        state.info = state.info.filter(
+          (project) => project.id !== action.payload
+        );
+      })
+
+      .addCase(addDeliverable.pending, (state, action) => {
+        state.status.addDeliverable = 'pending';
+      })
+      .addCase(addDeliverable.fulfilled, (state, action) => {
+        const { projectId, newDeliverable } = action.payload;
+        state.info = state.info.map((project) =>
+          project.id === projectId
+            ? {
+                ...project,
+                deliverables: [...project.deliverables, newDeliverable],
+              }
+            : project
+        );
+
+        state.status.addDeliverable = 'succeeded';
+      })
+      .addCase(addDeliverable.rejected, (state, action) => {
+        state.status.addDeliverable = 'failed';
+        state.error.addDeliverable = action.payload;
+      })
+
+      .addCase(editDeliverable.pending, (state, action) => {
+        state.status.editDeliverable = 'pending';
+      })
+      .addCase(editDeliverable.fulfilled, (state, action) => {
+        const { projectId, deliverableId, values } = action.payload;
+        state.info = state.info.map((project) =>
+          project.id === projectId
+            ? {
+                ...project,
+                deliverables: project.deliverables.map((deliverable) =>
+                  deliverable.id === deliverableId
+                    ? { ...deliverable, ...values }
+                    : deliverable
+                ),
+              }
+            : project
+        );
+
+        state.status.editDeliverable = 'succeeded';
+      })
+      .addCase(editDeliverable.rejected, (state, action) => {
+        state.status.editDeliverable = 'failed';
+        state.error.editDeliverable = action.payload;
+      })
+
+      .addCase(deleteDeliverable.fulfilled, (state, action) => {
+        const { projectId, deliverableId } = action.payload;
+        state.info = state.info.map((project) =>
+          project.id === projectId
+            ? {
+                ...project,
+                deliverables: project.deliverables.filter(
+                  (deliverable) => deliverable.id !== deliverableId
+                ),
+              }
+            : project
+        );
+
+        state.status.deleteDeliverable = 'succeeded';
       });
   },
 });
+
+export const addProject = createAsyncThunk(
+  'projects/addProject',
+  async (project, { getState, rejectWithValue }) => {
+    const createMutations = [
+      {
+        create: {
+          _type: 'project',
+          ...project,
+          managedBy: [
+            {
+              _ref: getState().user.info._id,
+              _type: 'reference',
+              _key: nanoid(),
+            },
+          ],
+        },
+      },
+    ];
+
+    const response = await sanityPost(createMutations);
+
+    const newProjectId = response?.data?.results?.[0]?.id;
+
+    if (newProjectId) {
+      const newProject = await sanityClient.fetch(
+        `*[_type == "project" && _id == $newProjectId][0]`,
+        {
+          newProjectId,
+        }
+      );
+
+      return refactorfetchedProjects([newProject]);
+    } else return rejectWithValue('Operation failed!');
+  }
+);
+
+export const editProject = createAsyncThunk(
+  'projects/editProject',
+  async ({ projectId, values }, { getState, rejectWithValue }) => {
+    try {
+      await sanityPost([
+        {
+          patch: {
+            id: projectId,
+            set: {
+              ...values,
+            },
+          },
+        },
+      ]);
+
+      return { projectId, values };
+    } catch (err) {
+      if (err.isNetworkError) return rejectWithValue('Network Error!');
+    }
+  }
+);
+
+export const deleteProject = createAsyncThunk(
+  'projects/deleteProject',
+  async (projectId, { getState, rejectWithValue }) => {
+    const {
+      projects: { info },
+    } = getState();
+    const deliverables = (info.find((item) => item.id === projectId) ?? [])
+      ?.deliverables;
+
+    const deliverableDeleteMutations = deliverables.map((deliverable) => ({
+      delete: {
+        id: deliverable.id,
+      },
+    }));
+
+    try {
+      await sanityPost([
+        {
+          delete: {
+            id: projectId,
+          },
+        },
+        ...deliverableDeleteMutations,
+      ]);
+
+      return projectId;
+    } catch (err) {
+      if (err.isNetworkError) return rejectWithValue('Network Error!');
+    }
+  }
+);
+
+export const addDeliverable = createAsyncThunk(
+  'projects/addDeliverable',
+  async ({ projectId, newDeliverable }, { getState, rejectWithValue }) => {
+    const refs = await getRefs(projectId);
+
+    try {
+      const { data } = await sanityPost([
+        {
+          create: {
+            _type: 'deliverable',
+            ...newDeliverable,
+          },
+        },
+      ]);
+
+      const { id } = data?.results?.[0];
+      if (id) {
+        await sanityPost([
+          {
+            patch: {
+              id: projectId,
+              set: {
+                deliverables: [
+                  ...(refs?.deliverables ?? []),
+                  { _key: nanoid(), _ref: id, _type: 'reference' },
+                ],
+              },
+            },
+          },
+        ]);
+
+        return { projectId, newDeliverable: { id, ...newDeliverable } };
+      } else rejectWithValue('Add Deliverable failed');
+    } catch (err) {
+      if (err.isNetworkError) return rejectWithValue('Network Error!');
+    }
+  }
+);
+
+export const editDeliverable = createAsyncThunk(
+  'projects/editDeliverable',
+  async (
+    { projectId, deliverableId, values },
+    { getState, rejectWithValue }
+  ) => {
+    try {
+      await sanityPost([
+        {
+          patch: {
+            id: deliverableId,
+            set: {
+              ...values,
+            },
+          },
+        },
+      ]);
+      return { projectId, deliverableId, values };
+    } catch (err) {
+      if (err.isNetworkError) return rejectWithValue('Network Error!');
+    }
+  }
+);
+
+export const deleteDeliverable = createAsyncThunk(
+  'projects/deleteDeliverable',
+  async ({ projectId, deliverableId }, { getState, rejectWithValue }) => {
+    try {
+      const refs = await getRefs(projectId);
+
+      await sanityPost([
+        {
+          patch: {
+            id: projectId,
+            set: {
+              deliverables: [
+                ...refs.deliverables.filter(
+                  (item) => !(item._ref === deliverableId)
+                ),
+              ],
+            },
+          },
+        },
+      ]);
+
+      await sanityPost([
+        {
+          delete: {
+            id: deliverableId,
+          },
+        },
+      ]);
+
+      return { projectId, deliverableId };
+    } catch (err) {
+      if (err.isNetworkError) return rejectWithValue('Network Error!');
+    }
+  }
+);
 
 export const fetchProjects = createAsyncThunk(
   'projects/fetchProjects',
@@ -117,7 +402,6 @@ const refactorfetchedProjects = (projects) => {
       name: project?.name ?? '',
       description: project?.description ?? '',
       status: project?.status ?? STATUS.TO_DO,
-      priority: project?.priority ?? PRIORITY.LOW,
       startDate: project?.startDate ?? null,
       endDate: project?.endDate ?? null,
       createdAt: project._createdAt,
@@ -137,26 +421,47 @@ const refactorfetchedProjects = (projects) => {
   });
 };
 
+const getRefs = (projectId) => {
+  return sanityClient.fetch(
+    `*[_type == "project" && _id == $projectId][0]{
+      managedBy,
+      team,
+      deliverables
+  }`,
+    { projectId }
+  );
+};
+
 export const selectAllProjects = (state) => state.projects.info;
 
-export const selectLatestProject = (state) =>
-  state.projects.info[state.projects.info.length - 1];
-
-export const selectProjectsByTeam = (state, teamId) => {
-  return state.projects.info.filter((project) => project.teamId === teamId);
+export const selectLatestProject = (state) => {
+  const projects = selectAllProjects(state);
+  return projects[projects.length - 1];
 };
 
-export const selectProjectById = (state, projectId) =>
-  state.projects.info.find((project) => project.id === projectId);
+export const selectProjectsByTeam = createSelector(
+  selectAllProjects,
+  (_, teamId) => teamId,
+  (projects, teamId) => projects.filter((project) => project.teamId === teamId)
+);
 
-export const selectDeliverableById = (state, projectId, deliverableId) => {
-  const project = selectProjectById(state, projectId);
-  return project
-    ? project.deliverables.find(
-        (deliverable) => deliverable.id === deliverableId
-      )
-    : {};
-};
+export const selectProjectById = createSelector(
+  selectAllProjects,
+  (_, projectId) => projectId,
+  (projects, projectId) => projects.find((project) => project.id === projectId)
+);
+
+export const selectDeliverableById = createSelector(
+  selectProjectById,
+  (_, deliverableId) => deliverableId,
+  (project, deliverableId) => {
+    return project
+      ? project.deliverables.find(
+          (deliverable) => deliverable.id === deliverableId
+        )
+      : {};
+  }
+);
 
 export const selectProjectsByStatus = (state) => {
   const projects = [...selectAllProjects(state)].reverse();
@@ -177,38 +482,40 @@ export const selectProjectsByStatus = (state) => {
   };
 };
 
-export const selectOneProject = (state, projectId) => {
-  const selectProject = selectProjectById(state, projectId);
-  let toDo = [],
-    inProgress = [],
-    complete = [],
-    completeDeliverables = 0,
-    totalDeliverables = 0;
+export const selectOneProject = createSelector(
+  selectProjectById,
+  (selectProject) => {
+    let toDo = [],
+      inProgress = [],
+      complete = [],
+      completeDeliverables = 0,
+      totalDeliverables = 0;
 
-  if (selectProject?.deliverables) {
-    const filterProject = (status) =>
-      selectProject.deliverables.filter(
-        (deliverable) => deliverable.status === status
-      );
+    if (selectProject?.deliverables) {
+      const filterProject = (status) =>
+        selectProject.deliverables.filter(
+          (deliverable) => deliverable.status === status
+        );
 
-    toDo = filterProject(STATUS.TO_DO);
-    inProgress = filterProject(STATUS.IN_PROGRESS);
-    complete = filterProject(STATUS.COMPLETE);
+      toDo = filterProject(STATUS.TO_DO);
+      inProgress = filterProject(STATUS.IN_PROGRESS);
+      complete = filterProject(STATUS.COMPLETE);
 
-    completeDeliverables = complete.length;
-    totalDeliverables = selectProject.deliverables.length;
+      completeDeliverables = complete.length;
+      totalDeliverables = selectProject.deliverables.length;
+    }
+
+    return {
+      selectProject,
+      deliverables: { toDo, inProgress, complete },
+      completeDeliverables,
+      totalDeliverables,
+    };
   }
-
-  return {
-    selectProject,
-    deliverables: { toDo, inProgress, complete },
-    completeDeliverables,
-    totalDeliverables,
-  };
-};
+);
 
 export const totalDeliverablesCount = (state, id) => {
-  const targetProject = state.projects.info.find(
+  const targetProject = selectAllProjects(state).find(
     (project) => project.id === id
   );
   const deliverables = targetProject?.deliverables;
@@ -216,7 +523,7 @@ export const totalDeliverablesCount = (state, id) => {
   return 0;
 };
 export const completeDeliverablesCount = (state, id) => {
-  const targetProject = state.projects.info.find(
+  const targetProject = selectAllProjects(state).find(
     (project) => project.id === id
   );
   const deliverables = targetProject?.deliverables;
@@ -227,6 +534,6 @@ export const completeDeliverablesCount = (state, id) => {
   }
   return 0;
 };
+export const selectProjectsStatus = (state) => state.projects.status;
 
-export const { addProject, editProject, deleteProject } = projectsSlice.actions;
 export default projectsSlice.reducer;

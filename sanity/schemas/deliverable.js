@@ -20,7 +20,6 @@ export default defineType({
       name: 'status',
       title: 'Status',
       type: 'string',
-      initialValue: 'To Do',
       options: {
         list: [
           {title: 'IN_PROGRESS', value: 'In Progress'},
@@ -28,20 +27,9 @@ export default defineType({
           {title: 'TO_DO', value: 'To Do'},
         ],
       },
+      initialValue: 'To Do',
     }),
-    defineField({
-      name: 'priority',
-      title: 'Priority',
-      type: 'string',
-      initialValue: 'low',
-      options: {
-        list: [
-          {title: 'HIGH', value: 'high'},
-          {title: 'MEDIUM', value: 'medium'},
-          {title: 'LOW', value: 'low'},
-        ],
-      },
-    }),
+
     defineField({
       name: 'startDate',
       title: 'Start Date',

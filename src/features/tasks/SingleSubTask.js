@@ -1,6 +1,11 @@
 import { useParams } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectTaskById, editTask } from './taskSlice';
+import {
+  selectTaskById,
+  editTask,
+  editSubTask,
+  deleteSubTask,
+} from './taskSlice';
 import BackBtn from '../../reusableComponents/BackBtn';
 
 import Bell from '../../reusableComponents/Bell';
@@ -15,32 +20,19 @@ const SingleSubTask = () => {
   const { taskId, subTaskId } = useParams();
 
   const selectTask = useSelector((state) => selectTaskById(state, taskId));
-  const selectSubTask = selectTask.subTasks.find(
+  const selectSubTask = (selectTask?.subTasks ?? []).find(
     (subTask) => subTask.id === subTaskId
   );
 
   const dispatch = useDispatch();
 
   const onSetReminder = (status) => {
-    const newSubTasks = selectTask.subTasks.map((subTask) =>
-      subTask.id === selectSubTask.id
-        ? { ...subTask, reminder: status }
-        : subTask
-    );
-
-    dispatch(editTask({ ...selectTask, subTasks: newSubTasks }));
-  };
-
-  const onDeleteValues = () => {
-    const newSubTasks = selectTask.subTasks.filter(
-      (subTask) => subTask.id !== selectSubTask.id
-    );
-    return { ...selectTask, subTasks: newSubTasks };
+    dispatch(editSubTask({ taskId, subTaskId, values: { reminder: status } }));
   };
 
   return (
     <>
-      {Boolean(selectSubTask) && (
+      {Boolean(selectTask) && Boolean(selectSubTask) && (
         <section className="SinglePage SingleTeam main">
           <div className="SinglePage__Container SinglePage__Container top">
             <BackBtn />
@@ -64,7 +56,10 @@ const SingleSubTask = () => {
                 />
                 <DeleteBtn
                   className="SinglePage__Ctrl-Btn"
-                  action={editTask(onDeleteValues())}
+                  action={deleteSubTask({
+                    taskId: selectTask.id,
+                    subTaskId: selectSubTask.id,
+                  })}
                 />
               </div>
             </div>

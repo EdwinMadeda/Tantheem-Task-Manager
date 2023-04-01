@@ -1,6 +1,6 @@
 import { useParams } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectTaskById, editTask } from '../taskSlice';
+import { selectTaskById, editSubTask } from '../taskSlice';
 
 import TasksForm from './TasksForm';
 
@@ -15,16 +15,13 @@ const EditSubTask = () => {
   const dispatch = useDispatch();
 
   const reduxDispatch = (values) => {
-    const newSubTasks = selectTask.subTasks.map((subTask) =>
-      subTask.id === subTaskId ? { id: subTaskId, ...values } : subTask
-    );
-
-    dispatch(editTask({ ...selectTask, subTasks: newSubTasks })).unwrap();
+    dispatch(editSubTask({ taskId, subTaskId, values })).unwrap();
   };
 
   return (
     <TasksForm
       formTitle={'Edit Sub Task'}
+      formAction="editSubTask"
       submitLabel={'Edit Sub Task'}
       defaultValues={selectSubTask}
       disabled={false}

@@ -12,14 +12,14 @@ const EditProject = () => {
 
   const dispatch = useDispatch();
 
-  const reduxDispatch = (values) => {
-    return dispatch(editProject(values)).unwrap();
-  };
+  const reduxDispatch = (values) =>
+    dispatch(editProject({ projectId, values })).unwrap();
 
   return (
     <ProjectsForm
-      formTitle={'Edit Project'}
-      submitLabel={'Edit Project'}
+      formTitle="Edit Project"
+      formAction="editProject"
+      submitLabel="Edit Project"
       defaultValues={selectProject}
       disabled={false}
       reduxDispatch={reduxDispatch}

@@ -1,6 +1,10 @@
 import { useParams } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
-import { editProject, selectProjectById } from '../projectsSlice';
+import {
+  editDeliverable,
+  editProject,
+  selectProjectById,
+} from '../projectsSlice';
 import ProjectsForm from './ProjectsForm';
 
 const EditDeliverable = () => {
@@ -17,21 +21,16 @@ const EditDeliverable = () => {
   const dispatch = useDispatch();
 
   const reduxDispatch = (values) => {
-    const newDeliverables = selectProject.deliverables.map((deliverable) =>
-      deliverable.id === deliverableId
-        ? { id: deliverableId, ...values }
-        : deliverable
-    );
-
-    dispatch(
-      editProject({ ...selectProject, deliverables: newDeliverables })
+    return dispatch(
+      editDeliverable({ projectId, deliverableId, values })
     ).unwrap();
   };
 
   return (
     <ProjectsForm
-      formTitle={'Edit Deliverable'}
-      submitLabel={'Edit Deliverable'}
+      formTitle="Edit Deliverable"
+      formAction="editDeliverable"
+      submitLabel="Edit Deliverable"
       defaultValues={selectDeliverable}
       disabled={false}
       reduxDispatch={reduxDispatch}

@@ -1,6 +1,6 @@
-import { useDispatch } from "react-redux";
-import { addProject } from "../projectsSlice";
-import ProjectsForm from "./ProjectsForm";
+import { useDispatch } from 'react-redux';
+import { addProject } from '../projectsSlice';
+import ProjectsForm from './ProjectsForm';
 
 const AddProject = () => {
   const dispatch = useDispatch();
@@ -8,8 +8,9 @@ const AddProject = () => {
 
   return (
     <ProjectsForm
-      formTitle={"Add Project"}
-      submitLabel={"Save Project"}
+      formTitle={'Add Project'}
+      formAction="addProject"
+      submitLabel={'Save Project'}
       disabled={false}
       reduxDispatch={reduxDispatch}
     />
