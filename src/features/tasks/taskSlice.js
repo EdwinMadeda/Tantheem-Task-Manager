@@ -23,6 +23,7 @@ const initialState = {
     deleteTask: 'idle',
     addSubTask: 'idle',
     editSubTask: 'idle',
+    deleteSubTask: 'idle',
   },
   error: {
     fetchTasks: null,
@@ -81,9 +82,15 @@ const tasksSlice = createSlice({
         state.error.editTask = action.payload;
       })
 
+      .addCase(deleteTask.pending, (state, action) => {
+        state.status.deleteTask = 'pending';
+      })
       .addCase(deleteTask.fulfilled, (state, action) => {
-        state.status.deleteTask = 'succeeded';
         state.info = state.info.filter((task) => task.id !== action.payload);
+        state.status.deleteTask = 'succeeded';
+      })
+      .addCase(deleteTask.rejected, (state, action) => {
+        state.status.deleteTask = 'failed';
       })
 
       .addCase(addSubTask.pending, (state, action) => {
@@ -125,6 +132,9 @@ const tasksSlice = createSlice({
         state.error.editSubTask = action.payload;
       })
 
+      .addCase(deleteSubTask.pending, (state, action) => {
+        state.status.deleteSubTask = 'pending';
+      })
       .addCase(deleteSubTask.fulfilled, (state, action) => {
         const { taskId, subTaskId } = action.payload;
         state.info = state.info.map((task) =>
@@ -137,7 +147,10 @@ const tasksSlice = createSlice({
               }
             : task
         );
-        state.status.deleteTask = 'succeeded';
+        state.status.deleteSubTask = 'succeeded';
+      })
+      .addCase(deleteSubTask.rejected, (state, action) => {
+        state.status.deleteSubTask = 'failed';
       });
   },
 });
@@ -330,33 +343,29 @@ export const fetchTasks = createAsyncThunk(
     const { _id: userId } = getState().user.info;
 
     try {
-      const { tasks } = await sanityClient.fetch(
-        `*[_type == "user" && _id == $userId][0]{
-        "tasks" : *[_type == "task" && references(^._id)]{
+      const tasks = await sanityClient.fetch(
+        `*[_type == "task" && references($userId) && !(_id in path('drafts.**'))]{
           ...,
           assignees[]->{_id, name, email,userAvatar},
             owners[]->{_id, name, email,userAvatar},
             team->{_id},
             subTasks[]->
-        }
-      }`,
+        }`,
         {
           userId,
         }
       );
 
-      const { teams } = await sanityClient.fetch(
-        ` *[_type == "user" && _id == $userId][0]{
-        "teams" : *[_type == "team" && references(^._id)]{
-         "tasks" : *[_type == "task" && references(^._id)]{
-          ...,
-          assignees[]->{_id, name, email,userAvatar},
-            owners[]->{_id, name, email,userAvatar},
-            team->{_id},
-            subTasks[]->
-        }
-        }
-        }`,
+      const teams = await sanityClient.fetch(
+        `*[_type == "team" && references($userId) && !(_id in path('drafts.**'))]{
+          "tasks" : *[_type == "task" && references(^._id)]{
+           ...,
+           assignees[]->{_id, name, email,userAvatar},
+             owners[]->{_id, name, email,userAvatar},
+             team->{_id},
+             subTasks[]->
+         }
+         }`,
         { userId }
       );
 
@@ -415,7 +424,7 @@ const refactorfetchedTasks = (tasks) => {
 
 const getRefs = (taskId) => {
   return sanityClient.fetch(
-    `*[_type == "task" && _id == $taskId][0]{
+    `*[_type == "task" && _id == $taskId  && !(_id in path('drafts.**'))][0]{
       owners,
       assignees,
       subTasks

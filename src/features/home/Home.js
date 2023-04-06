@@ -4,7 +4,7 @@ import {
   selectAllProjects,
   selectProjectsStatus,
 } from '../projects/projectsSlice';
-import { selectAllTeams, selectTeamsStatus } from '../teams/teamsSlice';
+import { selectAllTeams, selectTeamsStatus } from '../teams/slice/teamsSlice';
 
 import useOrderBy from '../../customHooks/useOrderBy';
 
@@ -14,7 +14,6 @@ import OrderByBtnsWrapper from '../../reusableComponents/OrderByBtnsWrapper';
 
 import RecentItems from './RecentItems';
 import './Home.css';
-import { useEffect } from 'react';
 import LoadingSpinner from '../../reusableComponents/LoadingSpinner';
 
 const Home = () => {

@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { addTeam } from '../teamsSlice';
+import { addTeam } from '../slice/teamsSlice';
 import TeamsForm from './TeamsForm';
 
 const AddTeam = () => {

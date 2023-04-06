@@ -29,11 +29,13 @@ export default defineType({
       name: 'startDate',
       title: 'Start Date',
       type: 'datetime',
+      initialValue: (new Date()).toISOString()
     }),
     defineField({
       name: 'endDate',
       title: 'End Date',
       type: 'datetime',
+      validation: Rule => Rule.min(Rule.valueOfField('startDate'))
     }),
     defineField({
       name: 'reminder',

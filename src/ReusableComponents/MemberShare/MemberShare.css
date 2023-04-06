@@ -1,0 +1,134 @@
+.MemberShare {
+  padding: 15px;
+  display: block;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: initial;
+}
+
+.MemberShare__Participants,
+.MemberShare__SentInvites {
+  border: 2px solid #333;
+  border-radius: 10px;
+  padding: 10px 10px 6px;
+  margin: 20px 0 10px;
+  position: relative;
+}
+
+.SentInvite {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  line-height: 24px;
+}
+
+.SentInvite__Text {
+  user-select: none;
+}
+.SentInvite__Text:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.SentInvite__Text:active {
+  transform: scale(0.99);
+}
+
+.SentInvite__Text span {
+  margin-right: 6px;
+}
+
+.MemberShare__Participants::before {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  transform: translateY(-10px);
+  background: var(--primary__Color2);
+  padding: 2px 5px;
+  font-weight: bold;
+  font-size: 14.5px;
+}
+
+.MemberShare__Participants.ledBy::before {
+  content: 'Led By';
+}
+
+.MemberShare__Participants.members::before {
+  content: 'Members';
+}
+
+.MemberShare .Participant {
+  display: flex;
+  align-items: center;
+}
+
+.MemberShare .Participant {
+  display: flex;
+  align-items: center;
+  padding: 5px 0;
+}
+
+.MemberShare .Username {
+  margin: 0 10px;
+  flex: 1;
+}
+
+.MemberShare .User-Designation {
+  margin: 0 20px;
+}
+
+.MemberShare .addBtn {
+  padding: 1px 5px;
+}
+
+.MemberShare .no-Items-msg {
+  padding: unset;
+  border: unset;
+  text-align: center;
+}
+
+.MemberShare__Btn {
+  display: inline-flex;
+  padding: 5px;
+  border-radius: 15px;
+  margin: 0 5px;
+  border: none;
+  outline: none;
+  background: #fff;
+  box-shadow: 1px 1px 1px #909090;
+  font-weight: bold;
+}
+
+.MemberShare__Btn .icon {
+  margin-right: 5px;
+}
+
+.MemberShare__Btn:hover {
+  cursor: pointer;
+}
+
+.MemberShare__Btn:active {
+  transform: scale(0.98);
+}
+
+.InviteParticipant {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  min-height: 100%;
+  background: rgba(0, 0, 0, 0.38);
+  flex: 1;
+}
+
+.InviteParticipant .form {
+  max-width: 600px;
+}
+
+.InviteParticipant .label__title {
+  margin: 5px 0;
+}
+
+.InviteParticipant .radioBtns__wrapper {
+  margin-bottom: -8px;
+}

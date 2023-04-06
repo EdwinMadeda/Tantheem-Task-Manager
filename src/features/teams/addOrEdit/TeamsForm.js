@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { useReducer } from 'react';
 
 import Form, {
   InputText,
@@ -9,7 +8,7 @@ import Form, {
 } from '../../../reusableComponents/Form';
 import useCacheValues from '../../../customHooks/useCacheValues';
 import { useSelector } from 'react-redux';
-import { selectTeamsStatus } from '../teamsSlice';
+import { selectTeamsStatus } from '../slice/teamsSlice';
 import { useForm } from 'react-hook-form';
 import LoadingSpinner from '../../../reusableComponents/LoadingSpinner';
 

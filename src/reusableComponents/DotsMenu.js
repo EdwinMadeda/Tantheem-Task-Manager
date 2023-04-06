@@ -1,12 +1,12 @@
-import { useState, useRef } from "react";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import useTargetAction from "../customHooks/useTargetAction";
+import { useState, useRef } from 'react';
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import useTargetAction from '../customHooks/useTargetAction';
 
 const DotsMenu = ({ options, targetId }) => {
   const [menuVisible, setMenuVisible] = useState(false);
   const ref = useRef(null);
 
-  useTargetAction(setMenuVisible, ref, "click");
+  useTargetAction(setMenuVisible, ref, 'click');
 
   const onOptionClick = (value, callback) => {
     setMenuVisible(false);
@@ -38,7 +38,7 @@ const DotsMenu = ({ options, targetId }) => {
       {menuVisible && (
         <ul
           className="dotsMenu__Content"
-          style={{ display: `${options.length === 0 ? "none" : "block"}` }}
+          style={{ display: `${options.length === 0 ? 'none' : 'block'}` }}
         >
           <Options />
         </ul>

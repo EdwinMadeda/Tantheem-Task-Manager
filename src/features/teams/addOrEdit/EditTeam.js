@@ -1,6 +1,6 @@
 import { useParams } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectTeamById, editTeam } from '../teamsSlice';
+import { selectTeamById, editTeam } from '../slice/teamsSlice';
 
 import TeamsForm from './TeamsForm';
 

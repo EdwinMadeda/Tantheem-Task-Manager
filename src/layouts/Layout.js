@@ -1,10 +1,11 @@
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet, useNavigate } from 'react-router';
+import { Outlet } from 'react-router';
 import useRedirectUser from '../customHooks/useRedirectUser';
 import { fetchProjects } from '../features/projects/projectsSlice';
 import { fetchTasks } from '../features/tasks/taskSlice';
-import { fetchTeams } from '../features/teams/teamsSlice';
+import { fetchInvites } from '../features/teams/slice/inviteSlice';
+import { fetchTeams } from '../features/teams/slice/teamsSlice';
 import { selectUser } from '../features/user/userSlice';
 import Header from './header/Header';
 
@@ -20,6 +21,7 @@ const Layout = () => {
     dispatch(fetchTasks());
     dispatch(fetchProjects());
     dispatch(fetchTeams());
+    dispatch(fetchInvites());
   }, [dispatch]);
   useRedirectUser(!isSignedIn, '/signin');
 

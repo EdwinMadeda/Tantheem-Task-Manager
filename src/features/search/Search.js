@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { selectAllProjects } from '../projects/projectsSlice';
 import { selectAllTasks } from '../tasks/taskSlice';
-import { selectAllTeams } from '../teams/teamsSlice';
+import { selectAllTeams } from '../teams/slice/teamsSlice';
 import SearchFeature from './SearchFeature';
 import { selectSearchText } from './searchSlice';
 import { searchItems } from '../../utils/constants';

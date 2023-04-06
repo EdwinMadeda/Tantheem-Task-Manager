@@ -16,7 +16,7 @@ const Form = (props) => {
       onSubmit={(e) => e.preventDefault()}
     >
       <div className="Form__TopContainer">
-        <BackBtn />
+        <BackBtn onClick={props?.onBackBtnClick ?? false} />
         <h2 className="form-title">
           <p className="form-title__Text">
             {(formTitles[props.mode] ?? '') + props.title}
@@ -45,7 +45,8 @@ export const InputText = ({
 }) => {
   return (
     <div className="form-control">
-      <HelperText msg={errors[name]?.message || false} />
+      {errors[name] && <HelperText msg={errors[name]?.message} type="error" />}
+
       <input
         type={type}
         id={name}
@@ -131,15 +132,26 @@ export const InputSelect = ({
   );
 };
 
-export const InputCheckBox = ({ label, value, onChange, disabled = false }) => {
+export const InputCheckBox = ({
+  id,
+  label,
+  name,
+  value,
+  checked,
+  onChange,
+  disabled = false,
+}) => {
   return (
     <div className="form-control-check">
-      <label htmlFor="add_reminder">{label}</label>
       <CheckBox
-        checked={value}
-        onClick={(inputVal) => onChange(inputVal)}
+        id={id}
+        name={name}
+        value={value}
+        checked={checked}
+        onChange={(checked) => onChange({ checked, value })}
         disabled={disabled}
       />
+      <label htmlFor={id}>{label}</label>
     </div>
   );
 };
@@ -169,21 +181,26 @@ export const InputRadio = ({
   const RadioContainer = ({ option }) => {
     return (
       <div className="radio__container">
-        <label htmlFor={`${name}${option?.name}`} className="checkBox__label">
+        <label
+          htmlFor={`${name}${option?.name}`}
+          className={`checkBox__label ${disabled ? 'disabled' : ''}`}
+        >
           <input
             type="radio"
             name={name}
             id={`${name}${option?.name}`}
             value={option.value}
-            defaultChecked={Number(defaultValue) === option.value}
-            onChange={(e) => onChange(Number(e.target.value))}
+            defaultChecked={defaultValue === option.value}
+            onChange={(e) => onChange(e.target.value)}
             disabled={disabled}
           />
 
           <span className="checkmark"></span>
         </label>
 
-        <label>{option?.name}</label>
+        <label className={`radio__label ${disabled ? 'disabled' : ''}`}>
+          {option?.name}
+        </label>
       </div>
     );
   };
@@ -195,7 +212,7 @@ export const InputRadio = ({
           <RadioContainer key={index} option={option} />
         ))}
       </div>
-      <p className="label__title">{label}</p>
+      <p className={`label__title`}>{label}</p>
     </div>
   );
 };

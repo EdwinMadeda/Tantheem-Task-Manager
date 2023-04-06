@@ -2,7 +2,7 @@ import TeamsSnippet from './TeamsSnippet';
 import TeamTasks from './TeamTasks';
 import AddBtn from '../../reusableComponents/AddBtn';
 import { useSelector } from 'react-redux';
-import { selectAllTeams, selectTeamsStatus } from './teamsSlice';
+import { selectAllTeams, selectTeamsStatus } from './slice/teamsSlice';
 import { selectTeamTasks } from '../tasks/taskSlice';
 import './teams.css';
 import LoadingSpinner from '../../reusableComponents/LoadingSpinner';

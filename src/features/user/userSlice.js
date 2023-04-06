@@ -107,11 +107,11 @@ export const signUp = createAsyncThunk(
 
     try {
       const userExists = await sanityClient.fetch(
-        `*[_type == "user" && email == $email][0]`,
-        { email: user.email }
+        `*[_type == "user" && (name === $name || email == $email)  && !(_id in path('drafts.**'))][0]`,
+        { name: user.name, email: user.email }
       );
 
-      if (userExists) return rejectWithValue('Email Already Exists');
+      if (userExists) return rejectWithValue('User Already Exists');
       else {
         const response = await sanityPost(createMutations);
 
@@ -134,11 +134,11 @@ export const signIn = createAsyncThunk(
   async (user, { rejectWithValue }) => {
     try {
       const result = await sanityClient.fetch(
-        `*[_type == "user" && (name == $name || email == $email)][0]`,
+        `*[_type == "user" && (name == $name || email == $email)  && !(_id in path('drafts.**'))][0]`,
         { name: user.nameOrEmail, email: user.nameOrEmail }
       );
 
-      if (!result) return rejectWithValue('No user');
+      if (!result) return rejectWithValue('No user with such credentials');
 
       if (result && bcrypt.compareSync(user.password, result.password)) {
         return {
@@ -164,7 +164,7 @@ export const uploadUserAvatar = createAsyncThunk(
     const { user } = getState();
 
     const { documentId } = await sanityClient.fetch(
-      `*[_type == "user" && _id == $userId][0]{"documentId" : _id}`,
+      `*[_type == "user" && _id == $userId  && !(_id in path('drafts.**'))][0]{"documentId" : _id}`,
       { userId: user.info._id }
     );
 
@@ -199,7 +199,7 @@ export const uploadUserAvatar = createAsyncThunk(
       })
       .then(async () => {
         const { userAvatar } = await sanityClient.fetch(
-          `*[_type == "user" && _id == $userId][0]{userAvatar}`,
+          `*[_type == "user" && _id == $userId  && !(_id in path('drafts.**'))][0]{userAvatar}`,
           { userId: user.info._id }
         );
 
@@ -238,6 +238,7 @@ export const signOut = createAsyncThunk(
     dispatch({ type: 'teams/reset' });
     dispatch({ type: 'searchText/reset' });
     dispatch({ type: 'viewMore/reset' });
+    dispatch({ type: 'invites/reset' });
     jsCookie.remove('user');
     localStorage.clear();
   }

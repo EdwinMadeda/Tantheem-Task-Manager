@@ -2,11 +2,10 @@ import {
   createAsyncThunk,
   createSelector,
   createSlice,
-  current,
   nanoid,
 } from '@reduxjs/toolkit';
 
-import sanityClient, { projectId, sanityPost } from '../../utils/sanityClient';
+import sanityClient, { sanityPost } from '../../utils/sanityClient';
 
 export const STATUS = Object.freeze({
   IN_PROGRESS: 'In Progress',
@@ -82,11 +81,17 @@ const projectsSlice = createSlice({
         state.error.editProject = action.payload;
       })
 
+      .addCase(deleteProject.pending, (state, action) => {
+        state.status.deleteProject = 'pending';
+      })
       .addCase(deleteProject.fulfilled, (state, action) => {
         state.status.deleteProject = 'succeeded';
         state.info = state.info.filter(
           (project) => project.id !== action.payload
         );
+      })
+      .addCase(deleteProject.rejected, (state, action) => {
+        state.status.deleteProject = 'failed';
       })
 
       .addCase(addDeliverable.pending, (state, action) => {
@@ -135,6 +140,9 @@ const projectsSlice = createSlice({
         state.error.editDeliverable = action.payload;
       })
 
+      .addCase(deleteDeliverable.pending, (state, action) => {
+        state.status.deleteDeliverable = 'pending';
+      })
       .addCase(deleteDeliverable.fulfilled, (state, action) => {
         const { projectId, deliverableId } = action.payload;
         state.info = state.info.map((project) =>
@@ -149,6 +157,9 @@ const projectsSlice = createSlice({
         );
 
         state.status.deleteDeliverable = 'succeeded';
+      })
+      .addCase(deleteDeliverable.rejected, (state, action) => {
+        state.status.deleteDeliverable = 'failed';
       });
   },
 });
@@ -178,7 +189,7 @@ export const addProject = createAsyncThunk(
 
     if (newProjectId) {
       const newProject = await sanityClient.fetch(
-        `*[_type == "project" && _id == $newProjectId][0]`,
+        `*[_type == "project" && _id == $newProjectId  && !(_id in path('drafts.**'))][0]`,
         {
           newProjectId,
         }
@@ -347,28 +358,24 @@ export const fetchProjects = createAsyncThunk(
   async (_, { getState, rejectWithValue }) => {
     const { _id: userId } = getState().user.info;
     try {
-      const { projects } = await sanityClient.fetch(
-        `*[_type == "user" && _id == $userId][0]{
-        "projects" : *[_type == "project" && references(^._id)]{
+      const projects = await sanityClient.fetch(
+        `*[_type == "project" && references($userId)  && !(_id in path('drafts.**'))]{
           ...,
           managedBy[]->{_id, name, email, userAvatar},
           team->{_id},
           deliverables[]->,
-        },
       }`,
         { userId }
       );
 
-      const { teams } = await sanityClient.fetch(
-        ` *[_type == "user" && _id == $userId][0]{
-        "teams" : *[_type == "team" && references(^._id)]{
-         "projects" : *[_type == "project" && references(^._id)]{
-          ...,
-          managedBy[]->{_id, name, email, userAvatar},
-          team->{_id},
-          deliverables[]->,
-        }
-        }
+      const teams = await sanityClient.fetch(
+        `*[_type == "team" && references($userId) && !(_id in path('drafts.**'))]{
+          "projects" : *[_type == "project" && references(^._id)]{
+           ...,
+           managedBy[]->{_id, name, email, userAvatar},
+           team->{_id},
+           deliverables[]->,
+         }
         }`,
         { userId }
       );
@@ -423,7 +430,7 @@ const refactorfetchedProjects = (projects) => {
 
 const getRefs = (projectId) => {
   return sanityClient.fetch(
-    `*[_type == "project" && _id == $projectId][0]{
+    `*[_type == "project" && _id == $projectId  && !(_id in path('drafts.**'))][0]{
       managedBy,
       team,
       deliverables

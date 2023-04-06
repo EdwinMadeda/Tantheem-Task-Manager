@@ -8,7 +8,7 @@ import {
 import useOrderBy from '../../customHooks/useOrderBy';
 import { ordinal, trimStr } from '../../utils/constants';
 
-import { selectTeamById } from './teamsSlice';
+import { selectTeamById } from './slice/teamsSlice';
 
 import OrderByBtnsWrapper from '../../reusableComponents/OrderByBtnsWrapper';
 import ViewMoreBtn from '../../reusableComponents/ViewMoreBtn';
