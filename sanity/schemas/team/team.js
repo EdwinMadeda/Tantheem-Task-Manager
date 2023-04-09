@@ -64,6 +64,7 @@ export default defineType({
                   {title: 'On Suspension', value: 'On Suspension'},
                 ],
               },
+              initialValue: 'In Service',
             }),
 
             defineField({

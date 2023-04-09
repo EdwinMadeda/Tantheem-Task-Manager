@@ -1,13 +1,13 @@
 export const ADMIN_RIGHTS = {
   leadership: {
-    DEMOTE: { label: 'Demote', value: 'demote' },
-    REMOVE: { label: 'Remove', value: 'remove' },
-    SUSPEND: { label: 'Suspend', value: 'suspend' },
+    DEMOTE: { label: 'Demote a teamLead', value: 'demote' },
+    REMOVE: { label: 'Remove a teamLead', value: 'remove' },
+    SUSPEND: { label: 'Suspend a teamLead', value: 'suspend' },
   },
   membership: {
-    PROMOTE: { label: 'Promote', value: 'promote' },
-    REMOVE: { label: 'Remove', value: 'remove' },
-    SUSPEND: { label: 'Suspend', value: 'suspend' },
+    PROMOTE: { label: 'Promote a member', value: 'promote' },
+    REMOVE: { label: 'Remove a member', value: 'remove' },
+    SUSPEND: { label: 'Suspend a member', value: 'suspend' },
   },
 };
 

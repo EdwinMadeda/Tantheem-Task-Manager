@@ -1,4 +1,4 @@
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 import {
   selectTeamById,
@@ -19,20 +19,25 @@ import DeleteBtn from '../../reusableComponents/DeleteBtn';
 import '../../SinglePage.css';
 import './SingleTeam.css';
 import LoadingSpinner from '../../reusableComponents/LoadingSpinner';
+import { selectUser } from '../user/userSlice';
 
 const SingleTeam = () => {
   const { teamId } = useParams();
-  const teamIdNo = teamId;
 
-  const selectTeam = useSelector((state) => selectTeamById(state, teamIdNo));
+  const selectTeam = useSelector((state) => selectTeamById(state, teamId));
+
   const selectProjects = useSelector((state) =>
-    selectProjectsByTeam(state, teamIdNo)
+    selectProjectsByTeam(state, teamId)
   );
-  const selectTasks = useSelector((state) =>
-    selectTasksByTeam(state, teamIdNo)
-  );
+  const selectTasks = useSelector((state) => selectTasksByTeam(state, teamId));
   const { deleteTeam: statusDeleteTeam, fetchTeams } =
     useSelector(selectTeamsStatus);
+
+  const {
+    info: { _id: userId },
+  } = useSelector(selectUser);
+
+  const creatorId = selectTeam?.createdBy?._id;
 
   return (
     <>
@@ -52,21 +57,30 @@ const SingleTeam = () => {
                   <h2 className="SinglePage__Title SingleTeam__Title">
                     {selectTeam.name}
                   </h2>
-                  <div className="SinglePage__Ctrl-Btns">
-                    <EditBtn
-                      className="SinglePage__Ctrl-Btn"
-                      path={`/teams/edit/${selectTeam.id}`}
-                    />
-                    <DeleteBtn
-                      className="SinglePage__Ctrl-Btn"
-                      action={deleteTeam(selectTeam.id)}
-                      status={statusDeleteTeam}
-                    />
-                  </div>
+
+                  {creatorId === userId && (
+                    <div className="SinglePage__Ctrl-Btns">
+                      <EditBtn
+                        className="SinglePage__Ctrl-Btn"
+                        path={`/teams/edit/${selectTeam.id}`}
+                      />
+                      <DeleteBtn
+                        className="SinglePage__Ctrl-Btn"
+                        action={deleteTeam(selectTeam.id)}
+                        status={statusDeleteTeam}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="SingleTeam__Container bottom">
+                <div className="SinglePage__Description SingleTeam__Description">
+                  <h3>Description:</h3>
+                  <p>{selectTeam.description}</p>
+                </div>
+
                 <MemberShareBtns selectTeam={selectTeam} />
+
                 <div className="SingleTeam__InnerContainer">
                   <PreviousProjectsSnippet
                     projects={selectProjects}

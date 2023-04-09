@@ -16,6 +16,11 @@ import Modal from '../../reusableComponents/Modal';
 import { FaUserAlt } from 'react-icons/fa';
 import { IoLogOut } from 'react-icons/io5';
 import { selectUser, signOut } from '../../features/user/userSlice';
+import { BiMailSend } from 'react-icons/bi';
+import { selectRecievedInvites } from '../../features/teams/slice/inviteSlice';
+import { trimStr } from '../../utils/constants';
+import RecievedInviteForm from './RecievedInviteForm';
+import jsCookie from '../../utils/jsCookie';
 
 const initialState = {
   Links: [
@@ -83,6 +88,8 @@ const reducer = (state, action) => {
 };
 
 const Header = () => {
+  const { info: userInfo } = useSelector(selectUser) ?? {};
+
   const [isMobile, setIsMobile] = useState(false);
   const [state, dispatch] = useReducer(reducer, initialState, init);
   const ref = useRef(null);
@@ -91,13 +98,19 @@ const Header = () => {
   const location = useLocation();
   const searchText = useSelector(selectSearchText);
 
+  const receivedInvites = useSelector(selectRecievedInvites);
+
+  const [showAppNotifications, setShowAppNotifications] = useState(
+    jsCookie.getStr(`showAppNotifications${userInfo._id}`) ?? true
+  );
+  const [showReceivedInviteForm, setShowReceivedInviteForm] = useState(false);
+  const [selectInvite, setSelectInvite] = useState(null);
+
   const toggleSearchInput = () => {
     const isToggleSearch = window.innerWidth > 680 && window.innerWidth < 1010;
     const payload = isToggleSearch ? !state.searchInputVisible : false;
     dispatch({ type: 'setSearchInputVisible', payload });
   };
-
-  const { info: userInfo } = useSelector(selectUser) ?? {};
 
   const AppLinks = () => {
     return state.Links.map((link) => {
@@ -179,10 +192,40 @@ const Header = () => {
         </div>
 
         <div className="App-headerInnerWrapper">
-          <div className="App-notifications__container">
-            <span className="App-notifications__indicator"></span>
-            <Bell className="App-notifications__bellIcon" onClick={() => {}} />
-          </div>
+          <Modal
+            options={[
+              ...receivedInvites.map((item) => ({
+                id: item.id,
+                item: (
+                  <>
+                    <BiMailSend className="icon Modal__Icon" />
+                    {trimStr(item.inviteTo.name, 10)} Invite
+                  </>
+                ),
+                onClick: () => {
+                  setShowReceivedInviteForm(true);
+                  setSelectInvite(item);
+                },
+              })),
+            ]}
+            className="App-notifications__container"
+          >
+            <>
+              {showAppNotifications && (
+                <span className="App-notifications__indicator">
+                  {receivedInvites.length}
+                </span>
+              )}
+              <Bell
+                className="App-notifications__bellIcon"
+                status={showAppNotifications}
+                onClick={(status) => {
+                  setShowAppNotifications(status);
+                  jsCookie.set(`showAppNotifications${userInfo._id}`, status);
+                }}
+              />
+            </>
+          </Modal>
 
           <Modal
             options={[
@@ -218,6 +261,15 @@ const Header = () => {
           </Modal>
         </div>
       </div>
+      {showReceivedInviteForm && (
+        <RecievedInviteForm
+          invite={selectInvite}
+          onClose={() => {
+            setShowReceivedInviteForm(false);
+            setSelectInvite(null);
+          }}
+        />
+      )}
     </header>
   );
 };

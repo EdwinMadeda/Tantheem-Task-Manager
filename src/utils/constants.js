@@ -31,3 +31,6 @@ export const searchItems = (items, searchText) => {
 
 export const trimStr = (str, limit) =>
   (str?.length ?? 0) < limit ? str : str.substring(0, limit) + '...';
+
+export const plural = (count, text, suffix) =>
+  count === 1 ? count + ' ' + text : count + ' ' + text + suffix;

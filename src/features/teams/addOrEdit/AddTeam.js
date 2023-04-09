@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { addTeam } from '../slice/teamsSlice';
 import TeamsForm from './TeamsForm';
 
-const AddTeam = () => {
+const AddTeam = ({ isOverlay = false, onClose }) => {
   const dispatch = useDispatch();
   const reduxDispatch = (values) => dispatch(addTeam(values)).unwrap();
   return (
@@ -12,6 +12,8 @@ const AddTeam = () => {
       submitLabel="Save Team"
       disabled={false}
       reduxDispatch={reduxDispatch}
+      isOverlay={isOverlay}
+      onClose={onClose}
     />
   );
 };

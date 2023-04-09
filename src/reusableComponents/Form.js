@@ -2,6 +2,7 @@ import Bell from './Bell';
 import BackBtn from './BackBtn';
 import HelperText from './HelperText';
 import CheckBox from './CheckBox';
+import Select from 'react-select';
 
 const Form = (props) => {
   const formTitles = {
@@ -116,18 +117,54 @@ export const InputSelect = ({
   id,
   value,
   onChange,
-  disabled = false,
+  options,
+  isDisabled = false,
+  isMulti = false,
+  isSearchable = false,
+  placeholder = '',
+  noOptionsMessage = 'No items on display',
 }) => {
   return (
-    <div className="form-control-check">
+    <div className="form-control">
+      <Select
+        value={value}
+        onChange={onChange}
+        options={options}
+        isDisabled={isDisabled}
+        isMulti={isMulti}
+        isSearchable={isSearchable}
+        placeholder={placeholder}
+        noOptionsMessage={noOptionsMessage}
+        className="select-container"
+        classNamePrefix="select"
+        styles={{
+          control: (state) => ({
+            display: 'flex',
+            alignItems: 'center',
+            fontSize: '17px',
+            height: '40px',
+            margin: '4px 0',
+            padding: '3px 7px',
+            width: '100%',
+            borderRadius: '5px',
+            border: '1.5px solid #333',
+            borderColor: state.isFocused ? '#333' : '#7f6f87',
+            cursor: 'pointer',
+          }),
+          option: (baseStyles, state) => ({
+            ...baseStyles,
+            borderRadius: '1px',
+            color: '#333',
+            background: state.isFocused
+              ? '#ceb4db'
+              : state.isSelected
+              ? '#fff'
+              : '',
+            cursor: 'pointer',
+          }),
+        }}
+      />
       <label htmlFor={id}>{label}</label>
-      <select id={id}>
-        <option>1</option>
-        <option>1</option>
-        <option>1</option>
-        <option>1</option>
-        <option>1</option>
-      </select>
     </div>
   );
 };

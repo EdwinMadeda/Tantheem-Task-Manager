@@ -172,6 +172,11 @@ export const addProject = createAsyncThunk(
         create: {
           _type: 'project',
           ...project,
+          createdBy: {
+            _ref: getState().user.info._id,
+            _type: 'reference',
+            _key: nanoid(),
+          },
           managedBy: [
             {
               _ref: getState().user.info._id,

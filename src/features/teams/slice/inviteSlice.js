@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, nanoid } from '@reduxjs/toolkit';
 import sanityClient, { sanityPost } from '../../../utils/sanityClient';
+import { fetchTeams } from './teamsSlice';
 
 const initialState = {
   info: { sent: [], received: [] },
@@ -7,11 +8,13 @@ const initialState = {
     fetchInvites: 'idle',
     inviteParticipant: 'idle',
     deleteParticipantInvite: 'idle',
+    acceptOrDeclineInvite: 'idle',
   },
   error: {
     fetchInvites: null,
     inviteParticipant: null,
     deleteParticipantInvite: null,
+    acceptOrDeclineInvite: null,
   },
   currInvite: null,
 };
@@ -80,6 +83,38 @@ const inviteSlice = createSlice({
       })
       .addCase(fetchInvites.rejected, (state, action) => {
         state.status.inviteParticipant = 'failed';
+      })
+
+      .addCase(acceptInvite.pending, (state, action) => {
+        state.status.acceptOrDeclineInvite = 'pending';
+      })
+      .addCase(acceptInvite.fulfilled, (state, action) => {
+        const inviteId = action.payload;
+
+        state.info.received = state.info.received.filter(
+          (item) => item.id !== inviteId
+        );
+
+        state.status.acceptOrDeclineInvite = 'succeeded';
+      })
+      .addCase(acceptInvite.rejected, (state, action) => {
+        state.status.acceptOrDeclineInvite = 'failed';
+      })
+
+      .addCase(declineInvite.pending, (state, action) => {
+        state.status.acceptOrDeclineInvite = 'pending';
+      })
+      .addCase(declineInvite.fulfilled, (state, action) => {
+        const inviteId = action.payload;
+
+        state.info.received = state.info.received.filter(
+          (item) => item.id !== inviteId
+        );
+
+        state.status.acceptOrDeclineInvite = 'succeeded';
+      })
+      .addCase(declineInvite.rejected, (state, action) => {
+        state.status.acceptOrDeclineInvite = 'failed';
       });
   },
 });
@@ -256,6 +291,129 @@ export const deleteParticipantInvite = createAsyncThunk(
   }
 );
 
+export const acceptInvite = createAsyncThunk(
+  'invites/acceptInvite',
+  async (invite, { dispatch, rejectWithValue }) => {
+    const {
+      id: inviteId,
+      inviteTo: { _id: teamId },
+      participant: { _id: participantId },
+      role,
+      adminRights,
+      memberRights,
+    } = invite;
+
+    try {
+      const selectTeam = await sanityClient.fetch(
+        `*[_type == "team" &&  _id == $teamId && !references($participantId) && !(_id in path('drafts.**'))][0]{
+          createdBy->{_id},
+          ledBy[],
+          members[],
+        }`,
+        {
+          teamId,
+          participantId,
+        }
+      );
+
+      if (selectTeam) {
+        const { ledBy, members } = selectTeam;
+
+        const patchTeam =
+          role === 'teamLead'
+            ? {
+                ledBy: [
+                  ...(Boolean(ledBy) ? ledBy : []),
+                  {
+                    alias: `teamLead${participantId}`,
+                    participant: {
+                      _ref: participantId,
+                      _type: 'reference',
+                      _key: nanoid(),
+                    },
+                    adminRights: {
+                      ...adminRights,
+                      invites: {
+                        toLeadership: false,
+                        toMembership: true,
+                      },
+                    },
+                    status: 'In Service',
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                  },
+                ],
+              }
+            : role === 'member'
+            ? {
+                members: [
+                  ...(Boolean(members) ? members : []),
+                  {
+                    alias: `member${participantId}`,
+                    participant: {
+                      _ref: participantId,
+                      _type: 'reference',
+                      _key: nanoid(),
+                    },
+                    memberRights,
+                    status: 'In Service',
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                  },
+                ],
+              }
+            : {};
+
+        const response = await sanityPost([
+          {
+            patch: {
+              id: teamId,
+              set: { ...patchTeam },
+            },
+          },
+        ]);
+
+        if (response.status === 200) {
+          await sanityPost([
+            {
+              patch: {
+                id: inviteId,
+                set: { status: 'Accepted' },
+              },
+            },
+          ]);
+
+          dispatch(fetchTeams());
+        }
+      } else dispatch(fetchInvites());
+
+      return inviteId;
+    } catch (err) {
+      if (err.isNetworkError) return rejectWithValue('Network Error!');
+    }
+  }
+);
+
+export const declineInvite = createAsyncThunk(
+  'invites/declineInvite',
+  async (inviteId, { rejectWithValue }) => {
+    try {
+      await sanityPost([
+        {
+          patch: {
+            id: inviteId,
+            set: { status: 'Declined' },
+          },
+        },
+      ]);
+
+      return inviteId;
+    } catch (err) {
+      if (err.isNetworkError) return rejectWithValue('Network Error!');
+    }
+  }
+);
+
 export const fetchInvites = createAsyncThunk(
   'invites/fetchInvites',
   async (_, { getState, rejectWithValue }) => {
@@ -267,7 +425,7 @@ export const fetchInvites = createAsyncThunk(
 
     try {
       const invites = await sanityClient.fetch(
-        `*[_type == "invite" && references($userId)]{
+        `*[_type == "invite" && references($userId) && status == "On Invite"]{
           ...,
           inviteTo->{_id, name},
           participant->{_id, name, email},

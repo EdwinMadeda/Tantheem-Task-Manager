@@ -7,6 +7,7 @@ import {
 import sanityClient, { sanityPost } from '../../../utils/sanityClient';
 import { deleteProject } from '../../projects/projectsSlice';
 import { deleteTask } from '../../tasks/taskSlice';
+import { ADMIN_RIGHTS } from '../constants';
 
 const initialState = {
   info: [],
@@ -87,21 +88,47 @@ const teamsSlice = createSlice({
 export const addTeam = createAsyncThunk(
   'teams/addTeam',
   async (team, { getState, rejectWithValue }) => {
+    const userId = getState().user.info._id;
+    const setRightsVals = (constRights) => {
+      return Object.values(constRights).map(({ value }) => value);
+    };
+
     const createMutations = [
       {
         create: {
           _type: 'team',
           ...team,
+          createdBy: {
+            _ref: userId,
+            _type: 'reference',
+            _key: nanoid(),
+          },
           ledBy: [
             {
-              _ref: getState().user.info._id,
-              _type: 'reference',
-              _key: nanoid(),
+              alias: `teamLead${userId}`,
+              participant: {
+                _ref: userId,
+                _type: 'reference',
+                _key: nanoid(),
+              },
+              adminRights: {
+                leadership: setRightsVals(ADMIN_RIGHTS.leadership),
+                membership: setRightsVals(ADMIN_RIGHTS.membership),
+                invites: {
+                  toLeadership: true,
+                  toMembership: true,
+                },
+              },
+              status: 'In Service',
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
             },
           ],
         },
       },
     ];
+
+    console.log(createMutations);
 
     const response = await sanityPost(createMutations);
 
@@ -109,7 +136,18 @@ export const addTeam = createAsyncThunk(
 
     if (newTeamId) {
       const newTeam = await sanityClient.fetch(
-        `*[_type == "team" && _id == $newTeamId][0]`,
+        `*[_type == "team" &&  _id == $newTeamId && !(_id in path('drafts.**'))][0]{
+          ...,
+          createdBy->{_id, name, email, userAvatar},
+          ledBy[]{
+            participant->{_id, name, email, userAvatar},
+            adminRights
+          },
+          members[]{
+            participant->{_id, name, email},
+            teamRights
+          },
+        }`,
         {
           newTeamId,
         }
@@ -162,14 +200,34 @@ export const deleteTeam = createAsyncThunk(
         dispatch(deleteProject(project.id));
       });
 
-      await sanityPost([
-        {
-          delete: {
-            id: teamId,
+      const deleteInviteIds = await sanityClient.fetch(
+        `*[_type == "invite" && references($teamId)]{
+            _id
+       }`,
+        { teamId }
+      );
+
+      const responseOk = await (deleteInviteIds ?? []).every(async (invite) => {
+        const response = await sanityPost([
+          {
+            delete: {
+              id: invite._id,
+            },
           },
-        },
-      ]);
-      return teamId;
+        ]);
+        return response.status === 200;
+      });
+
+      if (responseOk) {
+        await sanityPost([
+          {
+            delete: {
+              id: teamId,
+            },
+          },
+        ]);
+        return teamId;
+      } else rejectWithValue('Team not deleted');
     } catch (err) {
       if (err.isNetworkError) return rejectWithValue('Network Error!');
     }
@@ -191,15 +249,13 @@ export const fetchTeams = createAsyncThunk(
           },
           members[]{
             participant->{_id, name, email},
-            teamRights
+            memberRights
           },
         }`,
         {
           userId,
         }
       );
-
-      console.log(teams);
 
       return refactorfetchedTeams(teams);
     } catch (err) {

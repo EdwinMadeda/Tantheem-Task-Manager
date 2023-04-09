@@ -74,7 +74,7 @@ const SingleProject = () => {
               </div>
 
               <>
-                <MemberShare members={[]} />
+                {/* <MemberShare members={[]} /> */}
                 <div className="SinglePage__Container bottom">
                   <ProjectDeliverables
                     deliverables={deliverables.toDo}

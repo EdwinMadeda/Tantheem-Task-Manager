@@ -11,7 +11,10 @@ import { useNavigate } from 'react-router';
 import { selectUser, signUp } from '../userSlice.js';
 
 const SignUp = () => {
-  const { status: signUpStatus } = useSelector(selectUser);
+  const {
+    info: userInfo,
+    status: { signUp: signUpStatus },
+  } = useSelector(selectUser);
 
   const {
     register,

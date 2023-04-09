@@ -10,7 +10,10 @@ import LoadingSpinner from '../../../reusableComponents/LoadingSpinner';
 import { selectUser, signIn } from '../userSlice';
 
 const SignIn = () => {
-  const { info: userInfo, status: signInStatus } = useSelector(selectUser);
+  const {
+    info: userInfo,
+    status: { signIn: signInStatus },
+  } = useSelector(selectUser);
 
   const {
     register,

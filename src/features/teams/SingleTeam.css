@@ -20,6 +20,10 @@
   color: #fff;
 }
 
+.SingleTeam__Description {
+  margin: 20px 0 5px;
+}
+
 .SinglePage__Ctrl-Btns {
   z-index: 4;
   margin-right: 20px;

@@ -19,6 +19,8 @@ const TeamsForm = ({
   defaultValues = {},
   disabled = false,
   reduxDispatch,
+  isOverlay,
+  onClose,
 }) => {
   const { cachedValues, resetCacheValues } = useCacheValues(defaultValues);
 
@@ -60,8 +62,16 @@ const TeamsForm = ({
   return (
     <>
       {formStatus === 'pending' && <LoadingSpinner />}
-      <section className="AddOrEditTeam AddNewItem main">
-        <Form className="AddOrEditTeam__Form" title={formTitle}>
+      <section
+        className={`AddOrEditTeam AddNewItem main ${
+          isOverlay ? 'overlay' : ''
+        }`}
+      >
+        <Form
+          className="AddOrEditTeam__Form"
+          title={formTitle}
+          onBackBtnClick={onClose}
+        >
           <InputText
             label="Name"
             name="name"

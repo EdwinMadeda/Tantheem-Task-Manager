@@ -9,9 +9,11 @@ import './MemberShare.css';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../features/user/userSlice';
 import SentInvites from './Invites';
+import useTargetAction from '../../customHooks/useTargetAction';
+import { useRef } from 'react';
 
 const MemberShare = ({ selectTeam }) => {
-  const { id: teamId, createdBy, ledBy, members } = selectTeam;
+  const { id: teamId, ledBy, members } = selectTeam;
   const participants = useMemo(() => ({ ledBy, members }), [ledBy, members]);
   const [participantsVisible, setParticipantsVisible] = useState(false);
   const [inviteFormVisible, setInviteFormVisible] = useState(false);
@@ -21,13 +23,22 @@ const MemberShare = ({ selectTeam }) => {
   const {
     info: { _id: userId },
   } = useSelector(selectUser);
+
   let optionEntries = { leadership: null, membership: null },
     teamInvites = null;
 
-  if (participants.ledBy !== null) {
+  const ledByDetails = participants?.ledBy?.find(
+    (item) => item?.participant?._id === userId
+  );
+
+  if (Boolean(ledByDetails)) {
     const {
-      adminRights: { leadership, membership, invites },
-    } = participants.ledBy.find((item) => item?.participant?._id === userId);
+      adminRights: {
+        leadership = [],
+        membership = [],
+        invites = { toLeadership: false, toMembership: false },
+      },
+    } = ledByDetails;
 
     optionEntries = {
       leadership: leadership.map((item, index) => ({

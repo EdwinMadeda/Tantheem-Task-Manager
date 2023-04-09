@@ -1,12 +1,10 @@
 const useTargetAction = (callback, ref, eventName) => {
+  if (ref?.current) {
+    window.addEventListener(eventName, (e) => {
+      const result = ref?.current?.contains(e.target);
+      !result && callback(result);
+    });
+  }
+};
 
-    if(ref?.current){
-        window.addEventListener( eventName , e =>{
-               const result = ref?.current?.contains(e.target);
-                    !result && callback(result);
-        });
-    }
-
-}
-
-export default useTargetAction
+export default useTargetAction;

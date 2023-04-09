@@ -82,7 +82,6 @@ const InviteForm = ({
   };
 
   const formStatus = useSelector(selectInviteStatus)['inviteParticipant'];
-  const sentInvites = useSelector((state) => state.invites.info.sent);
 
   const [formResponse, setFormResponse] = useState(null);
   const [{ role, memberRights, adminRights }, dispatch] = useReducer(reducer, {
@@ -223,7 +222,7 @@ const InviteForm = ({
   return (
     <>
       {formStatus === 'pending' && <LoadingSpinner />}
-      <section className="InviteParticipant AddNewItem main">
+      <section className="InviteParticipant AddNewItem main overLay">
         <Form
           className="Invite__Form"
           title="Participant Invite"

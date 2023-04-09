@@ -79,6 +79,8 @@
 
 .Recent .Description {
   flex: 1;
+  line-height: 22px;
+  font-size: 15px;
 }
 
 .Recent .Duedate {

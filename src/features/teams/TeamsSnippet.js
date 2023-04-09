@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import CustomLink from '../../reusableComponents/CustomLink';
 import NoItemsMsg from '../../reusableComponents/NoItemsMsg';
-import plural from '../../utils/plural';
+import { plural } from '../../utils/constants';
 import { selectTeamTasks } from '../tasks/taskSlice';
 
 const TeamsSnippet = ({ teams }) => {

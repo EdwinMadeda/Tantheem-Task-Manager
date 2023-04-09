@@ -17,6 +17,16 @@ export default defineType({
     }),
 
     defineField({
+      name: 'createdBy',
+      title: 'Created By',
+      type: 'reference',
+      to: [{title: 'User', type: 'user'}],
+      options: {
+        disableNew: true,
+      },
+    }),
+
+    defineField({
       name: 'managedBy',
       title: 'Managed By',
       type: 'array',
@@ -52,13 +62,13 @@ export default defineType({
       name: 'startDate',
       title: 'Start Date',
       type: 'datetime',
-      initialValue: (new Date()).toISOString()
+      initialValue: new Date().toISOString(),
     }),
     defineField({
       name: 'endDate',
       title: 'End Date',
       type: 'datetime',
-      validation: Rule => Rule.min(Rule.valueOfField('startDate'))
+      validation: (Rule) => Rule.min(Rule.valueOfField('startDate')),
     }),
     defineField({
       name: 'deliverables',
